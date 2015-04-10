@@ -3,19 +3,18 @@
 #pragma once
 
 #include "GameFramework/PawnMovementComponent.h"
-#include "PlanatoidDataComponent.h"
-#include "PawnPlanatoidMovementComponent.generated.h"
+#include "RocketMovementComponent.generated.h"
 
 /**
  * 
  */
-UCLASS(ClassGroup = ("Planatoid"), meta = (BlueprintSpawnableComponent))
-class UPawnPlanatoidMovementComponent : public UPawnMovementComponent
+UCLASS(ClassGroup = ("Movement"), meta = (BlueprintSpawnableComponent))
+class URocketMovementComponent : public UPawnMovementComponent
 {
 	GENERATED_BODY()
-	
+
 public:
-	UPawnPlanatoidMovementComponent();
+	URocketMovementComponent();
 
 	virtual void InitializeComponent() override;
 
@@ -25,11 +24,7 @@ public:
 	/*Add an accleration(u/s^2) to this object*/
 	void AddAccleration(const FVector& acceleration);
 protected:
-	UPlanatoidDataComponent* GetPlanatoidData() const;
-
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
-
-	virtual void ApplyGravity();
 
 	virtual bool ShouldTick() const;
 
@@ -40,30 +35,12 @@ protected:
 	virtual FVector LimitVelocity(FVector& inVelocity) const;
 
 	virtual void MoveComponent(const FVector& delta, const float deltaTime);
+
 private:
 	void ApplyForces();
-
-protected:
-	UPROPERTY(EditDefaultsOnly, Category = "Physics")
-	bool bHasGravity;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Physics")
-	bool bAlignToGravity;
-
-	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	float InputAcceleration;
 private:
-	UPROPERTY(VisibleDefaultsOnly)
-	UPlanatoidDataComponent* PlanatoidData;
-
-private:
-	FVector up;
+	bool bForceDirty;
 
 	FVector forceAccumulator;
 	FVector accelerationAccumulator;
-
-	bool bForceDirty;
-
-	float facingDirection;
-private:
 };
