@@ -19,8 +19,6 @@ UPawnPlanatoidMovementComponent::UPawnPlanatoidMovementComponent()
 
 	facingDirection = 0.f;
 
-	InputAcceleration = 50.f;
-
 	MaxSimulationSteps = 8;
 	MaxGroundAngle = 45.f;
 
@@ -35,16 +33,23 @@ void UPawnPlanatoidMovementComponent::InitializeComponent()
 void UPawnPlanatoidMovementComponent::PostLoad()
 {
 	MaxGroundAngle = FMath::Clamp(MaxGroundAngle, 0.f, 90.f);
-	maxGroundSlope = FMath::Cos(FMath::DegreesToRadians(MaxGroundAngle));
+	groundSlope = FMath::Cos(FMath::DegreesToRadians(MaxGroundAngle));
 
 	AActor* owner = GetOwner();
 
-	PlanatoidData = ConstructObject<UPlanatoidDataComponent>(UPlanatoidDataComponent::StaticClass(), this, FName("PlanatoidData"));
-	PlanatoidData->RegisterComponent();
+	if (!PlanatoidData)
+	{
+		PlanatoidData = ConstructObject<UPlanatoidDataComponent>(UPlanatoidDataComponent::StaticClass(), this, FName("PlanatoidData"));
+		PlanatoidData->RegisterComponent();
+	}
 
 	for (UClass* modeType : MovementModes)
 	{
+		if (!modeType)
+			break;
+
 		UPawnPlanatoidMovementMode* newMode = ConstructObject<UPawnPlanatoidMovementMode>(modeType, this);
+		modeMap.Add(modeType, newMode);
 		if (!currentMode)
 		{
 			currentMode = newMode;
@@ -83,7 +88,7 @@ FVector UPawnPlanatoidMovementComponent::GetUp() const
 
 float UPawnPlanatoidMovementComponent::GetMaxGroundSlope() const
 {
-	return maxGroundSlope;
+	return groundSlope;
 }
 
 bool UPawnPlanatoidMovementComponent::CanStand(FHitResult groundHit) const
@@ -91,7 +96,7 @@ bool UPawnPlanatoidMovementComponent::CanStand(FHitResult groundHit) const
 	return groundHit.IsValidBlockingHit()
 		&& !groundHit.bStartPenetrating
 		&& groundHit.GetComponent()->CanCharacterStepUp(GetPawnOwner())
-		&& FVector::DotProduct(groundHit.ImpactNormal, PlanatoidData->GetUpVector()) <= maxGroundSlope;
+		&& FVector::DotProduct(groundHit.ImpactNormal, PlanatoidData->GetUpVector()) >= groundSlope;
 }
 
 void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
@@ -115,6 +120,7 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 	tickParams.Owner = this;
 	tickParams.OwnerPawn = GetPawnOwner();
 	tickParams.UpdatedComponent = UpdatedComponent;
+	tickParams.InputVector = relativeInputVector;
 
 	int32 iteration = 0;
 	float timeLeft = DeltaTime;
@@ -122,9 +128,10 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 	float lastTimeRemaining = 0.f;
 	while (iteration < MaxSimulationSteps && timeLeft >= 0.f)
 	{
+		FVector startPosition = UpdatedComponent->GetComponentLocation();
+
 		tickParams.Iteration = iteration;
 		tickParams.TimeSlice = timeSlice + lastTimeRemaining;
-		tickParams.TargetVelocity = CalculateVelocity(tickParams.TimeSlice, Velocity);
 
 		//package the default return values
 		FTickReturn returnValue;
@@ -142,6 +149,7 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 		timeLeft -= returnValue.OutTime;
 		UClass* nextMode = returnValue.OutNextMode;
 
+		//if we have a new mode then we need to swap it
 		if (nextMode)
 		{
 			UPawnPlanatoidMovementMode** newMode = modeMap.Find(nextMode);
@@ -153,8 +161,15 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 			}
 		}
 
+		//if the time left has gone beyond the tick time then show a warning
 		if (timeLeft < -SMALL_NUMBER)
-			UE_LOG(LogTemp, Warning, TEXT("Pawn stepped more than delta time in a single step"));
+		{
+			UE_LOG(LogTemp, Warning, TEXT("Actor %s stepped more than delta time in a single step"), *GetFullName());
+		}
+
+		FVector endPosition = UpdatedComponent->GetComponentLocation();
+
+		Velocity = (endPosition - startPosition) * (1.f / returnValue.OutTime);
 
 		iteration++;
 	}
@@ -189,10 +204,7 @@ void UPawnPlanatoidMovementComponent::ApplyGravity()
 
 FVector UPawnPlanatoidMovementComponent::CalculateVelocity(float deltaTime, const FVector& inVelocity)
 {
-	FVector newVelocity = inVelocity + accelerationAccumulator * deltaTime;
-	accelerationAccumulator = FVector::ZeroVector;
-
-	return newVelocity;
+	return FVector::ZeroVector;
 }
 
 void UPawnPlanatoidMovementComponent::MoveComponent(const FVector& delta, FHitResult& outHit)

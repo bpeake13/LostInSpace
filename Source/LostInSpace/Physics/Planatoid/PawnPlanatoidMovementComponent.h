@@ -56,7 +56,7 @@ protected:
 	bool bAlignToGravity;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	float InputAcceleration;
+	float GroundAcceleration;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	float MaxGroundAngle;
@@ -68,7 +68,6 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	TArray<TSubclassOf<UPawnPlanatoidMovementMode>> MovementModes;
 private:
-	UPROPERTY(VisibleDefaultsOnly)
 	UPlanatoidDataComponent* PlanatoidData;
 
 private:
@@ -80,7 +79,7 @@ private:
 	float facingDirection;
 
 	/*The max slope for the ground*/
-	float maxGroundSlope;
+	float groundSlope;
 private:
 	TMap<UClass*, UPawnPlanatoidMovementMode*> modeMap;
 

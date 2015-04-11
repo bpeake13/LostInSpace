@@ -23,6 +23,10 @@ public:
 
 	/*Gets the up vector for this gravitator at a certain world point*/
 	virtual void GetUpAtPoint(const FVector& point, FVector& o_upVector);
+
+protected:
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Physics")
+	float GravityStrength;
 private:
 	TArray<UPrimitiveComponent*> affectorZones;
 };
