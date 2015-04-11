@@ -2,7 +2,7 @@
 
 #include "LostInSpace.h"
 #include "AIRocket.h"
-#include "PlayerRocket.h"
+#include "Behaviors/Seek.h"
 
 
 // Sets default values
@@ -25,31 +25,30 @@ AAIRocket::AAIRocket(const FObjectInitializer& ObjectInitializer)
 	Rocket->SetNotifyRigidBodyCollision(true);
 	RootComponent = Rocket;
 
-	MovementComponent = CreateDefaultSubobject<URocketMovementComponent>(TEXT("Movement"));
+	MovementSpeed = 50000.f;
+	
+	Seek = CreateDefaultSubobject<USeek>("Seek");
+	HSM = CreateDefaultSubobject<UHierarchicalStateMachine>("Hierarchical State Machine");
+	HSM->SetOwnerActor(this);
+	HSM->SetRoot(Seek);
 }
 
 // Called when the game starts or when spawned
 void AAIRocket::BeginPlay()
 {
 	Super::BeginPlay();
-
+	PlayerActor = (APlayerRocket*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
 }
 
 // Called every frame
 void AAIRocket::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
-	Seek();
-}
 
-void AAIRocket::Seek(){
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Seeking");
-	APlayerRocket* player = (APlayerRocket*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
-	FVector playerLoc = player->GetActorLocation();
-	FVector botLoc = this->GetActorLocation();
-	FVector diff = playerLoc - botLoc;
-	diff.Normalize();
-	MovementComponent->AddForce(diff * 50000.f);
+	PlayerLocation = PlayerActor->GetActorLocation();
+
+	HSM->Tick(DeltaTime);
+	//MovementComponent->AddForce(SeekDir * MovementSpeed);
 }
 
 

@@ -4,7 +4,11 @@
 #include "HierarchicalStateMachine.h"
 #include "HSMNode.h"
 
+UHierarchicalStateMachine::UHierarchicalStateMachine(){}
 
+void UHierarchicalStateMachine::SetRoot(UHSMNode* node){
+	Root = node;
+}
 
 float UHierarchicalStateMachine::GetDeltaTime() const
 {
@@ -16,4 +20,14 @@ void UHierarchicalStateMachine::Tick(float deltaTime)
 	this->deltaTime = deltaTime;
 
 	Root->Execute(this);
+}
+
+AActor* UHierarchicalStateMachine::GetOwnerActor() const
+{
+	return OwnerActor;
+}
+
+void UHierarchicalStateMachine::SetOwnerActor(AActor* actor)
+{
+	this->OwnerActor = actor;
 }

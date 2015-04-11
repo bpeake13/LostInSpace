@@ -3,6 +3,8 @@
 #include "LostInSpace.h"
 #include "HSMActionNode.h"
 
+UHSMActionNode::UHSMActionNode(){}
+
 void UHSMActionNode::Execute(UHierarchicalStateMachine* machine)
 {
 	Tick(machine);

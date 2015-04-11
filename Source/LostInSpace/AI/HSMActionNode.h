@@ -12,8 +12,10 @@ UCLASS()
 class UHSMActionNode : public UHSMNode
 {
 	GENERATED_BODY()
-
+public:
+	UHSMActionNode();
 protected:
+
 	void Execute(UHierarchicalStateMachine* machine) override;
 
 	virtual void Tick(UHierarchicalStateMachine* machine);

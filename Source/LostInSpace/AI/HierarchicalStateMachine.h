@@ -17,6 +17,14 @@ class LOSTINSPACE_API UHierarchicalStateMachine : public UObject
 	GENERATED_BODY()
 
 public:
+	UHierarchicalStateMachine();
+
+	void SetOwnerActor(AActor* owner);
+
+	AActor* GetOwnerActor() const;
+
+	void SetRoot(UHSMNode* node);
+
 	void Tick(float deltaTime);
 
 	float GetDeltaTime() const;
@@ -24,8 +32,11 @@ protected:
 
 private:
 	//The root node to start execution at
+	UPROPERTY()
 	UHSMNode* Root;
 
+	UPROPERTY()
+	AActor* OwnerActor;
 private:
 	UHSMNode* currentNode;
 

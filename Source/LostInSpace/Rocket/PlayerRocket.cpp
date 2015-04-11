@@ -13,7 +13,7 @@ APlayerRocket::APlayerRocket(const FObjectInitializer& ObjectInitializer)
 	Rocket = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Rocket1"));
 	Rocket->SetStaticMesh(RocketMesh.Object);
 	Rocket->BodyInstance.SetCollisionProfileName(UCollisionProfile::PhysicsActor_ProfileName);
-	Rocket->SetSimulatePhysics(false);
+	Rocket->SetSimulatePhysics(true);
 	Rocket->SetEnableGravity(false);
 	Rocket->SetAngularDamping(0.1f);
 	Rocket->SetLinearDamping(0.1f);
