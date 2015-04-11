@@ -12,9 +12,11 @@ APlayerRocketController::APlayerRocketController(const FObjectInitializer& Objec
 	PrimaryActorTick.bCanEverTick = true;
 	DefaultMouseCursor = EMouseCursor::Crosshairs;
 
+	//Init physics variables
 	TorqueForce = 5000000.0f;
 	PushForce = 500000.0f;
 
+	//Init rotation variables
 	rotationVal = 0.f;
 	rotationSpeed = 5.0f;
 }
@@ -44,8 +46,8 @@ void APlayerRocketController::SetupInputComponent()
 }
 
 void APlayerRocketController::MoveForward(float val){
-	//const FVector Force = FVector(1.f * val * PushForce, 0.f, 0.f);
 	APlayerRocket* const Pawn = (APlayerRocket*)GetPawn();
+
 	const FVector Force = Pawn->GetActorForwardVector() * val * PushForce;
 	Pawn->GetRocket()->AddForce(Force);
 }
@@ -53,13 +55,9 @@ void APlayerRocketController::MoveForward(float val){
 void APlayerRocketController::MoveRight(float val){
 	APlayerRocket* const Pawn = (APlayerRocket*)GetPawn();
 	
-	//const FVector Torque = FVector(0.f, 0.f, 1.f * val * TorqueForce);
-	//const FVector Force = Pawn->GetActorForwardVector() * TorqueForce * val;
 	rotationVal += rotationSpeed * val;
 	FRotator Turn = FRotator(0.f, rotationVal, 0.f);
 	Pawn->SetActorRotation(Turn);
-	
-	//Pawn->GetRocket()->AddForce(Force);
 }
 
 void APlayerRocketController::MoveToMouseCursor()
@@ -67,7 +65,7 @@ void APlayerRocketController::MoveToMouseCursor()
 	// Trace to see what is under the mouse cursor
 	FHitResult Hit;
 	GetHitResultUnderCursor(ECC_Visibility, false, Hit);
-	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Moving to new Location");
+	
 	if (Hit.bBlockingHit)
 	{
 		// We hit something, move there

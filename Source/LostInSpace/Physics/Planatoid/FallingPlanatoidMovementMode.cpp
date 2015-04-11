@@ -3,8 +3,7 @@
 #include "LostInSpace.h"
 #include "PawnPlanatoidMovementComponent.h"
 #include "FallingPlanatoidMovementMode.h"
-
-
+#include "GroundPlanatoidMovementMode.h"
 
 
 
@@ -31,13 +30,9 @@ void UFallingPlanatoidMovementMode::IteratePhysics(const FTickParams& tickParams
 	if (!result.IsValidBlockingHit())
 		return;
 
-	FVector up = tickParams.Owner->GetUp();
-
-	float surfaceSlope = FVector::DotProduct(result.ImpactNormal, up);
-
-	if (surfaceSlope <= tickParams.Owner->GetMaxGroundSlope())
+	if (tickParams.Owner->CanStand(result))
 	{
-		//if we are less than the max slope then we need to become grounded
+		outReturn.OutNextMode = UGroundPlanatoidMovementMode::StaticClass();
 	}
 	else
 	{

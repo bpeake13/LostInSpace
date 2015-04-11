@@ -12,6 +12,7 @@ UGravitatorComponent::UGravitatorComponent()
 	bWantsInitializeComponent = true;
 	PrimaryComponentTick.bCanEverTick = true;
 
+	GravityStrength = 980.f;
 	// ...
 }
 

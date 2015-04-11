@@ -10,6 +10,7 @@
 void UGroundPlanatoidMovementMode::EnterMode()
 {
 	lastGroundHit = FHitResult(NULL, NULL, FVector::ZeroVector, FVector::ZeroVector);
+	UE_LOG(LogTemp, Log, TEXT("Grounded"));
 }
 
 void UGroundPlanatoidMovementMode::ExitMode()
@@ -25,6 +26,11 @@ void UGroundPlanatoidMovementMode::IteratePhysics(const FTickParams& tickParams,
 	if (!lastGroundHit.IsValidBlockingHit())
 	{
 		bool isGround = FindGround(tickParams, lastGroundHit);
+		if (!isGround)
+		{
+			outReturn.OutNextMode = UFallingPlanatoidMovementMode::StaticClass();
+			return;
+		}
 	}
 
 	//get the delta along the ground plane
@@ -50,7 +56,7 @@ void UGroundPlanatoidMovementMode::IteratePhysics(const FTickParams& tickParams,
 	}
 }
 
-bool UGroundPlanatoidMovementMode::FindGround(const FTickParams tickParams, FHitResult& floorResult)
+bool UGroundPlanatoidMovementMode::FindGround(const FTickParams& tickParams, FHitResult& floorResult)
 {
 	FScopedMovementUpdate scopeMove = FScopedMovementUpdate(tickParams.Owner->UpdatedComponent);
 
@@ -80,5 +86,10 @@ bool UGroundPlanatoidMovementMode::FindGround(const FTickParams tickParams, FHit
 
 	//if we get nothing or hit something that is not a ground surface then just call out early
 	scopeMove.RevertMove();
+	return false;
+}
+
+bool UGroundPlanatoidMovementMode::MoveAlongGround(const FTickParams& tickParams)
+{
 	return false;
 }

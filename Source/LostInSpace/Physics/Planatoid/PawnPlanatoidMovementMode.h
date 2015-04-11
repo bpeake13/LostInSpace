@@ -26,8 +26,10 @@ public:
 	USceneComponent* UpdatedComponent;
 	/*The pawn that owns this movement mode*/
 	APawn* OwnerPawn;
-	/*The target velocity that we calculated*/
-	FVector TargetVelocity;
+	/*The acceleration*/
+	FVector Acceleration;
+	/*The last input vector consumed*/
+	FVector InputVector;
 };
 
 USTRUCT()
@@ -36,9 +38,16 @@ struct FTickReturn
 	GENERATED_USTRUCT_BODY()
 
 public:
+	/*The amount of time this tick consumed*/
 	float OutTime;
+	/*The updated iteration count*/
 	int32 OutIteration;
+	/*The next mode to go into*/
 	UClass* OutNextMode;
+	/*Was there a hit during this update*/
+	bool bWasHit;
+	/*The desired velocity - if bWasHit then this velocity will not be used*/
+	FVector OutVelocity;
 };
 
 /**
@@ -56,6 +65,7 @@ public:
 
 	virtual void IteratePhysics(const FTickParams& tickParams, FTickReturn& outReturn);
 
+	virtual FVector CalculateVelocity(const FVector& inVelocity, const FVector& inAcceleration, const float deltaTime) const;
 protected:
 	virtual FVector CalculateDelta(const FTickParams& tickParams, float deltaTime) const;
 };

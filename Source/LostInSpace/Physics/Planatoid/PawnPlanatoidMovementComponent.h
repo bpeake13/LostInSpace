@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/PawnMovementComponent.h"
+#include "PawnPlanatoidMovementMode.h"
 #include "PlanatoidDataComponent.h"
 #include "PawnPlanatoidMovementComponent.generated.h"
 
@@ -19,11 +20,21 @@ public:
 
 	virtual void InitializeComponent() override;
 
+	virtual void PostLoad() override;
+
 	/*Add a force(M*A) to this object*/
 	void AddForce(const FVector& force);
 
 	/*Add an accleration(u/s^2) to this object*/
 	void AddAccleration(const FVector& acceleration);
+
+	virtual void MoveComponent(const FVector& delta, FHitResult& outHit);
+
+	FVector GetUp() const;
+
+	float GetMaxGroundSlope() const;
+
+	bool CanStand(FHitResult groundHit) const;
 protected:
 	UPlanatoidDataComponent* GetPlanatoidData() const;
 
@@ -34,12 +45,6 @@ protected:
 	virtual bool ShouldTick() const;
 
 	virtual FVector CalculateVelocity(float deltaTime, const FVector& inVelocity);
-
-	virtual FVector CalculateMoveDelta(float deltaTime, const FVector& inVelocity);
-
-	virtual FVector LimitVelocity(FVector& inVelocity) const;
-
-	virtual void MoveComponent(const FVector& delta, const float deltaTime);
 private:
 	void ApplyForces();
 
@@ -51,19 +56,32 @@ protected:
 	bool bAlignToGravity;
 
 	UPROPERTY(EditDefaultsOnly, Category = "Input")
-	float InputAcceleration;
+	float GroundAcceleration;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	float MaxGroundAngle;
+
+	/*The max number of steps we can take inside of a single frame*/
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	int32 MaxSimulationSteps;
+
+	UPROPERTY(EditDefaultsOnly, Category = "Movement")
+	TArray<TSubclassOf<UPawnPlanatoidMovementMode>> MovementModes;
 private:
-	UPROPERTY(VisibleDefaultsOnly)
 	UPlanatoidDataComponent* PlanatoidData;
 
 private:
-	FVector up;
-
 	FVector forceAccumulator;
 	FVector accelerationAccumulator;
 
 	bool bForceDirty;
 
 	float facingDirection;
+
+	/*The max slope for the ground*/
+	float groundSlope;
 private:
+	TMap<UClass*, UPawnPlanatoidMovementMode*> modeMap;
+
+	UPawnPlanatoidMovementMode* currentMode;
 };

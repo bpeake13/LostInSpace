@@ -22,7 +22,14 @@ void UPawnPlanatoidMovementMode::ExitMode()
 FVector UPawnPlanatoidMovementMode::CalculateDelta(const FTickParams& tickParams, float deltaTime) const
 {
 	FVector startVelocity = tickParams.Owner->Velocity;
-	FVector endVelocity = tickParams.TargetVelocity;
+	FVector endVelocity = CalculateVelocity(startVelocity, tickParams.Acceleration, deltaTime);
 
 	return startVelocity * deltaTime + (endVelocity - startVelocity) * 0.5f * deltaTime;
+}
+
+FVector UPawnPlanatoidMovementMode::CalculateVelocity(const FVector& inVelocity, const FVector& inAcceleration, const float deltaTime) const
+{
+	FVector newVelocity = inVelocity + inAcceleration * deltaTime;
+
+	return newVelocity;
 }

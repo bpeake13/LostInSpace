@@ -21,8 +21,10 @@ public:
 	virtual void ExitMode() override;
 
 protected:
+	virtual bool MoveAlongGround(const FTickParams& tickParams);
+
 	/*Tries to move the updated component to the ground, if we find ground then we will return true*/
-	virtual bool FindGround(const FTickParams tickParams, FHitResult& floorResult);
+	virtual bool FindGround(const FTickParams& tickParams, FHitResult& floorResult);
 
 protected:
 	FHitResult lastGroundHit;//the last valid ground hit that we got
