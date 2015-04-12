@@ -19,7 +19,11 @@ class IItemInterface
 	FString ItemName;
 
 	class UStaticMeshComponent* Mesh;
+	class UBoxComponent* CollisionComponent;
 	
 	UFUNCTION()
 	virtual void ItemPickup();
+
+	UFUNCTION()
+	virtual void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

@@ -11,6 +11,8 @@ APowerUp::APowerUp()
 	PrimaryActorTick.bCanEverTick = true;
 	ItemName = TEXT("Power Up");
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PowerUp1"));
+	CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
+	RootComponent = CollisionComponent;
 }
 
 // Called when the game starts or when spawned
@@ -29,4 +31,21 @@ void APowerUp::Tick(float DeltaTime)
 
 void APowerUp::ItemPickup(){
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Item Picked Up");
+	/**
+	if (Mesh)
+	{
+		Mesh->DestroyComponent(); // physical item has been picked up, destroy its visible component
+	}
+	*/
+}
+
+void APowerUp::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	APlayerRocket* player = Cast<APlayerRocket>(OtherActor);
+	if (player){
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Item Collided with Player");
+		if (Mesh){
+			Mesh->DestroyComponent();
+		}
+	}
 }

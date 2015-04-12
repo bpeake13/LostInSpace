@@ -4,6 +4,7 @@
 
 #include "GameFramework/Actor.h"
 #include "ItemInterface.h"
+#include "Rocket/PlayerRocket.h"
 #include "PowerUp.generated.h"
 
 UCLASS()
@@ -24,5 +25,6 @@ public:
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void ItemPickup() override;
+	virtual void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit) override;
 
 };

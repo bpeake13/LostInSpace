@@ -42,5 +42,10 @@ APlayerRocket::APlayerRocket(const FObjectInitializer& ObjectInitializer)
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 }
 
+TArray<class APowerUp*> APlayerRocket::GetCurrentInventory()
+{
+	return ItemInventory;
+}
+
 
 

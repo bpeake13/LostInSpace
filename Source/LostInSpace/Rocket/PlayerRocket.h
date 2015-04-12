@@ -3,7 +3,10 @@
 #pragma once
 
 #include "GameFramework/Character.h"
+#include "LostInSpaceClasses.h"
 #include "PlayerRocket.generated.h"
+
+class APowerUp;
 
 UCLASS()
 class LOSTINSPACE_API APlayerRocket : public ADefaultPawn
@@ -13,6 +16,9 @@ class LOSTINSPACE_API APlayerRocket : public ADefaultPawn
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rocket, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* Rocket;
+
+	UPROPERTY(EditAnywhere, Category = Inventory)
+	TArray<class APowerUp*> ItemInventory; // Our Inventory
 
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -28,6 +34,9 @@ public:
 
 	/** Returns Rocket subobject **/
 	class UStaticMeshComponent* GetRocket() const { return Rocket; }
+
+	/* Returns Rocket Inventory */
+	class TArray<class APowerUp*> GetCurrentInventory();
 
 	/** Returns TopDownCameraComponent subobject **/
 	class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }

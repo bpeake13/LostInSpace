@@ -16,3 +16,8 @@ void IItemInterface::ItemPickup()
 {
 	
 }
+
+void IItemInterface::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+
+}
