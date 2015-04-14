@@ -4,9 +4,8 @@
 
 #include "GameFramework/Character.h"
 #include "LostInSpaceClasses.h"
+#include "Items/ItemInterface.h"
 #include "PlayerRocket.generated.h"
-
-class APowerUp;
 
 UCLASS()
 class LOSTINSPACE_API APlayerRocket : public ADefaultPawn
@@ -17,8 +16,7 @@ class LOSTINSPACE_API APlayerRocket : public ADefaultPawn
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rocket, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* Rocket;
 
-	UPROPERTY(EditAnywhere, Category = Inventory)
-	TArray<class APowerUp*> ItemInventory; // Our Inventory
+	TArray<class IItemInterface*> ItemInventory; // Our Inventory
 
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
@@ -36,11 +34,12 @@ public:
 	class UStaticMeshComponent* GetRocket() const { return Rocket; }
 
 	/* Returns Rocket Inventory */
-	class TArray<class APowerUp*> GetCurrentInventory();
+	class TArray<class IItemInterface*> GetCurrentInventory();
 
 	/** Returns TopDownCameraComponent subobject **/
 	class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
+	void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 };

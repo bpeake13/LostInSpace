@@ -10,8 +10,23 @@ APowerUp::APowerUp()
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
 	ItemName = TEXT("Power Up");
+
+	static ConstructorHelpers::FObjectFinder<UStaticMesh> ItemMesh(TEXT("/Game/RocketMesh.RocketMesh"));
+
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("PowerUp1"));
+	Mesh->SetStaticMesh(ItemMesh.Object);
+
 	CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
+	
+	CollisionComponent->bGenerateOverlapEvents = true;
+	CollisionComponent->BodyInstance.SetCollisionProfileName("ItemCollision");
+	CollisionComponent->SetNotifyRigidBodyCollision(true);
+	CollisionComponent->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+
+	CollisionComponent->SetCollisionResponseToAllChannels(ECR_Block);
+
+	CollisionComponent->OnComponentHit.AddDynamic(this, &APowerUp::OnHit);
+	
 	RootComponent = CollisionComponent;
 }
 
@@ -26,26 +41,20 @@ void APowerUp::BeginPlay()
 void APowerUp::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
-
 }
 
 void APowerUp::ItemPickup(){
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Item Picked Up");
-	/**
-	if (Mesh)
-	{
-		Mesh->DestroyComponent(); // physical item has been picked up, destroy its visible component
+	if(Mesh){
+		Destroy();
 	}
-	*/
 }
 
 void APowerUp::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Collision detected!");
 	APlayerRocket* player = Cast<APlayerRocket>(OtherActor);
 	if (player){
 		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Item Collided with Player");
-		if (Mesh){
-			Mesh->DestroyComponent();
-		}
 	}
 }

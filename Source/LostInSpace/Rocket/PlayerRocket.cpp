@@ -12,6 +12,8 @@ APlayerRocket::APlayerRocket(const FObjectInitializer& ObjectInitializer)
 	
 	Rocket = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Rocket1"));
 	Rocket->SetStaticMesh(RocketMesh.Object);
+	
+	//Init Physics Properties
 	Rocket->BodyInstance.SetCollisionProfileName(UCollisionProfile::PhysicsActor_ProfileName);
 	Rocket->SetSimulatePhysics(true);
 	Rocket->SetEnableGravity(false);
@@ -19,7 +21,13 @@ APlayerRocket::APlayerRocket(const FObjectInitializer& ObjectInitializer)
 	Rocket->SetLinearDamping(0.1f);
 	Rocket->BodyInstance.MassScale = 3.5f;
 	Rocket->BodyInstance.MaxAngularVelocity = 800.0f;
+	
 	Rocket->SetNotifyRigidBodyCollision(true);
+	Rocket->bGenerateOverlapEvents = true;
+	Rocket->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	Rocket->SetCollisionResponseToAllChannels(ECR_Block);
+	Rocket->OnComponentHit.AddDynamic(this, &APlayerRocket::OnHit);
+	
 	RootComponent = Rocket;
 
 	// Don't rotate character to camera direction
@@ -42,9 +50,21 @@ APlayerRocket::APlayerRocket(const FObjectInitializer& ObjectInitializer)
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 }
 
-TArray<class APowerUp*> APlayerRocket::GetCurrentInventory()
+TArray<class IItemInterface*> APlayerRocket::GetCurrentInventory()
 {
 	return ItemInventory;
+}
+
+void APlayerRocket::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Player hit!");
+	IItemInterface* powerUp = Cast<IItemInterface>(OtherActor);
+	if (powerUp){
+		ItemInventory.Add(powerUp);
+		powerUp->ItemPickup();
+		//int32 InvSize = Inventory.Num();
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::FromInt(ItemInventory.Num()));
+	}
 }
 
 
