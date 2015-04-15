@@ -26,6 +26,8 @@ public:
 	USceneComponent* UpdatedComponent;
 	/*The pawn that owns this movement mode*/
 	APawn* OwnerPawn;
+	/*The actors current up vector*/
+	FVector Up;
 	/*The acceleration*/
 	FVector Acceleration;
 	/*The last input vector consumed*/
@@ -67,5 +69,5 @@ public:
 
 	virtual FVector CalculateVelocity(const FVector& inVelocity, const FVector& inAcceleration, const float deltaTime) const;
 protected:
-	virtual FVector CalculateDelta(const FTickParams& tickParams, float deltaTime) const;
+	virtual FVector CalculateDelta(const FVector& startVelocity, FVector& endVelocity, float deltaTime) const;
 };

@@ -22,6 +22,16 @@ UPawnPlanatoidMovementComponent::UPawnPlanatoidMovementComponent()
 	MaxSimulationSteps = 8;
 	MaxGroundAngle = 45.f;
 
+	MaxFallSpeed = 3000.f;
+	MaxAirMovementSpeed = 7500.f;
+	AirControl = 300.f;
+	AirFriction = 0.1f;
+
+	GroundAcceleration = 7000.f;
+	MaxGroundSpeed = 1000.f;
+	BrakingDecceleration = 2048.f;
+	GroundFriction = 8.f;
+
 	currentMode = NULL;
 }
 
@@ -86,6 +96,11 @@ FVector UPawnPlanatoidMovementComponent::GetUp() const
 	return PlanatoidData->GetUpVector();
 }
 
+FRotator UPawnPlanatoidMovementComponent::GetOrientation() const
+{
+	return PlanatoidData->GetOrientationMatrix().Rotator();
+}
+
 float UPawnPlanatoidMovementComponent::GetMaxGroundSlope() const
 {
 	return groundSlope;
@@ -121,6 +136,8 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 	tickParams.OwnerPawn = GetPawnOwner();
 	tickParams.UpdatedComponent = UpdatedComponent;
 	tickParams.InputVector = relativeInputVector;
+	tickParams.Acceleration = accelerationAccumulator;
+	tickParams.Up = GetUp();
 
 	int32 iteration = 0;
 	float timeLeft = DeltaTime;
@@ -138,6 +155,7 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 		returnValue.OutIteration = iteration;
 		returnValue.OutTime = tickParams.TimeSlice;
 		returnValue.OutNextMode = NULL;
+		returnValue.bWasHit = false;
 
 		//iterate the physics on the current mode
 		currentMode->IteratePhysics(tickParams, returnValue);
@@ -169,12 +187,16 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 
 		FVector endPosition = UpdatedComponent->GetComponentLocation();
 
-		Velocity = (endPosition - startPosition) * (1.f / returnValue.OutTime);
+		//if we were 
+		if (returnValue.bWasHit && returnValue.OutTime != 0)
+			Velocity = (endPosition - startPosition) * (1.f / returnValue.OutTime);
+		else
+			Velocity = returnValue.OutVelocity;
 
 		iteration++;
 	}
 
-
+	accelerationAccumulator = FVector::ZeroVector;
 }
 
 void UPawnPlanatoidMovementComponent::ApplyForces()
@@ -207,11 +229,18 @@ FVector UPawnPlanatoidMovementComponent::CalculateVelocity(float deltaTime, cons
 	return FVector::ZeroVector;
 }
 
-void UPawnPlanatoidMovementComponent::MoveComponent(const FVector& delta, FHitResult& outHit)
+void UPawnPlanatoidMovementComponent::MoveComponent(const FVector& delta, bool fastMove, FHitResult& outHit)
 {
 	FRotator rotation = UpdatedComponent->GetComponentRotation();
 	if (bAlignToGravity)
-	{		
+	{	
+		//during a fast move we do not need to compute the change in rotation for the new point
+		if (!fastMove)
+		{
+			FVector newPosition = UpdatedComponent->GetComponentLocation() + delta;
+			PlanatoidData->SetAtPoint(newPosition);
+		}
+
 		FMatrix orientationMatrix = PlanatoidData->GetOrientationMatrix();
 		rotation = orientationMatrix.Rotator();
 

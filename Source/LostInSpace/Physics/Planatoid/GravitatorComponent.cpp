@@ -10,7 +10,6 @@ UGravitatorComponent::UGravitatorComponent()
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	bWantsInitializeComponent = true;
-	PrimaryComponentTick.bCanEverTick = true;
 
 	GravityStrength = 980.f;
 	// ...
@@ -19,8 +18,28 @@ UGravitatorComponent::UGravitatorComponent()
 
 void UGravitatorComponent::GetUpAtPoint(const FVector& point, FVector& o_upVector)
 {
-	o_upVector = FVector(0, 0, 1);
+	UWorld* world = GetWorld();
+	if (!world)
+		return;
+
+	FVector end;
+	CalculateUpCheckPoint(point, end);
+
+	FCollisionQueryParams queryParams;
+	queryParams.bTraceComplex = false;
+
+	FHitResult groundResult;
+	if (!world->LineTraceSingle(groundResult, point, end, ECollisionChannel::ECC_GameTraceChannel1, queryParams))
+		return;
+
+	o_upVector = groundResult.ImpactNormal;
 }
+
+void UGravitatorComponent::CalculateUpCheckPoint(const FVector& point, FVector& outEndPoint)
+{
+	outEndPoint = FVector(point.X, point.Y, GetComponentLocation().Z);
+}
+
 
 // Called when the game starts
 void UGravitatorComponent::InitializeComponent()
@@ -41,28 +60,55 @@ void UGravitatorComponent::InitializeComponent()
 
 		pc->bGenerateOverlapEvents = true;
 		pc->bMultiBodyOverlap = false;
+		
+		pc->OnComponentBeginOverlap.AddDynamic(this, &UGravitatorComponent::OnBeginOverlap);
+		pc->OnComponentEndOverlap.AddDynamic(this, &UGravitatorComponent::OnEndOverlap);
 	}
 }
 
 void UGravitatorComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
-	for (UPrimitiveComponent* zonePrimitive : affectorZones)
+	for (UPlanatoidDataComponent* actor : affectedActors)
 	{
-		TArray<AActor*> overlappingActors;
-		zonePrimitive->GetOverlappingActors(overlappingActors);
+		FVector up;
+		GetUpAtPoint(actor->GetOwner()->GetActorLocation(), up);
 
-		for (AActor* actor : overlappingActors)
-		{
-			UPlanatoidDataComponent* planatoidData = Cast<UPlanatoidDataComponent>(actor->GetComponentByClass(UPlanatoidDataComponent::StaticClass()));
-			if (!planatoidData)
-				continue;
-
-			FVector up;
-			GetUpAtPoint(actor->GetActorLocation(), up);
-
-			planatoidData->SetUpVector(up);
-		}
-
-		overlappingActors.Empty();
+		actor->SetUpVector(up);
 	}
+}
+
+void UGravitatorComponent::OnBeginOverlap(AActor *OtherActor, UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
+{
+	if (!OtherActor || OtherActor == this->GetOwner())
+		return;
+
+	UPlanatoidDataComponent* planatoidData = Cast<UPlanatoidDataComponent>(OtherActor->GetComponentByClass(UPlanatoidDataComponent::StaticClass()));
+	if (!planatoidData)
+		return;
+
+	planatoidData->SetCurrentGravitator(this);
+}
+
+void UGravitatorComponent::OnEndOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	if (!OtherActor || OtherActor == this->GetOwner())
+		return;
+
+	UPlanatoidDataComponent* planatoidData = Cast<UPlanatoidDataComponent>(OtherActor->GetComponentByClass(UPlanatoidDataComponent::StaticClass()));
+	if (!planatoidData)
+		return;
+
+	RemoveAffector(planatoidData);
+}
+
+void UGravitatorComponent::AddAffector(UPlanatoidDataComponent* affector)
+{
+	if (!affectedActors.Contains(affector))
+		affectedActors.Add(affector);
+}
+
+void UGravitatorComponent::RemoveAffector(UPlanatoidDataComponent* affector)
+{
+	if (affectedActors.Contains(affector))
+		affectedActors.Remove(affector);
 }

@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "LostInSpace.h"
+#include "GravitatorComponent.h"
 #include "PlanatoidDataComponent.h"
 
 
@@ -16,20 +17,20 @@ UPlanatoidDataComponent::UPlanatoidDataComponent()
 
 void UPlanatoidDataComponent::SetUpVector(const FVector& up)
 {
-	this->up = up;
+	this->up = up.GetUnsafeNormal();
 	
 	FVector solverForward = FVector::ForwardVector;
-	FVector solverRight = FVector(1, 0, 0);
+	FVector solverRight = FVector(0, 1, 0);
 
-	if (FVector::DotProduct(this->up, solverForward) < FVector::DotProduct(this->up, solverRight))
+	if (FMath::Abs(FVector::DotProduct(this->up, solverForward)) < FMath::Abs(FVector::DotProduct(this->up, solverRight)))
 	{
-		this->right = FVector::CrossProduct(this->up, solverForward);
-		this->forward = FVector::CrossProduct(this->right, this->up);
+		this->right = FVector::CrossProduct(this->up, solverForward).GetUnsafeNormal();
+		this->forward = FVector::CrossProduct(this->right, this->up).GetUnsafeNormal();
 	}
 	else
 	{
-		this->forward = FVector::CrossProduct(solverRight, this->up);
-		this->right = FVector::CrossProduct(this->up, this->forward);
+		this->forward = FVector::CrossProduct(solverRight, this->up).GetUnsafeNormal();
+		this->right = FVector::CrossProduct(this->up, this->forward).GetUnsafeNormal();
 	}
 
 	this->orientationMatrix = FRotationMatrix::MakeFromZX(up, forward);
@@ -52,7 +53,17 @@ FVector UPlanatoidDataComponent::GetRightVector() const
 
 void UPlanatoidDataComponent::SetCurrentGravitator(UGravitatorComponent* gravitator)
 {
+	if (currentAffector)
+	{
+		currentAffector->RemoveAffector(this);
+		GetOwner()->RemoveTickPrerequisiteComponent(currentAffector);
+	}
+
 	currentAffector = gravitator;
+
+	currentAffector->AddAffector(this);
+	
+	GetOwner()->AddTickPrerequisiteComponent(gravitator);
 }
 
 UGravitatorComponent* UPlanatoidDataComponent::GetCurrentGravitator() const
@@ -63,6 +74,16 @@ UGravitatorComponent* UPlanatoidDataComponent::GetCurrentGravitator() const
 FMatrix UPlanatoidDataComponent::GetOrientationMatrix() const
 {
 	return orientationMatrix;
+}
+
+void UPlanatoidDataComponent::SetAtPoint(FVector& newPoint)
+{
+	if (currentAffector)
+	{
+		FVector newUp;
+		currentAffector->GetUpAtPoint(newPoint, newUp);
+		SetUpVector(newUp);
+	}
 }
 
 

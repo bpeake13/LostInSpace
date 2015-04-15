@@ -10,7 +10,6 @@
 void UGroundPlanatoidMovementMode::EnterMode()
 {
 	lastGroundHit = FHitResult(NULL, NULL, FVector::ZeroVector, FVector::ZeroVector);
-	UE_LOG(LogTemp, Log, TEXT("Grounded"));
 }
 
 void UGroundPlanatoidMovementMode::ExitMode()
@@ -18,8 +17,21 @@ void UGroundPlanatoidMovementMode::ExitMode()
 
 }
 
+/*	
+	First we check to see if outside factors are causing us to be ungrounded
+	This can be caused by velocity such as when jumping, or forces such as
+	a tractor force. If we have a positive velocity after acceleration is applied
+	then we will go back to the falling state
+	
+	Second we apply tangental movement either till we get a hit, or until the
+	move is complete. If we have a hit, then we will check to see if it is ground.
+	If it is ground then we can stop early. If it is not then we continue.
+*/
 void UGroundPlanatoidMovementMode::IteratePhysics(const FTickParams& tickParams, FTickReturn& outReturn)
 {
+	//this seems to cause better results
+	outReturn.bWasHit = true;
+
 	FHitResult hit;
 
 	//if this is the first tick while on the ground then we want to find the ground
@@ -33,63 +45,145 @@ void UGroundPlanatoidMovementMode::IteratePhysics(const FTickParams& tickParams,
 		}
 	}
 
-	//get the delta along the ground plane
-	FVector delta = CalculateDelta(tickParams, tickParams.TimeSlice);
-	delta = FVector::VectorPlaneProject(delta, lastGroundHit.ImpactNormal);
+	bool couldMoveOnGround = MoveAlongGround(tickParams, hit);
 
-	tickParams.Owner->MoveComponent(delta, hit);
-
-	//if we can stand on the hit surface, then allow it and handle that surface next iteration
-	if (!tickParams.Owner->CanStand(hit))
+	//If we couldn't move along the ground then attempt to figure out what the condition was
+	if (!couldMoveOnGround)
 	{
-		outReturn.OutTime = hit.Time * tickParams.TimeSlice;
-		return;
+
 	}
 
-	if (!FindGround(tickParams, lastGroundHit))
+	//find ground, if we do not have ground start falling
+	bool foundGround = FindGround(tickParams, lastGroundHit);
+	if (!foundGround)
 	{
 		outReturn.OutNextMode = UFallingPlanatoidMovementMode::StaticClass();
-	}
-	else
-	{
-
+		return;
 	}
 }
 
 bool UGroundPlanatoidMovementMode::FindGround(const FTickParams& tickParams, FHitResult& floorResult)
 {
+	FHitResult result;
 	FScopedMovementUpdate scopeMove = FScopedMovementUpdate(tickParams.Owner->UpdatedComponent);
 
 	//distance to step down is 1/20th the height of our character
 	FVector stepDown = tickParams.Owner->UpdatedPrimitive->Bounds.GetSphere().W * 0.1f * -tickParams.Owner->GetUp();
 
 	//move down by the step amount
-	tickParams.Owner->MoveComponent(stepDown, floorResult);
+	tickParams.Owner->MoveComponent(stepDown, true, result);
 
 	//if we do not have a hit then there is no ground, we should revert back and transition into a falling state
-	if (!floorResult.IsValidBlockingHit())
+	if (!result.IsValidBlockingHit())
 	{
 		scopeMove.RevertMove();
 		return false;
 	}
 
 	//if we are on standable ground then we can quit
-	if (tickParams.Owner->CanStand(floorResult))
+	if (tickParams.Owner->CanStand(result))
+	{
+		floorResult = result;
 		return true;
+	}
 
 	//otherwise slide along the surface
-	tickParams.Owner->SlideAlongSurface(stepDown, 1.f - floorResult.Time, floorResult.ImpactNormal, floorResult, false);
+	tickParams.Owner->SlideAlongSurface(stepDown, 1.f - floorResult.Time, floorResult.ImpactNormal, result, false);
 
 	//if we are on standable ground then we can quit
-	if (tickParams.Owner->CanStand(floorResult))
+	if (tickParams.Owner->CanStand(result))
+	{
+		floorResult = result;
 		return true;
+	}
 
 	//if we get nothing or hit something that is not a ground surface then just call out early
 	scopeMove.RevertMove();
 	return false;
 }
 
-bool UGroundPlanatoidMovementMode::MoveAlongGround(const FTickParams& tickParams)
+bool UGroundPlanatoidMovementMode::MoveAlongGround(const FTickParams& tickParams, FHitResult& hit)
 {
-	return false;
+	//create the scaled input acceleration that will travel along the ground
+	FVector inputAcceleration = tickParams.InputVector * tickParams.Owner->GetGroundAccleration();
+	inputAcceleration = FVector::VectorPlaneProject(inputAcceleration, lastGroundHit.ImpactNormal);
+
+	//the total acceleration will be the acceleration caused by the world + that caused by input along the ground
+	FVector totalAccleration = inputAcceleration + tickParams.Acceleration;
+
+	FVector newVelocity = CalculateVelocity(tickParams.Owner->Velocity, totalAccleration, tickParams.TimeSlice);
+	newVelocity = newVelocity.GetClampedToMaxSize(tickParams.Owner->GetMaxGroundSpeed());
+
+	FVector velocityDirection = newVelocity.GetSafeNormal();
+	newVelocity -= velocityDirection * -tickParams.Owner->GetGroundFriction() * tickParams.TimeSlice;
+
+	//If we have nearly no input and velocity, then apply breaking
+	if (inputAcceleration.IsNearlyZero() && !newVelocity.IsNearlyZero())
+	{
+		FVector decceleration = velocityDirection * (-tickParams.Owner->GetBrakingDecceleration() - tickParams.Owner->GetGroundFriction());
+		newVelocity += decceleration * tickParams.TimeSlice;
+
+		if (newVelocity.IsNearlyZero())
+			newVelocity = FVector::ZeroVector;
+		else if ((newVelocity | velocityDirection) < 0)
+			newVelocity = FVector::ZeroVector;
+	}
+
+	FVector delta = CalculateDelta(tickParams.Owner->Velocity, newVelocity, tickParams.TimeSlice);
+	delta = FVector::VectorPlaneProject(delta, lastGroundHit.ImpactNormal);
+
+	//move the component by its tangental movement
+	tickParams.Owner->MoveComponent(delta, false, hit);
+
+	return true;
+}
+
+bool UGroundPlanatoidMovementMode::TryStepUp(const FTickParams& tickParams, const FHitResult& stepHit, const FVector& delta, FHitResult& hitResult)
+{
+	//calculate the percent of the move we have left
+	float moveLeft = 1.f - stepHit.Time;
+	if (moveLeft <= KINDA_SMALL_NUMBER)//only try and step if a decent amount of time is left with the step
+		return false;
+
+	//scope the movement so that on fail we can undo it
+	FScopedMovementUpdate stepScope = FScopedMovementUpdate(tickParams.Owner->UpdatedComponent);
+
+	//for now step up the same distance that we use to find the floor
+	FVector stepUpVector = tickParams.Owner->UpdatedPrimitive->Bounds.GetSphere().W * 0.1f * tickParams.Owner->GetUp();
+
+	//Move our component up
+	tickParams.Owner->MoveComponent(stepUpVector, true, hitResult);
+
+	//if there is something above us then we should not step up
+	if (hitResult.IsValidBlockingHit() && FVector::DotProduct(hitResult.ImpactNormal, stepUpVector) < 0.f)
+	{
+		stepScope.RevertMove();
+		return false;
+	}
+
+	FVector deltaLeft = delta * moveLeft;
+
+	tickParams.Owner->MoveComponent(deltaLeft, false, hitResult);
+	
+	if (tickParams.Owner->CanStand(hitResult))
+	{
+		//if we hit new ground then apply it and return true to signal that we are finished with a good step
+		lastGroundHit = hitResult;
+		return true;
+	}
+	else if (hitResult.Time <= KINDA_SMALL_NUMBER)
+	{
+		//if we bairly moved
+		stepScope.RevertMove();
+		return false;
+	}
+	else if (FindGround(tickParams, lastGroundHit))
+	{
+		return true;
+	}
+	else
+	{
+		stepScope.RevertMove();
+		return false;
+	}
 }

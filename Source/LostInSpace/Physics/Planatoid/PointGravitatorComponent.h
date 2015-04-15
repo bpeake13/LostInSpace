@@ -13,6 +13,6 @@ class UPointGravitatorComponent : public UGravitatorComponent
 {
 	GENERATED_BODY()
 	
-public:
-	virtual void GetUpAtPoint(const FVector& point, FVector& o_upVector) override;
+protected:
+	virtual void CalculateUpCheckPoint(const FVector& point, FVector& outEndPoint) override;
 };

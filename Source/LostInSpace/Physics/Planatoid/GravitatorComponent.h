@@ -22,11 +22,25 @@ public:
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
 	/*Gets the up vector for this gravitator at a certain world point*/
-	virtual void GetUpAtPoint(const FVector& point, FVector& o_upVector);
+	void GetUpAtPoint(const FVector& point, FVector& o_upVector);
 
+	void AddAffector(UPlanatoidDataComponent* affector);
+
+	void RemoveAffector(UPlanatoidDataComponent* affector);
+
+protected:
+	virtual void CalculateUpCheckPoint(const FVector& point, FVector& outEndPoint);
+private:
+	UFUNCTION()
+	void OnBeginOverlap(AActor *OtherActor, UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
+
+	UFUNCTION()
+	void OnEndOverlap(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 protected:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = "Physics")
 	float GravityStrength;
 private:
 	TArray<UPrimitiveComponent*> affectorZones;
+
+	TArray<UPlanatoidDataComponent*> affectedActors;
 };

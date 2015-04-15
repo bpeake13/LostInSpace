@@ -3,9 +3,7 @@
 #include "LostInSpace.h"
 #include "PointGravitatorComponent.h"
 
-void UPointGravitatorComponent::GetUpAtPoint(const FVector& point, FVector& o_upVector)
+void UPointGravitatorComponent::CalculateUpCheckPoint(const FVector& point, FVector& outEndPoint)
 {
-	FVector center = GetComponentLocation();
-
-	o_upVector = (point - center).GetSafeNormal();
+	outEndPoint = GetComponentLocation();
 }

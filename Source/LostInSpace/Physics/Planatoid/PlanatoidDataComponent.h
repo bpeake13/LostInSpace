@@ -35,6 +35,10 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Physics")
 	void SetCurrentGravitator(UGravitatorComponent* gravitator);
+
+	/*Change the point that this data component should think its up and refresh the vectors*/
+	UFUNCTION(BlueprintCallable, Category = "Physics")
+	void SetAtPoint(FVector& newPoint);
 private:
 	FVector up;
 	FVector right;
