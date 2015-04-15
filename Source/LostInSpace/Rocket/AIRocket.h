@@ -19,6 +19,7 @@ class LOSTINSPACE_API AAIRocket : public APawn
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Rocket, meta = (AllowPrivateAccess = "true"))
 	class UStaticMeshComponent* Rocket;
+
 public:
 	// Sets default values for this pawn's properties
 	AAIRocket(const FObjectInitializer& ObjectInitializer);
@@ -26,12 +27,10 @@ public:
 	/** Returns Rocket subobject **/
 	class UStaticMeshComponent* GetRocket() const { return Rocket; }
 
-	void Seeking();
-
-	UPROPERTY()
+	
 	UHierarchicalStateMachine* HSM;
 
-	UPROPERTY()
+	
 	USeek* Seek;
 
 	//Movement Speed for Rocket

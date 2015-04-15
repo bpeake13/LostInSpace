@@ -32,6 +32,7 @@ public:
 
 	/** Returns Rocket subobject **/
 	class UStaticMeshComponent* GetRocket() const { return Rocket; }
+	class APlayerRocket* GetPlayer() { return this; }
 
 	/* Returns Rocket Inventory */
 	class TArray<class IItemInterface*> GetCurrentInventory();
@@ -40,6 +41,6 @@ public:
 	class UCameraComponent* GetTopDownCameraComponent() const { return TopDownCameraComponent; }
 	/** Returns CameraBoom subobject **/
 	class USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
+	void OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 };

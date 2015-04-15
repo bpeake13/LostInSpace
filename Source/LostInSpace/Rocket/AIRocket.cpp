@@ -37,7 +37,7 @@ AAIRocket::AAIRocket(const FObjectInitializer& ObjectInitializer)
 void AAIRocket::BeginPlay()
 {
 	Super::BeginPlay();
-	PlayerActor = (APlayerRocket*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	
 }
 
 // Called every frame
@@ -45,8 +45,10 @@ void AAIRocket::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 
-	PlayerLocation = PlayerActor->GetActorLocation();
-
+	//PlayerActor = (APlayerRocket*)UGameplayStatics::GetPlayerPawn(GetWorld(), 0);
+	
+	//PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
+	PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	HSM->Tick(DeltaTime);
 	//MovementComponent->AddForce(SeekDir * MovementSpeed);
 }
