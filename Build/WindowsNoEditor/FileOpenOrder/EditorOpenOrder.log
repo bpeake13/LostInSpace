@@ -1,0 +1,502 @@
+"C:/Users/ssmaceachern/Documents/LostInSpace/LostInSpace.uproject" 1
+"../../../Engine/Plugins/2D/Paper2D/Paper2D.uplugin" 2
+"../../../Engine/Plugins/Developer/BlankPlugin/BlankPlugin.uplugin" 3
+"../../../Engine/Plugins/Developer/GitSourceControl/GitSourceControl.uplugin" 4
+"../../../Engine/Plugins/Developer/KDevelopSourceCodeAccess/KDevelopSourceCodeAccess.uplugin" 5
+"../../../Engine/Plugins/Developer/PerforceSourceControl/PerforceSourceControl.uplugin" 6
+"../../../Engine/Plugins/Developer/SubversionSourceControl/SubversionSourceControl.uplugin" 7
+"../../../Engine/Plugins/Developer/UObjectPlugin/UObjectPlugin.uplugin" 8
+"../../../Engine/Plugins/Developer/VisualStudioSourceCodeAccess/VisualStudioSourceCodeAccess.uplugin" 9
+"../../../Engine/Plugins/Developer/XCodeSourceCodeAccess/XCodeSourceCodeAccess.uplugin" 10
+"../../../Engine/Plugins/Editor/EpicSurvey/EpicSurvey.uplugin" 11
+"../../../Engine/Plugins/Editor/MacGraphicsSwitching/MacGraphicsSwitching.uplugin" 12
+"../../../Engine/Plugins/Editor/PluginsEditor/PluginsEditor.uplugin" 13
+"../../../Engine/Plugins/Editor/SpeedTreeImporter/SpeedTreeImporter.uplugin" 14
+"../../../Engine/Plugins/Experimental/BlueprintStats/BlueprintStats.uplugin" 15
+"../../../Engine/Plugins/Experimental/CharacterAI/CharacterAI.uplugin" 16
+"../../../Engine/Plugins/Experimental/CodeView/CodeView.uplugin" 17
+"../../../Engine/Plugins/Experimental/LiveEditor/LiveEditor.uplugin" 18
+"../../../Engine/Plugins/Experimental/Phya/Phya.uplugin" 19
+"../../../Engine/Plugins/Experimental/SimpleHMD/SimpleHMD.uplugin" 20
+"../../../Engine/Plugins/Experimental/SteamVR/SteamVR.uplugin" 21
+"../../../Engine/Plugins/Media/AndroidMedia/AndroidMedia.uplugin" 22
+"../../../Engine/Plugins/Media/AvfMedia/AvfMedia.uplugin" 23
+"../../../Engine/Plugins/Media/MediaPlayerEditor/MediaPlayerEditor.uplugin" 24
+"../../../Engine/Plugins/Media/WmfMedia/WmfMedia.uplugin" 25
+"../../../Engine/Plugins/Messaging/MessagingDebugger/MessagingDebugger.uplugin" 26
+"../../../Engine/Plugins/Messaging/ShmMessaging/ShmMessaging.uplugin" 27
+"../../../Engine/Plugins/Messaging/UdpMessaging/UdpMessaging.uplugin" 28
+"../../../Engine/Plugins/Runtime/Advertising/IOSTapJoy/IOSTapJoy.uplugin" 29
+"../../../Engine/Plugins/Runtime/Analytics/AnalyticsBlueprintLibrary/AnalyticsBlueprintLibrary.uplugin" 30
+"../../../Engine/Plugins/Runtime/Analytics/Apsalar/IOSApsalar/IOSApsalar.uplugin" 31
+"../../../Engine/Plugins/Runtime/Analytics/FileLogging/FileLogging.uplugin" 32
+"../../../Engine/Plugins/Runtime/AndroidDeviceProfileSelector/AndroidDeviceProfileSelector.uplugin" 33
+"../../../Engine/Plugins/Runtime/AndroidMoviePlayer/AndroidMoviePlayer.uplugin" 34
+"../../../Engine/Plugins/Runtime/AppleMoviePlayer/AppleMoviePlayer.uplugin" 35
+"../../../Engine/Plugins/Runtime/CableComponent/CableComponent.uplugin" 36
+"../../../Engine/Plugins/Runtime/CustomMeshComponent/CustomMeshComponent.uplugin" 37
+"../../../Engine/Plugins/Runtime/ExampleDeviceProfileSelector/ExampleDeviceProfileSelector.uplugin" 38
+"../../../Engine/Plugins/Runtime/GearVR/GearVR.uplugin" 39
+"../../../Engine/Plugins/Runtime/IOSDeviceProfileSelector/IOSDeviceProfileSelector.uplugin" 40
+"../../../Engine/Plugins/Runtime/LiveEditorListenServer/LiveEditorListenServer.uplugin" 41
+"../../../Engine/Plugins/Runtime/OculusRift/OculusRift.uplugin" 42
+"../../../Engine/Plugins/Runtime/SoundMod/SoundMod.uplugin" 43
+"../../../Engine/Plugins/Runtime/SoundVisualizations/SoundVisualizations.uplugin" 44
+"../../../Engine/Plugins/Runtime/TwitchLiveStreaming/TwitchLiveStreaming.uplugin" 45
+"../../../Engine/Plugins/Runtime/WindowsDeviceProfileSelector/WindowsDeviceProfileSelector.uplugin" 46
+"../../../Engine/Plugins/Runtime/WindowsMoviePlayer/WindowsMoviePlayer.uplugin" 47
+"../../../Engine/Plugins/ScriptGeneratorPlugin/ScriptGeneratorPlugin.uplugin" 48
+"../../../Engine/Plugins/ScriptPlugin/ScriptPlugin.uplugin" 49
+"../../../Engine/Plugins/Slate/SlateRemote/SlateRemote.uplugin" 50
+"..\..\..\Engine\Content\Internationalization\icudt53l\cnvalias.icu" 51
+"..\..\..\Engine\Content\Internationalization\icudt53l\en_US_POSIX.res" 52
+"..\..\..\Engine\Content\Internationalization\icudt53l\pool.res" 53
+"..\..\..\Engine\Content\Internationalization\icudt53l\en_US.res" 54
+"..\..\..\Engine\Content\Internationalization\icudt53l\en.res" 55
+"..\..\..\Engine\Content\Internationalization\icudt53l\root.res" 56
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\ucadata.icu" 57
+"..\..\..\Engine\Content\Internationalization\icudt53l\nfc.nrm" 58
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\en_US_POSIX.res" 59
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\en_US.res" 60
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\en.res" 61
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\root.res" 62
+"..\..\..\Engine\Content\Internationalization\icudt53l\numberingSystems.res" 63
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\supplementalData.res" 64
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\pool.res" 65
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\en.res" 66
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\root.res" 67
+"..\..\..\Engine\Content\Internationalization\icudt53l\plurals.res" 68
+"..\..\..\Engine\Content\Internationalization\icudt53l\windowsZones.res" 69
+"..\..\..\Engine\Content\Internationalization\icudt53l\zoneinfo64.res" 70
+"..\..\..\Engine\Content\Internationalization\icudt53l\keyTypeData.res" 71
+"..\..\..\Engine\Content\Internationalization\icudt53l\timezoneTypes.res" 72
+"..\..\..\Engine\Content\Internationalization\icudt53l\supplementalData.res" 73
+"..\..\..\Engine\Content\Internationalization\icudt53l\likelySubtags.res" 74
+"../../../Engine/Config/Base.ini" 75
+"../../../Engine/Config/BaseEngine.ini" 76
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Config/DefaultEngine.ini" 77
+"../../../Engine/Config/Windows/WindowsEngine.ini" 78
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/Engine.ini" 79
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/Engine.ini" 80
+"../../../Engine/Config/BaseGame.ini" 81
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/Game.ini" 82
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/Game.ini" 83
+"../../../Engine/Config/BaseInput.ini" 84
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Config/DefaultInput.ini" 85
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/Input.ini" 86
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/Input.ini" 87
+"../../../Engine/Config/BaseEditor.ini" 88
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Config/DefaultEditor.ini" 89
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/Editor.ini" 90
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/Editor.ini" 91
+"../../../Engine/Config/BaseEditorLayout.ini" 92
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/EditorLayout.ini" 93
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/EditorLayout.ini" 94
+"../../../Engine/Config/BaseEditorUserSettings.ini" 95
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/EditorUserSettings.ini" 96
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/EditorUserSettings.ini" 97
+"../../../Engine/Config/BaseEditorKeyBindings.ini" 98
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/EditorKeyBindings.ini" 99
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/EditorKeyBindings.ini" 100
+"../../../Engine/Config/BaseCompat.ini" 101
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/Compat.ini" 102
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/Compat.ini" 103
+"../../../Engine/Config/BaseLightmass.ini" 104
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/Lightmass.ini" 105
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/Lightmass.ini" 106
+"../../../Engine/Config/BaseScalability.ini" 107
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/Scalability.ini" 108
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/Scalability.ini" 109
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/GameUserSettings.ini" 110
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/GameUserSettings.ini" 111
+"../../../Engine/Config/BaseDeviceProfiles.ini" 112
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/DeviceProfiles.ini" 113
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/DeviceProfiles.ini" 114
+"../../../Engine/Config/ConsoleVariables.ini" 115
+"..\..\..\Engine\Content\Internationalization\icudt53l\es.res" 116
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\es.res" 117
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\es.res" 118
+"..\..\..\Engine\Content\Internationalization\icudt53l\es_ES.res" 119
+"..\..\..\Engine\Content\Internationalization\icudt53l\ja.res" 120
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\ja.res" 121
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\ja.res" 122
+"..\..\..\Engine\Content\Internationalization\icudt53l\ja_JP.res" 123
+"..\..\..\Engine\Content\Internationalization\icudt53l\ko.res" 124
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\ko.res" 125
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\ko.res" 126
+"..\..\..\Engine\Content\Internationalization\icudt53l\ko_KR.res" 127
+"..\..\..\Engine\Content\Internationalization\icudt53l\pt_BR.res" 128
+"..\..\..\Engine\Content\Internationalization\icudt53l\pt.res" 129
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\pt.res" 130
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\pt.res" 131
+"..\..\..\Engine\Content\Internationalization\icudt53l\zh_CN.res" 132
+"..\..\..\Engine\Content\Internationalization\icudt53l\zh_Hans_CN.res" 133
+"..\..\..\Engine\Content\Internationalization\icudt53l\zh_Hans.res" 134
+"..\..\..\Engine\Content\Internationalization\icudt53l\zh.res" 135
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\zh_CN.res" 136
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\zh_Hans_CN.res" 137
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\zh_Hans.res" 138
+"..\..\..\Engine\Content\Internationalization\icudt53l\coll\zh.res" 139
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\zh_CN.res" 140
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\zh_Hans_CN.res" 141
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\zh_Hans.res" 142
+"..\..\..\Engine\Content\Internationalization\icudt53l\curr\zh.res" 143
+"C:/Program Files/Unreal Engine/4.7/Engine/Content/Localization/Editor/en/Editor.locres" 144
+"C:/Program Files/Unreal Engine/4.7/Engine/Content/Localization/EditorTutorials/en/EditorTutorials.locres" 145
+"C:/Program Files/Unreal Engine/4.7/Engine/Content/Localization/Engine/en/Engine.locres" 146
+"../../../Engine/Content/Slate/Fonts/Roboto-Regular.ttf" 147
+"../../../Engine/Content/Slate/Fonts/DroidSansMono.ttf" 148
+"../../../Engine/Content/Slate/Fonts/Roboto-Bold.ttf" 149
+"../../../Engine/Content/Slate/Fonts/Roboto-Light.ttf" 150
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ParticleSpriteVertexFactory.usf" 151
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/VertexFactoryCommon.usf" 152
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/Common.usf" 153
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/MetalCommon.usf" 154
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShaderVersion.usf" 155
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/Definitions.usf" 156
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/Random.usf" 157
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ParticleVertexFactoryCommon.usf" 158
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ParticleGPUSpriteVertexFactory.usf" 159
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ParticleBeamTrailVertexFactory.usf" 160
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/VectorFieldVisualizationVertexFactory.usf" 161
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LocalVertexFactory.usf" 162
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LocalVertexFactoryCommon.usf" 163
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/MeshParticleVertexFactory.usf" 164
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/GpuSkinVertexFactory.usf" 165
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/GpuSkinCacheCommon.usf" 166
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LandscapeVertexFactory.usf" 167
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SlateElementPixelShader.usf" 168
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/MaterialTemplate.usf" 169
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DepthOfFieldCommon.usf" 170
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SpeedTreeCommon.usf" 171
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/AtmosphereCommon.usf" 172
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessCommon.usf" 173
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DeferredShadingCommon.usf" 174
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LightAccumulator.usf" 175
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SlateVertexShader.usf" 176
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/OneColorShader.usf" 177
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ResolveVertexShader.usf" 178
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ResolvePixelShader.usf" 179
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/VisualizeTexture.usf" 180
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ScreenSpaceReflections.usf" 181
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/BRDF.usf" 182
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/MonteCarlo.usf" 183
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/FilterVertexShader.usf" 184
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/FilterPixelShader.usf" 185
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessVisualizeHDR.usf" 186
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessHistogramCommon.usf" 187
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/TonemapCommon.usf" 188
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/MiniFontCommon.usf" 189
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessVisualizeBuffer.usf" 190
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessUpscale.usf" 191
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessTonemap.usf" 192
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessTestImage.usf" 193
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessTemporalAA.usf" 194
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessTemporalCommon.usf" 195
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessSubsurface.usf" 196
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SeparableSSS.usf" 197
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessSelectionOutline.usf" 198
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessSceneColorFringe.usf" 199
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessNoiseBlur.usf" 200
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessMotionBlur.usf" 201
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessMobile.usf" 202
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessMaterialShaders.usf" 203
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessLensFlares.usf" 204
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessLensBlur.usf" 205
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessBloom.usf" 206
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessHMD.usf" 207
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessHistogramReduce.usf" 208
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessHistogram.usf" 209
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessGBufferHints.usf" 210
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessEyeAdaptation.usf" 211
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessDownsample.usf" 212
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessDOF.usf" 213
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessCompositeEditorPrimitives.usf" 214
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessCombineLUTs.usf" 215
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessBusyWait.usf" 216
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessBokehDOF.usf" 217
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/FXAAShader.usf" 218
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/Fxaa3_11.usf" 219
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessPassThrough.usf" 220
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessLpvIndirect.usf" 221
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DeferredLightingCommon.usf" 222
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DynamicLightingCommon.usf" 223
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/IESLightProfilesCommon.usf" 224
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVFinalPass.usf" 225
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVCommon.usf" 226
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DeferredDecal.usf" 227
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessAmbientOcclusion.usf" 228
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PostProcessAmbient.usf" 229
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/CubemapCommon.usf" 230
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/VelocityShader.usf" 231
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/Tessellation.usf" 232
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/FlatTessellation.usf" 233
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PNTriangles.usf" 234
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/TranslucentLightingShaders.usf" 235
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SHCommon.usf" 236
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShadowProjectionCommon.usf" 237
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/TranslucentLightInjectionShaders.usf" 238
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LightFunctionCommon.usf" 239
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/TranslucentShadowDepthShaders.usf" 240
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShadowDepthCommon.usf" 241
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/TiledDeferredLightShaders.usf" 242
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShadowProjectionPixelShader.usf" 243
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShadowFilteringCommon.usf" 244
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShadowProjectionVertexShader.usf" 245
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShadowDepthPixelShader.usf" 246
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVWriteVplCommon.usf" 247
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVWriteCommon.usf" 248
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShadowDepthVertexShader.usf" 249
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShaderComplexityApplyPixelShader.usf" 250
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShaderComplexityApplyVertexShader.usf" 251
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ShaderComplexityAccumulatePixelShader.usf" 252
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/HZBOcclusion.usf" 253
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/OcclusionQueryVertexShader.usf" 254
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/HitProxyPixelShader.usf" 255
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/HitProxyVertexShader.usf" 256
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ReflectionEnvironmentShaders.usf" 257
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ReflectionEnvironmentShared.usf" 258
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SkyLightingShared.usf" 259
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ReflectionEnvironmentComputeShaders.usf" 260
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LightShaftShader.usf" 261
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/StationaryLightOverlapShaders.usf" 262
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DeferredLightPixelShaders.usf" 263
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DeferredLightVertexShaders.usf" 264
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVVisualise.usf" 265
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVGeometryVolumeCommon.usf" 266
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVDirectLightInject.usf" 267
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVPropagate.usf" 268
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVBuildGeometryVolume.usf" 269
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVInject_AccumulateVplLists.usf" 270
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVInject_GenerateVplLists.usf" 271
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVClearLists.usf" 272
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LPVClear.usf" 273
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LightMapDensityShader.usf" 274
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LightFunctionPixelShader.usf" 275
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LightFunctionVertexShader.usf" 276
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/HdrCustomResolveShaders.usf" 277
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/GPUBenchmark.usf" 278
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/GammaCorrection.usf" 279
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/BasePassForForwardShadingPixelShader.usf" 280
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/BasePassForForwardShadingCommon.usf" 281
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/LightmapCommon.usf" 282
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/BasePassForForwardShadingVertexShader.usf" 283
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/HeightFogCommon.usf" 284
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/HeightFogPixelShader.usf" 285
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/HeightFogVertexShader.usf" 286
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DistortAccumulatePS.usf" 287
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DistortAccumulateVS.usf" 288
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DistortApplyScreenPS.usf" 289
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DistanceFieldSurfaceCacheLighting.usf" 290
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DistanceFieldLightingShared.usf" 291
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DistanceFieldAOShared.usf" 292
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SkyLighting.usf" 293
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DistanceFieldSurfaceCacheLightingCompute.usf" 294
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DistanceFieldShadowing.usf" 295
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DepthOnlyPixelShader.usf" 296
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DepthOnlyVertexShader.usf" 297
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/PositionOnlyDepthVertexShader.usf" 298
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/DownsampleDepthPixelShader.usf" 299
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/BasePassPixelShader.usf" 300
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/BasePassCommon.usf" 301
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/BasePassVertexShader.usf" 302
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/BasePassVertexCommon.usf" 303
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/BasePassTessellationShaders.usf" 304
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/AtmospherePrecompute.usf" 305
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/AtmospherePrecomputeCommon.usf" 306
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/AtmospherePrecomputeInscatter.usf" 307
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/AtmosphericFogShader.usf" 308
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ParticleSortKeyGen.usf" 309
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ParticleBoundsShader.usf" 310
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ParticleSimVisualizeShader.usf" 311
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ParticleInjectionShader.usf" 312
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ParticleSimulationShader.usf" 313
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ParticleCurveInjectionShader.usf" 314
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/VectorFieldCompositeShaders.usf" 315
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/UpdateTextureShaders.usf" 316
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SimpleElementColorChannelMaskPixelShader.usf" 317
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SimpleElementHitProxyPixelShader.usf" 318
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SimpleElementPixelShader.usf" 319
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ColorUtils.usf" 320
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SimpleElementVertexShader.usf" 321
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ScreenVertexShader.usf" 322
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ScreenPixelShader.usf" 323
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/RadixSortShaders.usf" 324
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/GpuSkinCacheComputeShader.usf" 325
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/NullPixelShader.usf" 326
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/ClearReplacementShaders.usf" 327
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SimpleElementTexture2DPreviewPixelShader.usf" 328
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/SimpleElementNormalMapPixelShader.usf" 329
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/meshpaintdilatepixelshader.usf" 330
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/meshpaintdilatevertexshader.usf" 331
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/MeshPaintPixelShader.usf" 332
+"C:/Program Files/Unreal Engine/4.7/Engine/Binaries/Win64/../../../Engine/Shaders/MeshPaintVertexShader.usf" 333
+"../../../Engine/Config/Android/AndroidEngine.ini" 334
+"../../../Engine/Config/HTML5/HTML5Engine.ini" 335
+"../../../Engine/Config/IOS/IOSEngine.ini" 336
+"../../../Engine/Config/Linux/LinuxEngine.ini" 337
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/4.7/DerivedDataCache/Boot.ddc" 338
+"../../../Engine/DerivedDataCache/Compressed.ddp" 339
+"../../../Engine/Content/EngineFonts/Roboto.uasset" 340
+"../../../Engine/Content/EngineMaterials/Widget3DPassThrough_Translucent.uasset" 341
+"../../../Engine/Content/EngineMaterials/Widget3DPassThrough.uasset" 342
+"../../../Engine/Content/EngineResources/WhiteSquareTexture.uasset" 343
+"../../../Engine/Content/Functions/Engine_MaterialFunctions01/Shading/PowerToRoughness.uasset" 344
+"../../../Engine/Content/Functions/Engine_MaterialFunctions01/Shading/ConvertFromDiffSpec.uasset" 345
+"../../../Engine/Content/EngineMaterials/WorldGridMaterial.uasset" 346
+"../../../Engine/Content/Functions/Engine_MaterialFunctions01/Opacity/CameraDepthFade.uasset" 347
+"../../../Engine/Content/EngineMaterials/T_Default_Material_Grid_M.uasset" 348
+"../../../Engine/Content/EngineMaterials/T_Default_Material_Grid_N.uasset" 349
+"../../../Engine/Content/EngineMaterials/DefaultDeferredDecalMaterial.uasset" 350
+"../../../Engine/Content/EngineMaterials/DefaultDiffuse.uasset" 351
+"../../../Engine/Content/EngineMaterials/DefaultLightFunctionMaterial.uasset" 352
+"../../../Engine/Content/EngineMaterials/DefaultPostProcessMaterial.uasset" 353
+"../../../Engine/Content/Functions/Engine_MaterialFunctions02/Utility/BreakOutFloat2Components.uasset" 354
+"../../../Engine/Content/EngineResources/DefaultTexture.uasset" 355
+"../../../Engine/Content/EngineMaterials/Widget3DPassThrough_Translucent_OneSided.uasset" 356
+"../../../Engine/Content/EngineMaterials/Widget3DPassThrough_Opaque.uasset" 357
+"../../../Engine/Content/EngineMaterials/Widget3DPassThrough_Opaque_OneSided.uasset" 358
+"../../../Engine/Content/EditorResources/S_Actor.uasset" 359
+"../../../Engine/Content/EditorLandscapeResources/DataLayer.uasset" 360
+"../../../Engine/Content/Maps/Templates/Thumbnails/Default.uasset" 361
+"../../../Engine/Content/EditorMaterials/ParticleSystems/PSysThumbnail_NoImage.uasset" 362
+"../../../Engine/Content/EditorMaterials/ParticleSystems/PSysThumbnail_OOD.uasset" 363
+"../../../Engine/Content/EngineDamageTypes/DmgTypeBP_Environmental.uasset" 364
+"../../../Engine/Content/EngineMeshes/Sphere.uasset" 365
+"../../../Engine/Content/EngineFonts/RobotoDistanceField.uasset" 366
+"../../../Engine/Content/EngineMaterials/DefaultTextMaterialOpaque.uasset" 367
+"../../../Engine/Content/EditorResources/S_Trigger.uasset" 368
+"../../../Engine/Content/EngineResources/GradientTexture0.uasset" 369
+"../../../Engine/Content/EngineResources/Black.uasset" 370
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_Groups_Float.uasset" 371
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_Groups_Director.uasset" 372
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_Groups_Event.uasset" 373
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_Groups_Anim.uasset" 374
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_Groups_Fade.uasset" 375
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_Groups_Move.uasset" 376
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_Groups_Slomo.uasset" 377
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_ColorTrack.uasset" 378
+"../../../Engine/Content/EditorMaterials/MAT_Groups_Toggle.uasset" 379
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_Groups_AudioMaster.uasset" 380
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_Groups_Sound.uasset" 381
+"../../../Engine/Content/EditorMaterials/MatineeGroups/MAT_Groups_Vector.uasset" 382
+"../../../Engine/Content/EditorMaterials/MAT_Groups_Visibility.uasset" 383
+"../../../Engine/Content/EngineResources/DefaultTextureCube.uasset" 384
+"../../../Engine/Content/EngineSounds/Master.uasset" 385
+"../../../Engine/Content/EngineSounds/Music.uasset" 386
+"../../../Engine/Content/EngineSounds/SFX.uasset" 387
+"../../../Engine/Content/EngineSounds/Normal_Attack.uasset" 388
+"../../../Engine/Content/EngineSounds/Special_Attack_PSM.uasset" 389
+"../../../Engine/Content/EngineSounds/Duck_Normal_Attack_MixMod.uasset" 390
+"../../../Engine/Content/EngineSounds/Voice.uasset" 391
+"../../../Engine/Content/EngineMeshes/Cylinder.uasset" 392
+"../../../Engine/Content/EngineMaterials/DefaultMaterial.uasset" 393
+"../../../Engine/Content/EngineTireTypes/DefaultTireType.uasset" 394
+"../../../Engine/Content/Editor/Slate/Fonts/FontAwesome.ttf" 395
+"../../../Engine/Content/Editor/Slate/Fonts/DroidSansMono.ttf" 396
+"../../../Engine/Content/Editor/Slate/Fonts/Roboto-BoldCondensed.ttf" 397
+"../../../Engine/Content/Editor/Slate/Fonts/Roboto-Black.ttf" 398
+"../../../Engine/Content/Editor/Slate/Fonts/Roboto-Italic.ttf" 399
+"../../../Engine/Content/Editor/Slate/Fonts/Roboto-BoldCondensedItalic.ttf" 400
+"../../../Engine/Plugins/2D/Paper2D/Content/MaskedUnlitSpriteMaterial.uasset" 401
+"../../../Engine/Plugins/2D/Paper2D/Content/DefaultSpriteMaterial.uasset" 402
+"../../../Engine/Plugins/2D/Paper2D/Content/DummySpriteTexture.uasset" 403
+"../../../Engine/Plugins/2D/Paper2D/Content/OpaqueUnlitSpriteMaterial.uasset" 404
+"../../../Engine/Plugins/2D/Paper2D/Content/DefaultPaperTerrainMaterial.uasset" 405
+"../../../Engine/Plugins/2D/Paper2D/Content/DummySprite.uasset" 406
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/RocketMesh.uasset" 407
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Blueprints/PlayerRocket.uasset" 408
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/PlayerRocket.uasset" 409
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/4.7/Saved/Config/Windows/SourceControlSettings.ini" 410
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/Config/CoalescedSourceConfigs/SourceControlSettings.ini" 411
+"C:/Users/ssmaceachern/Documents/LostInSpace/Saved/Config/Windows/SourceControlSettings.ini" 412
+"../../../Engine/Content/EngineMaterials/RemoveSurfaceMaterial.uasset" 413
+"../../../Engine/Content/EngineDebugMaterials/DebugMeshMaterial.uasset" 414
+"../../../Engine/Content/EngineMaterials/M_InvalidLightmapSettings.uasset" 415
+"../../../Engine/Content/EngineMaterials/InvalidLightmapSettings.uasset" 416
+"../../../Engine/Content/EditorMaterials/GizmoMaterial.uasset" 417
+"../../../Engine/Content/EngineMaterials/Good64x64TilingNoiseHighFreq.uasset" 418
+"../../../Engine/Content/EngineMaterials/DefaultBokeh.uasset" 419
+"../../../Engine/Content/EngineMaterials/PreintegratedSkinBRDF.uasset" 420
+"../../../Engine/Content/EngineMaterials/MiniFont.uasset" 421
+"../../../Engine/Content/EngineMaterials/WeightMapPlaceholderTexture.uasset" 422
+"../../../Engine/Content/EngineMaterials/DefaultWhiteGrid.uasset" 423
+"../../../Engine/Content/EngineMaterials/DefaultPhysicalMaterial.uasset" 424
+"../../../Engine/Content/EngineFonts/RobotoTiny.uasset" 425
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Intermediate/CachedAssetRegistry.bin" 426
+"../../../Engine/Content/MobileResources/HUD/VirtualJoystick_Thumb.uasset" 427
+"../../../Engine/Content/MobileResources/HUD/VirtualJoystick_Background.uasset" 428
+"../../../Engine/Content/MobileResources/HUD/T_Castle_ThumbstickOutter.uasset" 429
+"../../../Engine/Content/MobileResources/HUD/T_Castle_ThumbstickInner.uasset" 430
+"../../../Engine/Content/MobileResources/HUD/MobileHUDDirectionStick.uasset" 431
+"../../../Engine/Content/MobileResources/HUD/MobileHUDDirectionPad3.uasset" 432
+"../../../Engine/Content/MobileResources/HUD/MobileHUDDirectionPad2.uasset" 433
+"../../../Engine/Content/MobileResources/HUD/MobileHUDDirectionPad.uasset" 434
+"../../../Engine/Content/MobileResources/HUD/MobileHUDButtonFire.uasset" 435
+"../../../Engine/Content/MobileResources/HUD/MobileHUDButton3.uasset" 436
+"../../../Engine/Content/MobileResources/HUD/MobileHUDButton2_on.uasset" 437
+"../../../Engine/Content/MobileResources/HUD/MobileHUDButton2_off.uasset" 438
+"../../../Engine/Content/MobileResources/HUD/MobileHUDButton1_on.uasset" 439
+"../../../Engine/Content/MobileResources/HUD/MobileHUDButton1_off.uasset" 440
+"../../../Engine/Content/MobileResources/HUD/LeftVirtualJoystickOnly.uasset" 441
+"../../../Engine/Content/MobileResources/HUD/DefaultVirtualJoysticks.uasset" 442
+"../../../Engine/Content/MobileResources/HUD/AnalogHat.uasset" 443
+"../../../Engine/Content/MobileResources/T_MobileMenu2.uasset" 444
+"../../../Engine/Content/MobileResources/T_MobileControls_texture.uasset" 445
+"../../../Engine/Content/Maps/Entry.umap" 446
+"../../../Engine/Content/EngineMaterials/DefaultNormal.uasset" 447
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Levels/OverworldTestLevel.umap" 448
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Blueprints/AIRocket.uasset" 449
+"../../../Engine/Content/BasicShapes/BasicShapeMaterial.uasset" 450
+"../../../Engine/Content/BasicShapes/Cube.uasset" 451
+"../../../Engine/Content/EngineSky/BP_Sky_Sphere.uasset" 452
+"../../../Engine/Content/EditorBlueprintResources/StandardMacros.uasset" 453
+"../../../Engine/Content/EngineSky/C_Sky_Cloud_Color.uasset" 454
+"../../../Engine/Content/EngineSky/C_Sky_Horizon_Color.uasset" 455
+"../../../Engine/Content/EngineSky/C_Sky_Zenith_Color.uasset" 456
+"../../../Engine/Content/EngineSky/M_Sky_Panning_Clouds2.uasset" 457
+"../../../Engine/Content/EngineSky/T_Sky_Blue.uasset" 458
+"../../../Engine/Content/EngineSky/T_Sky_Clouds_M.uasset" 459
+"../../../Engine/Content/EngineSky/T_Sky_Stars.uasset" 460
+"../../../Engine/Content/EngineSky/SM_SkySphere.uasset" 461
+"../../../Engine/Content/MapTemplates/SM_Template_Map_Floor.uasset" 462
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/8/3/0/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_AUTODXT_8C5F010B4C40A314DDB21DA75800A__71D110E5D766133AC0151F53CCAA8A889947DBDE.udd" 463
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/0/8/8/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_AUTODXT_8DB93EF141A6A11C132D67BAA9CAB__1621F85B646C939BCAD0B47DA01CBA0E4BCF82E4.udd" 464
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/7/3/1/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_AUTODXT_8DB93EF141A6A11C132D67BAA9CAB__CAA67456A000F459FA380190155225621924E457.udd" 465
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/8/0/2/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_AUTODXT_8DB93EF141A6A11C132D67BAA9CAB__C8631AB32D96E386C803A495866F25A28F1BCC4D.udd" 466
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/5/4/8/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_DXT1_8EFEE9B14173FB61D2A5BDBEA2689FBF__6DC7429B2D035A26B1088CD4076B020CD50EA29F.udd" 467
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/8/1/1/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_DXT1_83CBFCC444051BC019FABF95B35FCF7F__42220219F2CE45C8FF5B763A2E765E6B74FAD5D4.udd" 468
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/5/2/4/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_DXT1_83CBFCC444051BC019FABF95B35FCF7F__9F2B3DA8B3A7168BE4B41083AB55C8528865F64D.udd" 469
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/9/7/8/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_DXT1_83CBFCC444051BC019FABF95B35FCF7F__B14B36E8B138674AD4F229376CE5D5393D94F5D9.udd" 470
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/1/4/1/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_BGRA8_EB1C8C444C3184A400F20A8F057BAD7__D44CF723E8A2A8FB965C25B324DE81B1BCAF132F.udd" 471
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/7/8/0/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_BGRA8_EB1C8C444C3184A400F20A8F057BAD7__41B69CC5479F6B2B3EC266B70C0C51B2898A9045.udd" 472
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/6/0/2/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_BGRA8_EB1C8C444C3184A400F20A8F057BAD7__5333ADF5C84D0AF4759285071D8A066BCADC0188.udd" 473
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/5/6/3/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_BGRA8_505903974E325B17FE830EA8E5FC9A4__20CE2D8228A36631F16D0DF7DC26E8F1732EABDC.udd" 474
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/2/1/3/PHYSX_$7B1F0627AE$2DABEB$2D4206$2D8D78$2DE16BEB5DDC7E$7D_PHYSXPC_723F7D7845246C01EF3170A442910C26__1_0_13075_0.udd" 475
+"../../../Engine/Content/EditorResources/EmptyActor.uasset" 476
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Levels/TestLevel.umap" 477
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Blueprints/DemoPlanet.uasset" 478
+"../../../Engine/Content/BasicShapes/Sphere.uasset" 479
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Blueprints/TestGameMode.uasset" 480
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Blueprints/TestPawn.uasset" 481
+"../../../Engine/Content/BasicShapes/Cone.uasset" 482
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Levels/PathFindingDemo.umap" 483
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Blueprints/Demo/PathfindingDemoGameMode.uasset" 484
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Blueprints/Demo/PathfindingCharacter.uasset" 485
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Blueprints/Demo/PathfindingDemoController.uasset" 486
+"../../../../../../Users/ssmaceachern/Documents/LostInSpace/Content/Blueprints/DemoNavPoint.uasset" 487
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/9/3/2/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_AUTODXT_BE0E7BA04EEA231C6A10AA8E3595E__AC49F3916D5402066D11BECBD0A57C77B0835AB9.udd" 488
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/5/4/6/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_AUTODXT_8BA58D7E4F92BD0FB1D32CB4B24E9__9CE06D00D04B2F8A25D1B19EF210047F13AE05CE.udd" 489
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/2/6/2/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_AUTODXT_BE0E7BA04EEA231C6A10AA8E3595E__47BF3C3ABF92E81829AADDEFFA7BBD78CDDFE236.udd" 490
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/1/4/9/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_AUTODXT_BE0E7BA04EEA231C6A10AA8E3595E__1F278E6D9822D59DE880D8EA9124A42D1B15A3E6.udd" 491
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/1/2/1/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_DXT1_F6B2C98C456331DFDCB1A1BEAF02A770__E38E5619A5CA0AADA907933ADAA26D080C4D5F1E.udd" 492
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/7/3/3/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_DXT1_A49F42A34B60413FC5711184CCDF044D__3840A059B06E1C94AD63AFF811C72244D30799B3.udd" 493
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/1/4/4/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_DXT1_F6B2C98C456331DFDCB1A1BEAF02A770__78D9ABB665BDAC92A32B7CEB3EC840AB9BD73B11.udd" 494
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/7/8/9/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_DXT1_F6B2C98C456331DFDCB1A1BEAF02A770__F5FD058DFA82BECC483A304A4FE93C0D08742A55.udd" 495
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/6/3/0/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_BGRA8_6A236AA346E029658A3DAAA87F893F1__64A5C9D70015B1870AA53CC19E50C946D4BBB1EB.udd" 496
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/1/3/0/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_BGRA8_B80810C542F3584AD9090A8826F0752__4889F330300A157271A6B20712971D4840D6F101.udd" 497
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/4/1/3/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_BGRA8_6A236AA346E029658A3DAAA87F893F1__7BDA358F975F198034B10B59D57BD7693143D14B.udd" 498
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/7/0/1/TEXTURE_75F87CE100B546AAB8A1C4132AF9DB17_BGRA8_6A236AA346E029658A3DAAA87F893F1__51401755D39CEEF0D83DC1DD2B01FC913D26BAF4.udd" 499
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/7/4/9/PHYSX_$7B1F0627AE$2DABEB$2D4206$2D8D78$2DE16BEB5DDC7E$7D_PHYSXPC_055C80F64EF22924654F0DAD32611445__1_0_13075_0.udd" 500
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/7/4/9/PHYSX_$7B1F0627AE$2DABEB$2D4206$2D8D78$2DE16BEB5DDC7E$7D_PHYSXPC_80579AF3488ED81A21899B98D8CD244B__1_0_13075_0.udd" 501
+"C:/Users/ssmaceachern/AppData/Local/UnrealEngine/Common/DerivedDataCache/6/1/5/PHYSX_$7B1F0627AE$2DABEB$2D4206$2D8D78$2DE16BEB5DDC7E$7D_PHYSXPC_A4EC4D14441DCDE26B87AA9DE2005DD2__1_0_13075_0.udd" 502
