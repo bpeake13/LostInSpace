@@ -27,6 +27,7 @@ void USpaceNavigationManager::ReBuild(UObject* instigator)
 			if (!navPoint)
 				continue;
 
+			navPoint->bDirty = true;
 			navPoints.Add(navPoint);
 		}
 	}
@@ -79,7 +80,7 @@ void USpaceNavigationManager::AddNavPoint(USpaceNavPoint* newPoint)
 	navPoints.Add(newPoint);
 }
 
-bool USpaceNavigationManager::GetBestPath(const FVector& start, const FVector& end, TArray<FVector>& outPath)
+bool USpaceNavigationManager::GetBestPath(const FVector& start, const FVector& end, TArray<USpaceNavPoint*>& outPath)
 {
 	outPath.Empty();
 
@@ -91,15 +92,13 @@ bool USpaceNavigationManager::GetBestPath(const FVector& start, const FVector& e
 
 	FVector endPointLocation = endPoint->GetComponentLocation();
 
-	outPath.Add(start);
-
 	TArray<USpaceNavPoint*> closed;//all visited nav points
-	TArray<SearchPathNode*> open;//all edges to go to next
+	TArray<TSharedPtr<SearchPathNode>> open;//all edges to go to next
 
-	SearchPathNode* current = new SearchPathNode(0, 0, startPoint);//create the root search path node
+	TSharedPtr<SearchPathNode> current(new SearchPathNode(0, 0, startPoint));//create the root search path node
 	do 
 	{
-		if (current)
+		if (current.IsValid())
 		{
 			//add all edges that go to open nodes to the open list
 			for (FSpaceNavEdge edge : current->node->Edges)
@@ -108,10 +107,10 @@ bool USpaceNavigationManager::GetBestPath(const FVector& start, const FVector& e
 					continue;
 
 				float distance = (edge.Target->GetComponentLocation() - endPointLocation).Size();
-				SearchPathNode* openPath = new SearchPathNode(edge.Weight, distance, edge.Target, current);//create a path from the current one to add to the open list
+				TSharedPtr<SearchPathNode> openPath(new SearchPathNode(edge.Weight, distance, edge.Target, current));//create a path from the current one to add to the open list
 
-				SearchPathNode* foundNode = NULL;
-				for (SearchPathNode* node : open)
+				TSharedPtr<SearchPathNode> foundNode = NULL;
+				for (TSharedPtr<SearchPathNode> node : open)
 				{
 					if (node->node == edge.Target)
 					{
@@ -121,13 +120,13 @@ bool USpaceNavigationManager::GetBestPath(const FVector& start, const FVector& e
 				}
 
 				//if the node is already in the open list then we will see if our path is better
-				if (foundNode)
+				if (foundNode.IsValid())
 				{
 					if (foundNode->score > openPath->score)//check if we have a better score
 					{
 						//when we do have the better score then remove the old from the open list and add ours
 						open.Remove(foundNode);
-						open.HeapPush(foundNode, SearchPathNodePredicate());
+						open.HeapPush(openPath, SearchPathNodePredicate());
 					}
 				}
 				else
@@ -149,14 +148,22 @@ bool USpaceNavigationManager::GetBestPath(const FVector& start, const FVector& e
 
 	} while (open.Num() != 0);
 
-	if (!current)
+	if (!current.IsValid())
 		return false;
 
-	for (SearchPathNode* searchNode = current; searchNode; searchNode = searchNode->previous)
+	for (TSharedPtr<SearchPathNode> searchNode = current; searchNode.IsValid(); searchNode = searchNode->previous)
 	{
-		outPath.Insert(searchNode->node->GetComponentLocation(), 1);
+		outPath.Insert(searchNode->node, 1);
 	}
-
-	outPath.Add(end);
 	return true;
+}
+
+bool USpaceNavigationManager::GetBestPathFromNodes(const USpaceNavPoint* start, const USpaceNavPoint* end, TArray<USpaceNavPoint*>& outPath)
+{
+	return GetBestPath(start->GetComponentLocation(), end->GetComponentLocation(), outPath);
+}
+
+void USpaceNavigationManager::OptimizePath(const FVector& start, const FVector& end, TArray<USpaceNavPoint*> path)
+{
+
 }

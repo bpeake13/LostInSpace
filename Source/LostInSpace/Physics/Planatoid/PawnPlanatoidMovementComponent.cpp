@@ -127,7 +127,6 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 	ApplyForces();
 
 	FVector inputVector = ConsumeInputVector();
-	FVector relativeInputVector = PlanatoidData->GetOrientationMatrix().TransformVector(inputVector);
 
 	/*Package our tick params for this tick*/
 	FTickParams tickParams;
@@ -135,7 +134,7 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 	tickParams.Owner = this;
 	tickParams.OwnerPawn = GetPawnOwner();
 	tickParams.UpdatedComponent = UpdatedComponent;
-	tickParams.InputVector = relativeInputVector;
+	tickParams.InputVector = inputVector;
 	tickParams.Acceleration = accelerationAccumulator;
 	tickParams.Up = GetUp();
 

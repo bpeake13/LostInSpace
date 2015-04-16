@@ -9,18 +9,23 @@
 class SearchPathNode
 {
 public:
-	SearchPathNode(float weight, float distance, USpaceNavPoint* node, SearchPathNode* previous = NULL)
+	SearchPathNode(float weight, float distance, USpaceNavPoint* node, TSharedPtr<SearchPathNode> previous = NULL)
 	{
-		this->totalWeight = (previous ? previous->totalWeight : 0) + weight;
+		this->totalWeight = (previous.IsValid() ? previous->totalWeight : 0) + weight;
 
 		this->score = distance + totalWeight;
 		this->node = node;
 		this->previous = previous;
 	}
 
+	~SearchPathNode()
+	{
+		previous = NULL;//dereference the shared ptr
+	}
+
 	float score;//the score of taking this path to this node
 	USpaceNavPoint* node;//the actual node that this search node represents
-	SearchPathNode* previous;//the previous search node
+	TSharedPtr<SearchPathNode> previous;//the previous search node
 
 private:
 	float totalWeight;
@@ -28,9 +33,9 @@ private:
 
 struct SearchPathNodePredicate
 {
-	bool operator()(SearchPathNode& a, SearchPathNode& b) const
+	bool operator()(TSharedPtr<SearchPathNode> a, TSharedPtr<SearchPathNode> b) const
 	{
-		return a.score < b.score;
+		return a->score < b->score;
 	}
 };
 
@@ -62,7 +67,13 @@ public:
 	static void ReBuild(UObject* instigator);
 
 	UFUNCTION(BlueprintCallable, Category = "Navigation")
-	static bool GetBestPath(const FVector& start, const FVector& end, TArray<FVector>& outPath);
+	static bool GetBestPath(const FVector& start, const FVector& end, TArray<USpaceNavPoint*>& outPath);
+
+	UFUNCTION(BlueprintCallable, Category = "Navigation")
+	static bool GetBestPathFromNodes(const USpaceNavPoint* start, const USpaceNavPoint* end, TArray<USpaceNavPoint*>& outPath);
+
+	UFUNCTION(BlueprintCallable, Category = "Navigation")
+	static void OptimizePath(const FVector& start, const FVector& end, TArray<USpaceNavPoint*> path);
 
 private:
 	static TArray<USpaceNavPoint*> navPoints;

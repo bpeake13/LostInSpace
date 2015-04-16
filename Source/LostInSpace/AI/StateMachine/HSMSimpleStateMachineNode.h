@@ -21,5 +21,5 @@ public:
 	void Tick(UHierarchicalStateMachine* machine) override;
 protected:
 	UPROPERTY()
-		USSMNode* CurrentNode;
+	USSMNode* CurrentNode;
 };

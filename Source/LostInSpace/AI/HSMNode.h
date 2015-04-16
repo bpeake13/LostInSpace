@@ -11,8 +11,8 @@ class UHierarchicalStateMachine;
 /**
  * 
  */
-UCLASS(Abstract)
-class LOSTINSPACE_API UHSMNode : public UObject
+UCLASS(Abstract, DefaultToInstanced, EditInlineNew)
+class UHSMNode : public UObject
 {
 	GENERATED_BODY()
 	

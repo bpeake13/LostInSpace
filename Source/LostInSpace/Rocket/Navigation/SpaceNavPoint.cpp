@@ -2,6 +2,7 @@
 
 #include "LostInSpace.h"
 #include "SpaceNavigationManager.h"
+#include "UnrealEd.h"
 #include "SpaceNavPoint.h"
 
 
@@ -26,13 +27,20 @@ void USpaceNavPoint::InitializeComponent()
 
 void USpaceNavPoint::OnComponentCreated()
 {
+#if WITH_EDITOR
+	if (GIsEditor && FApp::IsGame())
+		USpaceNavigationManager::AddNavPoint(this);
+#else
+	USpaceNavigationManager::AddNavPoint(this);
+#endif // WITH_EDITOR
+
 	Super::OnComponentCreated();
 }
 
 void USpaceNavPoint::Build()
 {
 	UWorld* world = GetWorld();
-	if (!world)
+	if (!world || !bDirty)
 		return;
 
 	FVector location = GetComponentLocation();

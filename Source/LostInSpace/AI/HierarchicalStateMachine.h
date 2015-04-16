@@ -11,7 +11,7 @@ class UHSMNode;
 /**
  * A state machine based on a tree structure
  */
-UCLASS()
+UCLASS(DefaultToInstanced, EditInlineNew, BlueprintType)
 class LOSTINSPACE_API UHierarchicalStateMachine : public UObject
 {
 	GENERATED_BODY()
@@ -29,13 +29,11 @@ public:
 
 	float GetDeltaTime() const;
 protected:
-
-private:
-	//The root node to start execution at
-	UPROPERTY()
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Instanced, Category = "State Machine")
 	UHSMNode* Root;
+private:
 
-	UPROPERTY()
+	UPROPERTY(Transient)
 	AActor* OwnerActor;
 private:
 	UHSMNode* currentNode;

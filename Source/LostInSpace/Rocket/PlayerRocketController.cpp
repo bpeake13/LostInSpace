@@ -55,9 +55,11 @@ void APlayerRocketController::MoveForward(float val){
 void APlayerRocketController::MoveRight(float val){
 	APlayerRocket* const Pawn = (APlayerRocket*)GetPawn();
 	
-	rotationVal += rotationSpeed * val;
+	/*rotationVal += rotationSpeed * val;
 	FRotator Turn = FRotator(0.f, rotationVal, 0.f);
-	Pawn->SetActorRotation(Turn);
+	Pawn->SetActorRotation(Turn);*/
+
+	Pawn->GetRocket()->AddTorque(FVector(0, 0, TorqueForce * val));
 }
 
 void APlayerRocketController::MoveToMouseCursor()

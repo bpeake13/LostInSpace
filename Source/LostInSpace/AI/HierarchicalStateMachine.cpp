@@ -4,9 +4,12 @@
 #include "HierarchicalStateMachine.h"
 #include "HSMNode.h"
 
-UHierarchicalStateMachine::UHierarchicalStateMachine(){}
+UHierarchicalStateMachine::UHierarchicalStateMachine()
+{
+}
 
-void UHierarchicalStateMachine::SetRoot(UHSMNode* node){
+void UHierarchicalStateMachine::SetRoot(UHSMNode* node)
+{
 	Root = node;
 }
 

@@ -17,15 +17,13 @@ APlayerRocket::APlayerRocket(const FObjectInitializer& ObjectInitializer)
 	Rocket->BodyInstance.SetCollisionProfileName(UCollisionProfile::PhysicsActor_ProfileName);
 	Rocket->SetSimulatePhysics(true);
 	Rocket->SetEnableGravity(false);
-	Rocket->SetAngularDamping(0.1f);
+	Rocket->SetAngularDamping(10000.f);
 	Rocket->SetLinearDamping(0.1f);
 	Rocket->BodyInstance.MassScale = 3.5f;
 	Rocket->BodyInstance.MaxAngularVelocity = 800.0f;
 	
 	Rocket->SetNotifyRigidBodyCollision(true);
 	Rocket->bGenerateOverlapEvents = true;
-	Rocket->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	Rocket->SetCollisionResponseToAllChannels(ECR_Block);
 	Rocket->OnComponentHit.AddDynamic(this, &APlayerRocket::OnHit);
 	
 	RootComponent = Rocket;

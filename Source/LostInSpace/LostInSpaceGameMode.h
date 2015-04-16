@@ -9,11 +9,10 @@
  * 
  */
 UCLASS()
-class LOSTINSPACE_API ALostInSpaceGameMode : public AGameMode
+class ALostInSpaceGameMode : public AGameMode
 {
 	GENERATED_BODY()
-	
-	
-	
+public:
+	virtual void StartPlay() override;
 	
 };

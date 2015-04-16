@@ -22,9 +22,9 @@ protected:
 	bool CheckBlueprint(UHierarchicalStateMachine* machine, bool superResult, bool& outResult);
 
 protected:
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category=AI)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Category = AI)
 	UHSMNode* YesNode;
 
-	UPROPERTY(BlueprintReadWrite, EditAnywhere, Category = AI)
+	UPROPERTY(BlueprintReadWrite, EditAnywhere, Instanced, Category = AI)
 	UHSMNode* NoNode;
 };
