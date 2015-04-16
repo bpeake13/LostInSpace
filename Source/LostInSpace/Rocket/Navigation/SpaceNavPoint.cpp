@@ -22,11 +22,6 @@ USpaceNavPoint::USpaceNavPoint()
 // Called when the game starts
 void USpaceNavPoint::InitializeComponent()
 {
-	Super::InitializeComponent();
-}
-
-void USpaceNavPoint::OnComponentCreated()
-{
 #if WITH_EDITOR
 	if (GIsEditor && FApp::IsGame())
 		USpaceNavigationManager::AddNavPoint(this);
@@ -34,6 +29,11 @@ void USpaceNavPoint::OnComponentCreated()
 	USpaceNavigationManager::AddNavPoint(this);
 #endif // WITH_EDITOR
 
+	Super::InitializeComponent();
+}
+
+void USpaceNavPoint::OnComponentCreated()
+{
 	Super::OnComponentCreated();
 }
 

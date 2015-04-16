@@ -4,6 +4,7 @@
 #include "SpaceOverworld.h"
 #include "PlayerRocketController.h"
 #include "PlayerRocket.h"
+#include "Rocket/Navigation/SpaceNavigationManager.h"
 
 ASpaceOverworld::ASpaceOverworld(const FObjectInitializer& ObjectInitializer) : Super(ObjectInitializer)
 {
@@ -16,6 +17,20 @@ ASpaceOverworld::ASpaceOverworld(const FObjectInitializer& ObjectInitializer) : 
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Class;
 	}
+}
+
+void ASpaceOverworld::StartPlay()
+{
+	Super::StartPlay();
+
+	USpaceNavigationManager::Build();
+}
+
+void ASpaceOverworld::EndPlay(const EEndPlayReason::Type EndPlayReason)
+{
+	Super::EndPlay(EndPlayReason);
+
+	USpaceNavigationManager::Clear();
 }
 
 

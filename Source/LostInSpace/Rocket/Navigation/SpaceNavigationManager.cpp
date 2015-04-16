@@ -153,7 +153,7 @@ bool USpaceNavigationManager::GetBestPath(const FVector& start, const FVector& e
 
 	for (TSharedPtr<SearchPathNode> searchNode = current; searchNode.IsValid(); searchNode = searchNode->previous)
 	{
-		outPath.Insert(searchNode->node, 1);
+		outPath.Add(searchNode->node);
 	}
 	return true;
 }

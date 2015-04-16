@@ -9,12 +9,17 @@
  * 
  */
 UCLASS()
-class LOSTINSPACE_API ASpaceOverworld : public AGameMode
+class ASpaceOverworld : public AGameMode
 {
 	GENERATED_BODY()
 	
 public:
 	ASpaceOverworld(const FObjectInitializer& ObjectInitializer);
-	
+
+	virtual void StartPlay() override;
+
+	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
+
+
 	
 };
