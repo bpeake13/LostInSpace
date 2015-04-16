@@ -26,7 +26,7 @@ APlayerRocket::APlayerRocket(const FObjectInitializer& ObjectInitializer)
 	Rocket->bGenerateOverlapEvents = true;
 	Rocket->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
 	Rocket->SetCollisionResponseToAllChannels(ECR_Block);
-	Rocket->OnComponentHit.AddDynamic(this, &APlayerRocket::OnHit);
+	//Rocket->OnComponentHit.AddDynamic(this, &APlayerRocket::OnHit);
 	
 	RootComponent = Rocket;
 

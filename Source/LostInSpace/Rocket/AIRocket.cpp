@@ -3,6 +3,7 @@
 #include "LostInSpace.h"
 #include "AIRocket.h"
 #include "Behaviors/Seek.h"
+#include "Behaviors/Wandering.h"
 
 
 // Sets default values
@@ -28,6 +29,7 @@ AAIRocket::AAIRocket(const FObjectInitializer& ObjectInitializer)
 	MovementSpeed = 50000.f;
 	
 	Seek = CreateDefaultSubobject<USeek>("Seek");
+	Wandering = CreateDefaultSubobject<UWandering>("Wandering");
 	HSM = CreateDefaultSubobject<UHierarchicalStateMachine>("Hierarchical State Machine");
 	HSM->SetOwnerActor(this);
 	HSM->SetRoot(Seek);
@@ -50,7 +52,6 @@ void AAIRocket::Tick( float DeltaTime )
 	//PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	PlayerLocation = GetWorld()->GetFirstPlayerController()->GetPawn()->GetActorLocation();
 	HSM->Tick(DeltaTime);
-	//MovementComponent->AddForce(SeekDir * MovementSpeed);
 }
 
 

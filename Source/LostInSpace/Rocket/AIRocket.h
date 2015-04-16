@@ -3,14 +3,19 @@
 #pragma once
 
 #include "LostInSpaceClasses.h"
-#include "PlayerRocket.h"
-#include "RocketMovementComponent.h"
+
 #include "AI/HierarchicalStateMachine.h"
 #include "AI/HSMActionNode.h"
+
 #include "GameFramework/Pawn.h"
+
+#include "RocketMovementComponent.h"
+#include "PlayerRocket.h"
+
 #include "AIRocket.generated.h"
 
 class USeek;
+class UWandering;
 
 UCLASS()
 class LOSTINSPACE_API AAIRocket : public APawn
@@ -26,12 +31,10 @@ public:
 
 	/** Returns Rocket subobject **/
 	class UStaticMeshComponent* GetRocket() const { return Rocket; }
-
 	
 	UHierarchicalStateMachine* HSM;
-
-	
 	USeek* Seek;
+	UWandering* Wandering;
 
 	//Movement Speed for Rocket
 	float MovementSpeed;

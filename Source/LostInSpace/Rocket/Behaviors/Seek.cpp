@@ -26,6 +26,7 @@ void USeek::Execute(UHierarchicalStateMachine* machine){
 	diff.Normalize();
 
 	//Apply force to Rocket
+	pursuer->GetRocket()->SetRelativeRotation(diff.Rotation());
 	pursuer->GetRocket()->AddForce(diff * pursuer->MovementSpeed);
 	//pursuer->GetRocket()->AddForce(FVector(1, 0, 0) * 500.f);
 }
