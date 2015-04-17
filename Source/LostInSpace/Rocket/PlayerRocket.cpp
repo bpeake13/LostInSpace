@@ -22,9 +22,9 @@ APlayerRocket::APlayerRocket(const FObjectInitializer& ObjectInitializer)
 	Rocket->BodyInstance.MassScale = 3.5f;
 	Rocket->BodyInstance.MaxAngularVelocity = 800.0f;
 	
-	Rocket->SetNotifyRigidBodyCollision(true);
 	Rocket->bGenerateOverlapEvents = true;
-	Rocket->OnComponentHit.AddDynamic(this, &APlayerRocket::OnHit);
+	//Rocket->OnComponentHit.AddDynamic(this, &APlayerRocket::OnHit);
+	Rocket->OnComponentBeginOverlap.AddDynamic(this, &APlayerRocket::OnOverlapBegin);
 	
 	RootComponent = Rocket;
 
@@ -65,5 +65,16 @@ void APlayerRocket::OnHit(AActor* OtherActor, UPrimitiveComponent* OtherComp, FV
 	}
 }
 
+void APlayerRocket::OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Player hit!");
+	IItemInterface* powerUp = Cast<IItemInterface>(OtherActor);
+	if (powerUp){
+		ItemInventory.Add(powerUp);
+		powerUp->ItemPickup();
+		//int32 InvSize = Inventory.Num();
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, FString::FromInt(ItemInventory.Num()));
+	}
+}
 
 
