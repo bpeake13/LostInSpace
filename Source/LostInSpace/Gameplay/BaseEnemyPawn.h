@@ -4,6 +4,7 @@
 
 #include "Gameplay/BaseSpacePawn.h"
 #include "AI/HierarchicalStateMachine.h"
+#include "Projectile.h"
 #include "BaseEnemyPawn.generated.h"
 
 /**
@@ -18,6 +19,7 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	bool MoveTo(const FVector& location, const float force, const float tolerance);
+
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Instanced, Category = "AI")
 	UHierarchicalStateMachine* HSM;
@@ -25,6 +27,12 @@ protected:
 	//Movement Speed for Rocket
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Movement")
 	float MovementSpeed;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Projectile")
+	TSubclassOf<AProjectile> ProjectileClass;
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	virtual void Fire();
 
 	//Tick function
 	virtual void Tick(float DeltaSeconds) override;

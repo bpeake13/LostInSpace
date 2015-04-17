@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/GameMode.h"
+#include "Rocket/Navigation/SpaceNavPointActor.h"
 #include "SpaceOverworld.generated.h"
 
 /**
@@ -20,6 +21,10 @@ public:
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
 
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Start Up")
+	TSubclassOf<ASpaceNavPointActor> NavPointClass;
 
+private:
+	void SpawnNavPoints();
 	
 };

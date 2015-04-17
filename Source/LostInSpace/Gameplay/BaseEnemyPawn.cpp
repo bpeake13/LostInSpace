@@ -6,6 +6,8 @@
 ABaseEnemyPawn::ABaseEnemyPawn()
 {
 	HSM = CreateDefaultSubobject<UHierarchicalStateMachine>("Hierarchical State Machine");
+
+	ProjectileClass = AProjectile::StaticClass();
 }
 
 void ABaseEnemyPawn::BeginPlay()
@@ -58,3 +60,25 @@ bool ABaseEnemyPawn::MoveTo(const FVector& location, const float force, const fl
 
 	return false;
 }
+
+void ABaseEnemyPawn::Fire()
+{
+	UWorld* const World = GetWorld();
+	UPrimitiveComponent* rootPrimitive = Cast<UPrimitiveComponent>(RootComponent);
+
+	if (World)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.Instigator = Instigator;
+
+		FVector FireLocation = rootPrimitive->GetForwardVector();
+		FRotator FireRotation = rootPrimitive->GetComponentRotation();
+
+		// spawn the projectile at the muzzle
+		AProjectile* const Projectile = World->SpawnActor<AProjectile>(ProjectileClass, FireLocation, FireRotation, SpawnParams);
+		Projectile->SetImpulseVector(FireRotation.Vector());
+	}
+}
+
+

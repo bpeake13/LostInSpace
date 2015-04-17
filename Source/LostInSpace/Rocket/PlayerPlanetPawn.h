@@ -32,6 +32,12 @@ private:
 	void OnHorizontal(float val);
 
 protected:
-	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Movement")
+	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Movement")
+	UCapsuleComponent* PlayerCapsule;
+
+	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Rendering")
+	USkeletalMeshComponent* Mesh;
+
+	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Movement")
 	UPawnPlanatoidMovementComponent* PlanatoidMovement;
 };

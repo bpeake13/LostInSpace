@@ -27,20 +27,15 @@ UPawnPlanatoidMovementComponent::UPawnPlanatoidMovementComponent()
 	AirControl = 300.f;
 	AirFriction = 0.1f;
 
-	GroundAcceleration = 7000.f;
-	MaxGroundSpeed = 1000.f;
-	BrakingDecceleration = 2048.f;
+	GroundAcceleration = 4000.f;
+	MaxGroundSpeed = 300.f;
+	BrakingDecceleration = 5000.f;
 	GroundFriction = 8.f;
 
 	currentMode = NULL;
 }
 
 void UPawnPlanatoidMovementComponent::InitializeComponent()
-{
-	Super::InitializeComponent();
-}
-
-void UPawnPlanatoidMovementComponent::PostLoad()
 {
 	MaxGroundAngle = FMath::Clamp(MaxGroundAngle, 0.f, 90.f);
 	groundSlope = FMath::Cos(FMath::DegreesToRadians(MaxGroundAngle));
@@ -66,6 +61,11 @@ void UPawnPlanatoidMovementComponent::PostLoad()
 			currentMode->EnterMode();
 		}
 	}
+	Super::InitializeComponent();
+}
+
+void UPawnPlanatoidMovementComponent::PostLoad()
+{
 
 	Super::PostLoad();
 }
@@ -88,17 +88,21 @@ void UPawnPlanatoidMovementComponent::AddAccleration(const FVector& acceleration
 
 bool UPawnPlanatoidMovementComponent::ShouldTick() const
 {
-	return UpdatedPrimitive && GetWorld() && currentMode;
+	return PlanatoidData && UpdatedPrimitive && GetWorld() && currentMode;
 }
 
 FVector UPawnPlanatoidMovementComponent::GetUp() const
 {
-	return PlanatoidData->GetUpVector();
+	if (PlanatoidData)
+		return PlanatoidData->GetUpVector();
+	return FVector(0, 0, 1);
 }
 
 FRotator UPawnPlanatoidMovementComponent::GetOrientation() const
 {
-	return PlanatoidData->GetOrientationMatrix().Rotator();
+	if (PlanatoidData)
+		return PlanatoidData->GetOrientationMatrix().Rotator();
+	return FRotator::ZeroRotator;
 }
 
 float UPawnPlanatoidMovementComponent::GetMaxGroundSlope() const
@@ -116,17 +120,16 @@ bool UPawnPlanatoidMovementComponent::CanStand(FHitResult groundHit) const
 
 void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
 {
+	FVector inputVector = ConsumeInputVector();//prevent input build up
+
 	if (!ShouldTick() || ShouldSkipUpdate(DeltaTime))
 	{
-		Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 		return;
 	}
 
 	ApplyGravity();
 
 	ApplyForces();
-
-	FVector inputVector = ConsumeInputVector();
 
 	/*Package our tick params for this tick*/
 	FTickParams tickParams;

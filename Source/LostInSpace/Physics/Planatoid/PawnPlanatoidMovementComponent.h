@@ -115,6 +115,7 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category = "Movement")
 	TArray<TSubclassOf<UPawnPlanatoidMovementMode>> MovementModes;
 private:
+	UPROPERTY(Transient)
 	UPlanatoidDataComponent* PlanatoidData;
 
 private:
