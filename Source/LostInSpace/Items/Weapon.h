@@ -4,20 +4,23 @@
 
 #include "GameFramework/Actor.h"
 #include "ItemInterface.h"
-#include "Rocket/PlayerRocket.h"
-#include "PowerUp.generated.h"
+#include "Weapon.generated.h"
 
 UCLASS()
-class LOSTINSPACE_API APowerUp : public AActor, public IItemInterface
+class LOSTINSPACE_API AWeapon : public AActor, public IItemInterface
 {
 	GENERATED_BODY()
-
-public:
+	
+public:	
 	// Sets default values for this actor's properties
-	APowerUp();
+	AWeapon();
 
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+	
+protected:
+	FVector MuzzleLocation;
+	FVector FiringSpeed;
 
 	virtual void ItemPickup() override;
 	virtual void OnOverlapBegin(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult) override;
