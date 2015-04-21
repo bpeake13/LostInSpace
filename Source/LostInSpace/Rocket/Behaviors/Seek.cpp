@@ -4,15 +4,11 @@
 #include "Seek.h"
 
 void USeek::Tick(UHierarchicalStateMachine* machine){
-
-}
-
-void USeek::Execute(UHierarchicalStateMachine* machine){
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "HSM:Seek Tick");
-	
+
 	//Get Owner from HSM and cast it to Owner's class
 	AAIRocket* pursuer = Cast<AAIRocket>(machine->GetOwnerActor());
-	
+
 	//Get the locations of the player and the Rocket
 	FVector playerLoc = pursuer->PlayerLocation;
 	FVector pursuerLoc = pursuer->GetActorLocation();

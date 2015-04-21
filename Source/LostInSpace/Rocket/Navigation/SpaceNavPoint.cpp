@@ -2,7 +2,11 @@
 
 #include "LostInSpace.h"
 #include "SpaceNavigationManager.h"
+
+#if WITH_EDITOR
 #include "UnrealEd.h"
+#endif
+
 #include "SpaceNavPoint.h"
 
 

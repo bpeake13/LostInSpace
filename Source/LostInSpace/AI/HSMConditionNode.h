@@ -13,6 +13,14 @@ class UHSMConditionNode : public UHSMNode
 {
 	GENERATED_BODY()
 
+public:
+	UHSMConditionNode();
+
+	UFUNCTION(BlueprintCallable, Category = "StateTree")
+	void SetYesNode(UHSMNode* newYesNode);
+
+	UFUNCTION(BlueprintCallable, Category = "StateTree")
+	void SetNoNode(UHSMNode* newNoNode);
 protected:
 	void Execute(UHierarchicalStateMachine* machine) override;
 

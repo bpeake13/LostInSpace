@@ -19,7 +19,7 @@ public:
 
 	virtual void Tick(UHierarchicalStateMachine* machine) override;
 
-protected:
+public:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Navigation")
 	float ReCalculateTime;
 

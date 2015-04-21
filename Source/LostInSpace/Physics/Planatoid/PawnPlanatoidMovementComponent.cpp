@@ -249,5 +249,10 @@ void UPawnPlanatoidMovementComponent::MoveComponent(const FVector& delta, bool f
 		rotation.Yaw += facingDirection;
 	}
 
-	SafeMoveUpdatedComponent(delta, rotation, true, outHit);
+	MoveUpdatedComponent(delta, rotation, true, &outHit);
+	if (outHit.bStartPenetrating)//resolve penetration
+	{
+		FVector resolveDelta = outHit.ImpactNormal * outHit.PenetrationDepth;
+		MoveUpdatedComponent(resolveDelta, rotation, false);
+	}
 }

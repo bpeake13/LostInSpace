@@ -59,8 +59,6 @@ void APlayerPlanetPawn::OnVertical(float val)
 	FRotator directionRotator = FRotator(-rotationDegrees, 0, 0);
 	FVector moveDirection = directionRotator.RotateVector(FVector::ForwardVector);
 
-	UE_LOG(LogTemp, Warning, TEXT("%s"), *moveDirection.ToString());
-
 	PlanatoidMovement->AddInputVector(moveDirection * val);
 }
 

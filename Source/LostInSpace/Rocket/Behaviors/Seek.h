@@ -17,7 +17,5 @@ class LOSTINSPACE_API USeek : public UHSMActionNode
 {
 	GENERATED_BODY()
 protected:
-	void Execute(UHierarchicalStateMachine* machine) override;
-
 	void Tick(UHierarchicalStateMachine* machine) override;
 };

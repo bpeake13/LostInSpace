@@ -3,7 +3,9 @@
 #include "LostInSpace.h"
 #include "HSMActionNode.h"
 
-UHSMActionNode::UHSMActionNode(){}
+UHSMActionNode::UHSMActionNode()
+: Super()
+{}
 
 void UHSMActionNode::Execute(UHierarchicalStateMachine* machine)
 {

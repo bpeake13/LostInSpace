@@ -50,13 +50,15 @@ void ASpaceOverworld::SpawnNavPoints()
 	SpawnParams.Owner = this;
 	UWorld* const World = this->GetWorld();
 	float spacing = 1000.f;
-	int32 width = 10, height = 10;
+	int32 width = 30, height = 30;
 	for (int32 i = 0; i < width; i++)
 	{
 		for (int32 j = 0; j < height; j++)
 		{
 			ASpaceNavPointActor* const NavPointPos = World->SpawnActor<ASpaceNavPointActor>(NavPointClass, FVector(i * spacing, j * spacing, 0.f), FVector::ZeroVector.Rotation(), SpawnParams);
+			NavPointPos->SetNavPointRadius(1300.f);
 			ASpaceNavPointActor* const NavPointNeg = World->SpawnActor<ASpaceNavPointActor>(NavPointClass, FVector(i * -spacing, j * -spacing, 0.f), FVector::ZeroVector.Rotation(), SpawnParams);
+			NavPointNeg->SetNavPointRadius(1300.f);
 		}
 	}
 	

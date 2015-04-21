@@ -4,10 +4,16 @@
 #include "BaseEnemyPawn.h"
 
 ABaseEnemyPawn::ABaseEnemyPawn()
+	:Super()
 {
 	HSM = CreateDefaultSubobject<UHierarchicalStateMachine>("Hierarchical State Machine");
 
 	ProjectileClass = AProjectile::StaticClass();
+
+	VisionRadius = 500.f;
+
+	FireCooldown = 3.f;
+	fireCooldownTimer = 3.f;
 }
 
 void ABaseEnemyPawn::BeginPlay()
@@ -24,6 +30,9 @@ void ABaseEnemyPawn::Tick(float DeltaSeconds)
 
 	if (HSM)
 		HSM->Tick(DeltaSeconds);
+
+	if (fireCooldownTimer > 0)
+		fireCooldownTimer -= DeltaSeconds;
 }
 
 bool ABaseEnemyPawn::MoveTo(const FVector& location, const float force, const float tolerance)
@@ -61,8 +70,13 @@ bool ABaseEnemyPawn::MoveTo(const FVector& location, const float force, const fl
 	return false;
 }
 
-void ABaseEnemyPawn::Fire()
+void ABaseEnemyPawn::Fire(const FVector& direction)
 {
+	if (fireCooldownTimer > 0)
+		return;
+
+	fireCooldownTimer = FireCooldown;
+
 	UWorld* const World = GetWorld();
 	UPrimitiveComponent* rootPrimitive = Cast<UPrimitiveComponent>(RootComponent);
 
@@ -70,15 +84,18 @@ void ABaseEnemyPawn::Fire()
 	{
 		FActorSpawnParameters SpawnParams;
 		SpawnParams.Owner = this;
-		SpawnParams.Instigator = Instigator;
+		SpawnParams.Instigator = this;
 
-		FVector FireLocation = rootPrimitive->GetForwardVector();
-		FRotator FireRotation = rootPrimitive->GetComponentRotation();
+		FVector FireLocation = rootPrimitive->GetComponentLocation() + direction * (rootPrimitive->Bounds.GetSphere().W + 100.f);
 
 		// spawn the projectile at the muzzle
-		AProjectile* const Projectile = World->SpawnActor<AProjectile>(ProjectileClass, FireLocation, FireRotation, SpawnParams);
-		Projectile->SetImpulseVector(FireRotation.Vector());
+		AProjectile* const Projectile = World->SpawnActor<AProjectile>(ProjectileClass,	FireLocation, direction.Rotation(), SpawnParams);
 	}
+}
+
+bool ABaseEnemyPawn::CanSeePlayer()
+{
+	return GetActorLocation().SizeSquared() <= VisionRadius * VisionRadius;
 }
 
 

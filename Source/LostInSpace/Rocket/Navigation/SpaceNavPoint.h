@@ -49,6 +49,9 @@ public:
 
 	virtual void Build();
 
+	FORCEINLINE float GetRadius() { return Radius; }
+	FORCEINLINE void SetRadius(float val){ Radius = val; }
+
 protected:
 	UPROPERTY(BlueprintReadOnly, EditAnywhere, Category = "Pathfinding")
 	float Radius;

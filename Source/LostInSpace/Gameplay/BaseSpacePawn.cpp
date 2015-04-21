@@ -6,8 +6,11 @@
 
 // Sets default values
 ABaseSpacePawn::ABaseSpacePawn()
+	: Super()
 {
- 	
+	MaxHealth = 100.f;
+	CurrentHealth = MaxHealth;
+	bIsDead = false;
 }
 
 void ABaseSpacePawn::InitRoot()
@@ -20,4 +23,27 @@ void ABaseSpacePawn::InitRoot()
 	rootPrimitive->SetEnableGravity(false);
 	rootPrimitive->SetAngularDamping(10000.f);
 	rootPrimitive->SetLinearDamping(0.1f);
+}
+
+float ABaseSpacePawn::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	CurrentHealth -= Damage;
+	if (CurrentHealth <= 0.f)
+	{
+		CurrentHealth = 0.f;
+		Kill(Damage, DamageCauser, DamageEvent);
+	}
+
+	return Damage;
+}
+
+void ABaseSpacePawn::Kill(float damage, AActor* damageCauser, FDamageEvent const& damageEvent)
+{
+	bIsDead = true;
+	OnKilled(damage, damageCauser, damageEvent);
+}
+
+void ABaseSpacePawn::OnKilled(float damage, AActor* damageCauser, FDamageEvent const& damageEvent)
+{
+	Destroy();
 }

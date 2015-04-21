@@ -17,9 +17,6 @@ public:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-	FORCEINLINE void SetImpulseVector(FVector impulseVector){ this->impulseVector = impulseVector; }
-	FORCEINLINE FVector GetImpulseVector(){ return impulseVector; }
-
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Projectile")
 	float FiringSpeed;
@@ -32,6 +29,4 @@ protected:
 	virtual void OnHit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
 
 private:
-	
-	FVector impulseVector;
 };

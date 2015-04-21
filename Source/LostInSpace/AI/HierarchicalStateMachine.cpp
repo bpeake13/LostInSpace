@@ -5,6 +5,7 @@
 #include "HSMNode.h"
 
 UHierarchicalStateMachine::UHierarchicalStateMachine()
+	: Super()
 {
 }
 

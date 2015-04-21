@@ -22,7 +22,7 @@ public:
 
 protected:
 	/*Try and move along the current defined ground plane*/
-	virtual bool MoveAlongGround(const FTickParams& tickParams, FHitResult& hit);
+	virtual bool MoveAlongGround(const FTickParams& tickParams, FHitResult& hit, FVector& delta);
 
 	/*Tries to move the updated component to the ground, if we find ground then we will return true*/
 	virtual bool FindGround(const FTickParams& tickParams, FHitResult& floorResult);

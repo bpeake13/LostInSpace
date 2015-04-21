@@ -15,6 +15,9 @@ public:
 	// Sets default values for this actor's properties
 	ASpaceNavPointActor();
 
+	float GetNavPointRadius() const;
+	void SetNavPointRadius(float val);
+
 protected:
 	UPROPERTY(BlueprintReadOnly, Category = "Navigation")
 	USpaceNavPoint* NavComponent;

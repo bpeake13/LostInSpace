@@ -45,12 +45,17 @@ void UGroundPlanatoidMovementMode::IteratePhysics(const FTickParams& tickParams,
 		}
 	}
 
-	bool couldMoveOnGround = MoveAlongGround(tickParams, hit);
+	FVector delta;
+	bool couldMoveOnGround = MoveAlongGround(tickParams, hit, delta);
 
 	//If we couldn't move along the ground then attempt to figure out what the condition was
 	if (!couldMoveOnGround)
 	{
+		bool canStep = TryStepUp(tickParams, hit, delta, hit);
+		if (!canStep)
+		{
 
+		}
 	}
 
 	//find ground, if we do not have ground start falling
@@ -91,27 +96,27 @@ bool UGroundPlanatoidMovementMode::FindGround(const FTickParams& tickParams, FHi
 	tickParams.Owner->SlideAlongSurface(stepDown, 1.f - floorResult.Time, floorResult.ImpactNormal, result, false);
 
 	//if we are on standable ground then we can quit
-	if (tickParams.Owner->CanStand(result))
+	/*if (tickParams.Owner->CanStand(result))
 	{
 		floorResult = result;
 		return true;
-	}
+	}*/
 
 	//if we get nothing or hit something that is not a ground surface then just call out early
 	scopeMove.RevertMove();
 	return false;
 }
 
-bool UGroundPlanatoidMovementMode::MoveAlongGround(const FTickParams& tickParams, FHitResult& hit)
+bool UGroundPlanatoidMovementMode::MoveAlongGround(const FTickParams& tickParams, FHitResult& hit, FVector& moveDelta)
 {
 	//create the scaled input acceleration that will travel along the ground
 	FVector inputAcceleration = tickParams.InputVector * tickParams.Owner->GetGroundAccleration();
 	inputAcceleration = FVector::VectorPlaneProject(inputAcceleration, lastGroundHit.ImpactNormal);
 
 	//the total acceleration will be the acceleration caused by the world + that caused by input along the ground
-	FVector totalAccleration = inputAcceleration + tickParams.Acceleration;
+	FVector totalAcceleration = inputAcceleration + tickParams.Acceleration;
 
-	FVector newVelocity = CalculateVelocity(tickParams.Owner->Velocity, totalAccleration, tickParams.TimeSlice);
+	FVector newVelocity = CalculateVelocity(tickParams.Owner->Velocity, totalAcceleration, tickParams.TimeSlice);
 	newVelocity = newVelocity.GetClampedToMaxSize(tickParams.Owner->GetMaxGroundSpeed());
 
 	FVector velocityDirection = newVelocity.GetSafeNormal();
@@ -129,11 +134,22 @@ bool UGroundPlanatoidMovementMode::MoveAlongGround(const FTickParams& tickParams
 			newVelocity = FVector::ZeroVector;
 	}
 
-	FVector delta = CalculateDelta(tickParams.Owner->Velocity, newVelocity, tickParams.TimeSlice);
-	delta = FVector::VectorPlaneProject(delta, lastGroundHit.ImpactNormal);
+	moveDelta = CalculateDelta(tickParams.Owner->Velocity, newVelocity, tickParams.TimeSlice);
+	moveDelta = FVector::VectorPlaneProject(moveDelta, lastGroundHit.ImpactNormal);
 
 	//move the component by its tangental movement
-	tickParams.Owner->MoveComponent(delta, false, hit);
+	tickParams.Owner->MoveComponent(moveDelta, false, hit);
+
+	if (hit.Time < 1.f)
+		UE_LOG(LogTemp, Log, TEXT("%f"), hit.Time);
+
+	if (hit.IsValidBlockingHit())
+	{
+		if (tickParams.Owner->CanStand(hit))
+			lastGroundHit = hit;
+		else
+			return false;
+	}
 
 	return true;
 }
@@ -160,8 +176,9 @@ bool UGroundPlanatoidMovementMode::TryStepUp(const FTickParams& tickParams, cons
 		stepScope.RevertMove();
 		return false;
 	}
-
-	FVector deltaLeft = delta * moveLeft;
+	
+	FVector deltaDirection = delta.GetSafeNormal();
+	FVector deltaLeft = delta * moveLeft + deltaDirection * tickParams.Owner->UpdatedPrimitive->Bounds.GetSphere().W * 0.01f;
 
 	tickParams.Owner->MoveComponent(deltaLeft, false, hitResult);
 	

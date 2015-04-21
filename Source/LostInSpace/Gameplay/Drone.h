@@ -9,7 +9,7 @@
  * 
  */
 UCLASS()
-class LOSTINSPACE_API ADrone : public ABaseEnemyPawn
+class ADrone : public ABaseEnemyPawn
 {
 	GENERATED_BODY()
 public:

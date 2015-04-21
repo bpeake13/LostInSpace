@@ -19,3 +19,13 @@ ASpaceNavPointActor::ASpaceNavPointActor()
 #endif
 	
 }
+
+float ASpaceNavPointActor::GetNavPointRadius() const
+{
+	return NavComponent->GetRadius();
+}
+
+void ASpaceNavPointActor::SetNavPointRadius(float val)
+{
+	NavComponent->SetRadius(val);
+}

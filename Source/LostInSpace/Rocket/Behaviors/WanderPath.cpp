@@ -9,13 +9,18 @@
 UWanderPath::UWanderPath()
 {
 	ReCalculateTime = 10.f;
-	FixTime = 0.1f;
+	FixTime = 1.f;
 
 	MaxWanderRange = 500000.f;
+	MoveForce = 5000.f;
+
+	NodeChangeDistance = 1000.f;
 }
 
 void UWanderPath::Tick(UHierarchicalStateMachine* machine)
 {
+	UE_LOG(LogTemp, Log, TEXT("Wandering"));
+
 	ABaseEnemyPawn* pawn = Cast<ABaseEnemyPawn>(machine->GetOwnerActor());
 	if (!pawn)
 		return;
@@ -45,5 +50,15 @@ void UWanderPath::Tick(UHierarchicalStateMachine* machine)
 
 		if (pawn->MoveTo(next->GetComponentLocation(), MoveForce, NodeChangeDistance))
 			path.RemoveAt(0);
+	}
+
+	FVector lastLocation = pawn->GetActorLocation();
+	for (USpaceNavPoint* navPoint : path)
+	{
+		FVector current = navPoint->GetComponentLocation();
+
+		DrawDebugLine(pawn->GetWorld(), lastLocation, current, FColor::Green, false, -1.f, 15, 50.f);
+
+		lastLocation = current;
 	}
 }

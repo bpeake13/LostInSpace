@@ -20,7 +20,16 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	bool MoveTo(const FVector& location, const float force, const float tolerance);
 
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	bool CanSeePlayer();
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	virtual void Fire(const FVector& direction);
+
 protected:
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "AI")
+	float VisionRadius;
+
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Instanced, Category = "AI")
 	UHierarchicalStateMachine* HSM;
 
@@ -31,12 +40,15 @@ protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Projectile")
 	TSubclassOf<AProjectile> ProjectileClass;
 
-	UFUNCTION(BlueprintCallable, Category = "Movement")
-	virtual void Fire();
-
 	//Tick function
 	virtual void Tick(float DeltaSeconds) override;
 
 	virtual void BeginPlay() override;
 
+protected:
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Weapon")
+	float FireCooldown;
+
+private:
+	float fireCooldownTimer;
 };

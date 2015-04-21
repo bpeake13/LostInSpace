@@ -6,6 +6,7 @@
 
 // Sets default values
 AProjectile::AProjectile()
+	: Super()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Root"));
@@ -19,17 +20,17 @@ AProjectile::AProjectile()
 
 	FiringSpeed = 1000.f;
 	Damage = 1.f;
-
-	impulseVector = FVector::ZeroVector;
 }
 
 // Called when the game starts or when spawned
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	SphereComponent->AddImpulse(impulseVector * FiringSpeed);
+	SphereComponent->AddImpulse(GetActorRotation().Vector() * FiringSpeed, NAME_None, true);
 
 	SphereComponent->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+
+	SphereComponent->MoveIgnoreActors.Add(Instigator);
 }
 
 void AProjectile::OnHit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
