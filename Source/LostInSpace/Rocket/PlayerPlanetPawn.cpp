@@ -23,6 +23,30 @@ APlayerPlanetPawn::APlayerPlanetPawn()
 	Mesh->AttachParent = RootComponent;
 
 	PlanatoidMovement = CreateDefaultSubobject<UPawnPlanatoidMovementComponent>(TEXT("PlanetMovement"));
+
+	// Create a camera boom...
+	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
+	CameraBoom->AttachTo(RootComponent);
+	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
+	CameraBoom->TargetArmLength = 900.0f;
+	CameraBoom->RelativeRotation = FRotator(-90.f, 0.f, 0.f);
+	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
+
+	// Create a camera...
+	TopDownCameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("TopDownCamera"));
+	TopDownCameraComponent->AttachTo(CameraBoom, USpringArmComponent::SocketName);
+	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+
+	DetectionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("DetectionBox"));
+	DetectionBox->SetBoxExtent(FVector(1000.f, 1000.f, 200.f), true);
+	DetectionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
+	DetectionBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
+	DetectionBox->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
+
+	DetectionBox->bAbsoluteRotation = true; //Don't want to rotate the range when the character does
+	DetectionBox->ShapeColor = FColor::Red;
+	DetectionBox->OnComponentBeginOverlap.AddDynamic(this, &APlayerPlanetPawn::OnDetectionEnter);
+	DetectionBox->OnComponentEndOverlap.AddDynamic(this, &APlayerPlanetPawn::OnDetectionExit);
 }
 
 // Called when the game starts or when spawned
@@ -75,4 +99,15 @@ void APlayerPlanetPawn::OnHorizontal(float val)
 
 	PlanatoidMovement->AddInputVector(moveDirection * val);
 }
+
+void APlayerPlanetPawn::OnDetectionEnter(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Actor Entered!");
+}
+
+void APlayerPlanetPawn::OnDetectionExit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Actor Left!");
+}
+
 
