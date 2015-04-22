@@ -24,7 +24,10 @@ public:
 	// Called to bind functionality to input
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent) override;
 
+	UFUNCTION()
 	void OnDetectionEnter(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult);
+	
+	UFUNCTION()
 	void OnDetectionExit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex);
 
 
@@ -45,7 +48,7 @@ protected:
 	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Movement")
 	UPawnPlanatoidMovementComponent* PlanatoidMovement;
 
-	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Camera")
+	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Collision")
 	UBoxComponent* DetectionBox;
 
 	/** Top down camera */

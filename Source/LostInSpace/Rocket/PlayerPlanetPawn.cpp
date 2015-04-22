@@ -38,15 +38,13 @@ APlayerPlanetPawn::APlayerPlanetPawn()
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	DetectionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("DetectionBox"));
-	DetectionBox->SetBoxExtent(FVector(1000.f, 1000.f, 200.f), true);
-	DetectionBox->SetCollisionEnabled(ECollisionEnabled::QueryOnly);
-	DetectionBox->SetCollisionResponseToAllChannels(ECollisionResponse::ECR_Ignore);
-	DetectionBox->SetCollisionResponseToChannel(ECollisionChannel::ECC_Pawn, ECollisionResponse::ECR_Overlap);
+	DetectionBox->SetBoxExtent(FVector(1000.f, 1000.f, 500.f), true);
+	DetectionBox->bGenerateOverlapEvents = true;
+	DetectionBox->BodyInstance.SetCollisionProfileName("DetectionField");
 
 	DetectionBox->bAbsoluteRotation = true; //Don't want to rotate the range when the character does
 	DetectionBox->ShapeColor = FColor::Red;
-	DetectionBox->OnComponentBeginOverlap.AddDynamic(this, &APlayerPlanetPawn::OnDetectionEnter);
-	DetectionBox->OnComponentEndOverlap.AddDynamic(this, &APlayerPlanetPawn::OnDetectionExit);
+	DetectionBox->AttachParent = RootComponent;
 }
 
 // Called when the game starts or when spawned
@@ -54,6 +52,8 @@ void APlayerPlanetPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	
+	DetectionBox->OnComponentBeginOverlap.AddDynamic(this, &APlayerPlanetPawn::OnDetectionEnter);
+	DetectionBox->OnComponentEndOverlap.AddDynamic(this, &APlayerPlanetPawn::OnDetectionExit);
 }
 
 // Called every frame
@@ -68,7 +68,7 @@ void APlayerPlanetPawn::SetupPlayerInputComponent(class UInputComponent* InputCo
 {
 	InputComponent->BindAxis("Vertical", this, &APlayerPlanetPawn::OnVertical);
 	InputComponent->BindAxis("Horizontal", this, &APlayerPlanetPawn::OnHorizontal);
-
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Debug Test");
 	Super::SetupPlayerInputComponent(InputComponent);
 }
 
