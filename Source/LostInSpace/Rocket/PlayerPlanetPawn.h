@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
+#include "../Gameplay/Projectile.h"
 #include "LostInSpaceClasses.h"
 #include "PlayerPlanetPawn.generated.h"
 
@@ -38,10 +39,16 @@ private:
 	UFUNCTION()
 	void OnHorizontal(float val);
 
+	UFUNCTION()
+	void Fire();
+
+	float fireCooldownTimer;
+
 	//The center of the camera
 	FVector CameraOffset;
 
 	//The height of the camera in the scene
+	float BaseCameraHeight;
 	float CameraHeight;
 
 	//Calculates the average of the enemies in the detection field
@@ -71,6 +78,12 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Collision")
 	TArray<AActor*> DetectedEnemies;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Projectile")
+	TSubclassOf<AProjectile> ProjectileClass;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Weapon")
+	float FireCooldown;
 
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

@@ -29,7 +29,8 @@ APlayerPlanetPawn::APlayerPlanetPawn()
 	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
 	
 	//Init Camera variables
-	CameraHeight = 500.f;
+	BaseCameraHeight = 500.f;
+	CameraHeight = BaseCameraHeight;
 	maxX = 0.f, maxY = 0.f, minX = 0.f, minY = 0.f;
 	
 	CameraBoom->TargetArmLength = CameraHeight;
@@ -49,6 +50,10 @@ APlayerPlanetPawn::APlayerPlanetPawn()
 	DetectionBox->bAbsoluteRotation = true; //Don't want to rotate the range when the character does
 	DetectionBox->ShapeColor = FColor::Red;
 	DetectionBox->AttachParent = RootComponent;
+
+	ProjectileClass = AProjectile::StaticClass();
+	FireCooldown = 3.f;
+	fireCooldownTimer = 3.f;
 }
 
 // Called when the game starts or when spawned
@@ -65,6 +70,9 @@ void APlayerPlanetPawn::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
 	CheckCamera(DeltaTime);
+
+	if (fireCooldownTimer > 0)
+		fireCooldownTimer -= DeltaTime;
 }
 
 void APlayerPlanetPawn::CheckCamera( float DeltaTime ){
@@ -126,7 +134,7 @@ float APlayerPlanetPawn::CalculateCameraHeight()
 		}
 	}
 	else {
-		result = 500.f;
+		result = BaseCameraHeight;
 		return result;
 	}
 
@@ -138,11 +146,11 @@ float APlayerPlanetPawn::CalculateCameraHeight()
 	float const AspectRatio = TopDownCameraComponent->AspectRatio;
 	if (width > height){
 		newHeight = width / AspectRatio;
-		result = (CameraHeight / height) * newHeight;
+		result = (BaseCameraHeight / height) * newHeight;
 	}
 	else{
 		newWidth = height * AspectRatio;
-		result = (CameraHeight / width) * newWidth;
+		result = (BaseCameraHeight / width) * newWidth;
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Camera Height: " + FString::SanitizeFloat(result));
 	return result;
@@ -153,6 +161,7 @@ void APlayerPlanetPawn::SetupPlayerInputComponent(class UInputComponent* InputCo
 {
 	InputComponent->BindAxis("Vertical", this, &APlayerPlanetPawn::OnVertical);
 	InputComponent->BindAxis("Horizontal", this, &APlayerPlanetPawn::OnHorizontal);
+	InputComponent->BindAction("Fire", IE_Pressed, this, &APlayerPlanetPawn::Fire);
 	Super::SetupPlayerInputComponent(InputComponent);
 }
 
@@ -182,6 +191,33 @@ void APlayerPlanetPawn::OnHorizontal(float val)
 	FVector moveDirection = directionRotator.RotateVector(FVector(0, 1, 0));
 
 	PlanatoidMovement->AddInputVector(moveDirection * val);
+}
+
+void APlayerPlanetPawn::Fire()
+{
+	FVector direction = this->GetActorForwardVector();
+
+	if (fireCooldownTimer > 0)
+		return;
+
+	fireCooldownTimer = FireCooldown;
+
+	UWorld* const World = GetWorld();
+	UPrimitiveComponent* rootPrimitive = Cast<UPrimitiveComponent>(RootComponent);
+
+	if (World)
+	{
+		FActorSpawnParameters SpawnParams;
+		SpawnParams.Owner = this;
+		SpawnParams.Instigator = this;
+
+		FVector FireLocation = rootPrimitive->GetComponentLocation() + direction * (rootPrimitive->Bounds.GetSphere().W + 100.f);
+
+		// spawn the projectile at the muzzle
+		AProjectile* const Projectile = World->SpawnActor<AProjectile>(ProjectileClass, FireLocation, direction.Rotation(), SpawnParams);
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Projectile Fired!");
+
+	}
 }
 
 void APlayerPlanetPawn::OnDetectionEnter(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
