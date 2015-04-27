@@ -79,7 +79,7 @@ void APlayerPlanetPawn::CheckCamera( float DeltaTime ){
 	float deltaTime = this->GetWorld()->GetDeltaSeconds();
 	
 	if (DetectedEnemies.Num() > 0){
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "SocketOffset: " + CameraBoom->SocketOffset.ToString());
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "SocketOffset: " + CameraBoom->SocketOffset.ToString());
 		CameraBoom->TargetOffset = FMath::VInterpTo(this->GetActorLocation(), CameraOffset, deltaTime, 2.f);
 		CameraBoom->TargetArmLength = FMath::FInterpTo(CameraBoom->TargetArmLength, CameraHeight, deltaTime, 2.f);
 	}
@@ -161,7 +161,7 @@ void APlayerPlanetPawn::SetupPlayerInputComponent(class UInputComponent* InputCo
 {
 	InputComponent->BindAxis("Vertical", this, &APlayerPlanetPawn::OnVertical);
 	InputComponent->BindAxis("Horizontal", this, &APlayerPlanetPawn::OnHorizontal);
-	InputComponent->BindAction("Fire", IE_Pressed, this, &APlayerPlanetPawn::Fire);
+	InputComponent->BindAction("Fire", IE_Pressed, this, &APlayerPlanetPawn::OnFire);
 	Super::SetupPlayerInputComponent(InputComponent);
 }
 
@@ -193,17 +193,20 @@ void APlayerPlanetPawn::OnHorizontal(float val)
 	PlanatoidMovement->AddInputVector(moveDirection * val);
 }
 
-void APlayerPlanetPawn::Fire()
+void APlayerPlanetPawn::OnFire()
 {
-	FVector direction = this->GetActorForwardVector();
+	FVector actorForwardVector = this->GetActorForwardVector();
+	FVector direction = FVector(actorForwardVector.X, actorForwardVector.Y, 0.f);
 
+	
 	if (fireCooldownTimer > 0)
 		return;
-
+	
 	fireCooldownTimer = FireCooldown;
 
 	UWorld* const World = GetWorld();
 	UPrimitiveComponent* rootPrimitive = Cast<UPrimitiveComponent>(RootComponent);
+	//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "FKEY PRESSED");
 
 	if (World)
 	{
@@ -215,7 +218,7 @@ void APlayerPlanetPawn::Fire()
 
 		// spawn the projectile at the muzzle
 		AProjectile* const Projectile = World->SpawnActor<AProjectile>(ProjectileClass, FireLocation, direction.Rotation(), SpawnParams);
-		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Projectile Fired!");
+		//GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Projectile Fired!");
 
 	}
 }

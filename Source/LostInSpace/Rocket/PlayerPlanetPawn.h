@@ -40,7 +40,7 @@ private:
 	void OnHorizontal(float val);
 
 	UFUNCTION()
-	void Fire();
+	void OnFire();
 
 	float fireCooldownTimer;
 
