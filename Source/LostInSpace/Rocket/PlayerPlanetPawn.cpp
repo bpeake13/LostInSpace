@@ -28,7 +28,8 @@ APlayerPlanetPawn::APlayerPlanetPawn()
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->AttachTo(RootComponent);
 	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
-	CameraBoom->TargetArmLength = 700.0f;
+	CameraHeight = 500.f;
+	CameraBoom->TargetArmLength = CameraHeight;
 	CameraBoom->RelativeRotation = FRotator(-90.f, 0.f, 0.f);
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
@@ -38,7 +39,7 @@ APlayerPlanetPawn::APlayerPlanetPawn()
 	TopDownCameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
 
 	DetectionBox = CreateDefaultSubobject<UBoxComponent>(TEXT("DetectionBox"));
-	DetectionBox->SetBoxExtent(FVector(1000.f, 1000.f, 500.f), true);
+	DetectionBox->SetBoxExtent(FVector(2000.f, 2000.f, 1000.f), true);
 	DetectionBox->bGenerateOverlapEvents = true;
 	DetectionBox->BodyInstance.SetCollisionProfileName("DetectionField");
 
@@ -65,13 +66,15 @@ void APlayerPlanetPawn::Tick( float DeltaTime )
 
 void APlayerPlanetPawn::CheckCamera( float DeltaTime ){
 	float deltaTime = this->GetWorld()->GetDeltaSeconds();
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "SocketOffset: " + CameraBoom->SocketOffset.ToString());
+	
 	if (DetectedEnemies.Num() > 0){
-		CameraBoom->TargetOffset = FMath::VInterpTo(this->GetActorLocation(), CameraOffset, deltaTime, 100.f);
-		CameraBoom->TargetArmLength = FMath::FInterpTo(700.f, 150.0f, deltaTime, 2);
+		GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "SocketOffset: " + CameraBoom->SocketOffset.ToString());
+		CameraBoom->TargetOffset = FMath::VInterpTo(this->GetActorLocation(), CameraOffset, deltaTime, 2.f);
+		CameraBoom->TargetArmLength = FMath::FInterpTo(CameraBoom->TargetArmLength, CameraHeight, deltaTime, 2.f);
 	}
 	else {
-		CameraBoom->TargetOffset = FMath::VInterpTo(CameraBoom->TargetOffset, this->GetActorLocation(), deltaTime, 100.f);
+		CameraBoom->TargetOffset = FMath::VInterpTo(CameraBoom->TargetOffset, this->GetActorLocation(), deltaTime, 2.f);
+		CameraBoom->TargetArmLength = FMath::FInterpTo(CameraHeight, 500.f, deltaTime, 2.f);
 	}
 	
 }
@@ -91,6 +94,57 @@ FVector APlayerPlanetPawn::CalculateCameraOffset()
 		}
 		result = result / numEnemies;
 	}
+	return result;
+}
+
+//Calculate the height of the camera based on the objects within the detection radius
+float APlayerPlanetPawn::CalculateCameraHeight()
+{
+	float result = 0.f;
+
+	//Containers for maximums/minimums of actor locations
+	float maxX = 0.f, maxY = 0.f, minX = 0.f, minY = 0.f;
+	
+	//Used when minX/Y and maxX/Y are obtained;
+	float width, height;
+	
+	if (DetectedEnemies.Num() > 0){
+		for (auto Iter(DetectedEnemies.CreateIterator()); Iter; Iter++)
+		{
+			// *Iter to access what this iterator is pointing to.
+			if (maxX < (*Iter)->GetActorLocation().X)
+				maxX = (*Iter)->GetActorLocation().X;
+
+			if (maxY < (*Iter)->GetActorLocation().Y)
+				maxY = (*Iter)->GetActorLocation().Y;
+
+			if (minX > (*Iter)->GetActorLocation().X)
+				minX = (*Iter)->GetActorLocation().X;
+
+			if (minY > (*Iter)->GetActorLocation().Y)
+				minY = (*Iter)->GetActorLocation().Y;
+		}
+	}
+	else {
+		result = 500.f;
+		return result;
+	}
+
+	width = maxX - minX;
+	height = maxY - minY;
+
+	float newWidth, newHeight;
+
+	float const AspectRatio = TopDownCameraComponent->AspectRatio;
+	if (width > height){
+		newHeight = height * AspectRatio;
+		result = (CameraHeight / height) * newHeight;
+	}
+	else{
+		newWidth = width * AspectRatio;
+		result = (CameraHeight / width) * newWidth;
+	}
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Camera Height: " + FString::SanitizeFloat(result));
 	return result;
 }
 
@@ -135,6 +189,8 @@ void APlayerPlanetPawn::OnDetectionEnter(class AActor* OtherActor, class UPrimit
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Actor Entered!");
 	DetectedEnemies.Add(OtherActor);
 	CameraOffset = CalculateCameraOffset();
+	CameraHeight = CalculateCameraHeight();
+
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Planet Location: " + this->GetActorLocation().ToString());
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Calculated Vector: " + CameraOffset.ToString());
 }
@@ -144,6 +200,7 @@ void APlayerPlanetPawn::OnDetectionExit(class AActor* OtherActor, class UPrimiti
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Actor Left!");
 	if (DetectedEnemies.Num() > 0){
 		DetectedEnemies.Remove(OtherActor);
+		CameraHeight = CalculateCameraHeight();
 	}
 }
 

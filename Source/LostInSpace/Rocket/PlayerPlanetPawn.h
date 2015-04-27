@@ -38,8 +38,19 @@ private:
 	UFUNCTION()
 	void OnHorizontal(float val);
 
+	//The center of the camera
 	FVector CameraOffset;
+
+	//The height of the camera in the scene
+	float CameraHeight;
+
+	//Calculates the average of the enemies in the detection field
 	FVector CalculateCameraOffset();
+
+	//Calculates the average of the enemies in the detection field
+	float CalculateCameraHeight();
+
+	//Interpolate camera to the center of the actor field
 	void CheckCamera(float DeltaTime);
 
 protected:
