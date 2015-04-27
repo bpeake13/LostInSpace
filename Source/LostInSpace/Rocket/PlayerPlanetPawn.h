@@ -38,6 +38,10 @@ private:
 	UFUNCTION()
 	void OnHorizontal(float val);
 
+	FVector CameraOffset;
+	FVector CalculateCameraOffset();
+	void CheckCamera(float DeltaTime);
+
 protected:
 	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Movement")
 	UCapsuleComponent* PlayerCapsule;
@@ -50,6 +54,9 @@ protected:
 
 	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Collision")
 	UBoxComponent* DetectionBox;
+
+	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Collision")
+	TArray<AActor*> DetectedEnemies;
 
 	/** Top down camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))

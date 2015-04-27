@@ -28,7 +28,7 @@ APlayerPlanetPawn::APlayerPlanetPawn()
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->AttachTo(RootComponent);
 	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
-	CameraBoom->TargetArmLength = 900.0f;
+	CameraBoom->TargetArmLength = 700.0f;
 	CameraBoom->RelativeRotation = FRotator(-90.f, 0.f, 0.f);
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
 
@@ -60,7 +60,38 @@ void APlayerPlanetPawn::BeginPlay()
 void APlayerPlanetPawn::Tick( float DeltaTime )
 {
 	Super::Tick( DeltaTime );
+	CheckCamera(DeltaTime);
+}
 
+void APlayerPlanetPawn::CheckCamera( float DeltaTime ){
+	float deltaTime = this->GetWorld()->GetDeltaSeconds();
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "SocketOffset: " + CameraBoom->SocketOffset.ToString());
+	if (DetectedEnemies.Num() > 0){
+		CameraBoom->TargetOffset = FMath::VInterpTo(this->GetActorLocation(), CameraOffset, deltaTime, 100.f);
+		CameraBoom->TargetArmLength = FMath::FInterpTo(700.f, 150.0f, deltaTime, 2);
+	}
+	else {
+		CameraBoom->TargetOffset = FMath::VInterpTo(CameraBoom->TargetOffset, this->GetActorLocation(), deltaTime, 100.f);
+	}
+	
+}
+
+// We want to take the average position of all the entities within the detection radius
+FVector APlayerPlanetPawn::CalculateCameraOffset()
+{
+	FVector result = FVector::ZeroVector;
+	int32 numEnemies = DetectedEnemies.Num();
+
+	//If the array of detected enemies is not empty, then iterate and create an average of the positions
+	if (DetectedEnemies.Num() > 0){
+		for (auto Iter(DetectedEnemies.CreateIterator()); Iter; Iter++)
+		{
+			// *Iter to access what this iterator is pointing to.
+			result += (*Iter)->GetActorLocation();
+		}
+		result = result / numEnemies;
+	}
+	return result;
 }
 
 // Called to bind functionality to input
@@ -68,7 +99,6 @@ void APlayerPlanetPawn::SetupPlayerInputComponent(class UInputComponent* InputCo
 {
 	InputComponent->BindAxis("Vertical", this, &APlayerPlanetPawn::OnVertical);
 	InputComponent->BindAxis("Horizontal", this, &APlayerPlanetPawn::OnHorizontal);
-	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Debug Test");
 	Super::SetupPlayerInputComponent(InputComponent);
 }
 
@@ -103,11 +133,18 @@ void APlayerPlanetPawn::OnHorizontal(float val)
 void APlayerPlanetPawn::OnDetectionEnter(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Actor Entered!");
+	DetectedEnemies.Add(OtherActor);
+	CameraOffset = CalculateCameraOffset();
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Planet Location: " + this->GetActorLocation().ToString());
+	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Calculated Vector: " + CameraOffset.ToString());
 }
 
 void APlayerPlanetPawn::OnDetectionExit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, int32 OtherBodyIndex)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Actor Left!");
+	if (DetectedEnemies.Num() > 0){
+		DetectedEnemies.Remove(OtherActor);
+	}
 }
 
 
