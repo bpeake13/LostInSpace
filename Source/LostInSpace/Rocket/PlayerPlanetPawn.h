@@ -53,6 +53,9 @@ private:
 	//Interpolate camera to the center of the actor field
 	void CheckCamera(float DeltaTime);
 
+	//Containers for maximums/minimums of actor locations
+	float maxX; float maxY; float minX; float minY;
+
 protected:
 	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Movement")
 	UCapsuleComponent* PlayerCapsule;

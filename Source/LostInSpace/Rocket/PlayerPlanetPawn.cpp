@@ -4,7 +4,6 @@
 #include "Physics/Planatoid/PawnPlanatoidMovementComponent.h"
 #include "PlayerPlanetPawn.h"
 
-
 // Sets default values
 APlayerPlanetPawn::APlayerPlanetPawn()
 {
@@ -28,7 +27,11 @@ APlayerPlanetPawn::APlayerPlanetPawn()
 	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
 	CameraBoom->AttachTo(RootComponent);
 	CameraBoom->bAbsoluteRotation = true; // Don't want arm to rotate when character does
+	
+	//Init Camera variables
 	CameraHeight = 500.f;
+	maxX = 0.f, maxY = 0.f, minX = 0.f, minY = 0.f;
+	
 	CameraBoom->TargetArmLength = CameraHeight;
 	CameraBoom->RelativeRotation = FRotator(-90.f, 0.f, 0.f);
 	CameraBoom->bDoCollisionTest = false; // Don't want to pull camera in when it collides with level
@@ -101,9 +104,6 @@ FVector APlayerPlanetPawn::CalculateCameraOffset()
 float APlayerPlanetPawn::CalculateCameraHeight()
 {
 	float result = 0.f;
-
-	//Containers for maximums/minimums of actor locations
-	float maxX = 0.f, maxY = 0.f, minX = 0.f, minY = 0.f;
 	
 	//Used when minX/Y and maxX/Y are obtained;
 	float width, height;
@@ -137,11 +137,11 @@ float APlayerPlanetPawn::CalculateCameraHeight()
 
 	float const AspectRatio = TopDownCameraComponent->AspectRatio;
 	if (width > height){
-		newHeight = height * AspectRatio;
+		newHeight = width / AspectRatio;
 		result = (CameraHeight / height) * newHeight;
 	}
 	else{
-		newWidth = width * AspectRatio;
+		newWidth = height * AspectRatio;
 		result = (CameraHeight / width) * newWidth;
 	}
 	GEngine->AddOnScreenDebugMessage(-1, 15.0f, FColor::Red, "Camera Height: " + FString::SanitizeFloat(result));
