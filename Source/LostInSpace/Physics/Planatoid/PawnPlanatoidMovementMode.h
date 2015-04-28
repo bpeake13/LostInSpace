@@ -32,6 +32,10 @@ public:
 	FVector Acceleration;
 	/*The last input vector consumed*/
 	FVector InputVector;
+	/*Pointer to our movement base info*/
+	UPrimitiveComponent* BaseComponent;
+	/*Base bone*/
+	FName BaseBone;
 };
 
 USTRUCT()
@@ -50,6 +54,10 @@ public:
 	bool bWasHit;
 	/*The desired velocity - if bWasHit then this velocity will not be used*/
 	FVector OutVelocity;
+	/*The base component*/
+	UPrimitiveComponent* BaseComponent;
+	/*The base bone name*/
+	FName BaseBone;
 };
 
 /**

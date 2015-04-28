@@ -65,6 +65,10 @@ void UGroundPlanatoidMovementMode::IteratePhysics(const FTickParams& tickParams,
 		outReturn.OutNextMode = UFallingPlanatoidMovementMode::StaticClass();
 		return;
 	}
+
+	//give our base information
+	outReturn.BaseComponent = lastGroundHit.Component.Get();
+	outReturn.BaseBone = lastGroundHit.BoneName;
 }
 
 bool UGroundPlanatoidMovementMode::FindGround(const FTickParams& tickParams, FHitResult& floorResult)
@@ -93,7 +97,7 @@ bool UGroundPlanatoidMovementMode::FindGround(const FTickParams& tickParams, FHi
 	}
 
 	//otherwise slide along the surface
-	tickParams.Owner->SlideAlongSurface(stepDown, 1.f - floorResult.Time, floorResult.ImpactNormal, result, false);
+	//tickParams.Owner->SlideAlongSurface(stepDown, 1.f - floorResult.Time, floorResult.ImpactNormal, result, false);
 
 	//if we are on standable ground then we can quit
 	/*if (tickParams.Owner->CanStand(result))
@@ -116,7 +120,7 @@ bool UGroundPlanatoidMovementMode::MoveAlongGround(const FTickParams& tickParams
 	//the total acceleration will be the acceleration caused by the world + that caused by input along the ground
 	FVector totalAcceleration = inputAcceleration + tickParams.Acceleration;
 
-	FVector newVelocity = CalculateVelocity(tickParams.Owner->Velocity, totalAcceleration, tickParams.TimeSlice);
+	FVector newVelocity = CalculateVelocity(tickParams.Owner->GetRelativeVelocity(), totalAcceleration, tickParams.TimeSlice);
 	newVelocity = newVelocity.GetClampedToMaxSize(tickParams.Owner->GetMaxGroundSpeed());
 
 	FVector velocityDirection = newVelocity.GetSafeNormal();
@@ -134,7 +138,7 @@ bool UGroundPlanatoidMovementMode::MoveAlongGround(const FTickParams& tickParams
 			newVelocity = FVector::ZeroVector;
 	}
 
-	moveDelta = CalculateDelta(tickParams.Owner->Velocity, newVelocity, tickParams.TimeSlice);
+	moveDelta = CalculateDelta(tickParams.Owner->GetRelativeVelocity(), newVelocity, tickParams.TimeSlice);
 	moveDelta = FVector::VectorPlaneProject(moveDelta, lastGroundHit.ImpactNormal);
 
 	//move the component by its tangental movement

@@ -3,6 +3,8 @@
 #pragma once
 
 #include "GameFramework/Pawn.h"
+#include "LostInSpaceClasses.h"
+#include "Physics/Planatoid/PlanetBodyMovementComponent.h"
 #include "BaseSpacePawn.generated.h"
 
 UCLASS(abstract)
@@ -16,6 +18,14 @@ public:
 
 	void Kill(float damage, AActor* damageCauser, FDamageEvent const& damageEvent);
 
+	void AddForce(const FVector& force);
+
+	void AddAcceleration(const FVector& acceleration);
+
+	void AddImpulse(const FVector& impulse);
+
+	void AddVelocity(const FVector& velocity);
+
 protected:
 	void InitRoot();
 
@@ -23,13 +33,23 @@ protected:
 	 
 	virtual void OnKilled(float damage, AActor* damageCauser, FDamageEvent const& damageEvent);
 
+	UFUNCTION()
+	void OnHit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Gameplay")
 	float MaxHealth;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Movement")
+	float BounceVelocityConsumption;
 
 	UPROPERTY()
 	float CurrentHealth;
 
 	UPROPERTY()
 	bool bIsDead;
+
+protected:
+	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Movement")
+	UPlanetBodyMovementComponent* MovementComponent;
 };

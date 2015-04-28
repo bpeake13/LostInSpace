@@ -59,13 +59,13 @@ bool ABaseEnemyPawn::MoveTo(const FVector& location, const float force, const fl
 
 		if (distance <= disntanceToSlow + 10.f)
 		{
-			rootPrimitive->AddForce(-forceVector);
+			MovementComponent->AddForce(-forceVector);
 		}
 		else
-			rootPrimitive->AddForce(forceVector);
+			MovementComponent->AddForce(forceVector);
 	}
 	else
-		rootPrimitive->AddForce(forceVector);
+		MovementComponent->AddForce(forceVector);
 
 	return false;
 }

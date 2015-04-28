@@ -37,7 +37,10 @@ void AProjectile::OnHit(class AActor* OtherActor, class UPrimitiveComponent* Oth
 {
 	if (OtherActor && OtherActor != Instigator && OtherActor != this)
 	{
-		OtherActor->TakeDamage(Damage, FDamageEvent(), NULL, Instigator);
+		FPointDamageEvent damageEvent = FPointDamageEvent();
+		damageEvent.Damage = Damage;
+		damageEvent.HitInfo = Hit;
+		OtherActor->TakeDamage(Damage, damageEvent, NULL, Instigator);
 		Destroy();
 	}
 }

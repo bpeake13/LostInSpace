@@ -7,6 +7,59 @@
 #include "PlanatoidDataComponent.h"
 #include "PawnPlanatoidMovementComponent.generated.h"
 
+USTRUCT()
+struct FPawnPlanatoidPostPhysicsTickFunction : public FTickFunction
+{
+	GENERATED_USTRUCT_BODY()
+
+		/** CharacterMovementComponent that is the target of this tick **/
+	class UPawnPlanatoidMovementComponent* Target;
+
+	/**
+	* Abstract function actually execute the tick.
+	* @param DeltaTime - frame time to advance, in seconds
+	* @param TickType - kind of tick for this frame
+	* @param CurrentThread - thread we are executing on, useful to pass along as new tasks are created
+	* @param MyCompletionGraphEvent - completion event for this task. Useful for holding the completion of this task until certain child tasks are complete.
+	**/
+	virtual void ExecuteTick(float DeltaTime, enum ELevelTick TickType, ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent) override;
+
+	/** Abstract function to describe this tick. Used to print messages about illegal cycles in the dependency graph **/
+	virtual FString DiagnosticMessage() override;
+};
+
+USTRUCT()
+struct FPawnPlanatoidMovementBase
+{
+	GENERATED_USTRUCT_BODY()
+
+public:
+	FPawnPlanatoidMovementBase()
+	{
+		BaseComponent = NULL;
+		BaseBone = NAME_None;
+		ImpartedVelocity = FVector::ZeroVector;
+		RelativeVelocity = FVector::ZeroVector;
+		LastRelativePosition = FVector::ZeroVector;
+		PrePhysicsWorldPosition = FVector::ZeroVector;
+	}
+public:
+	/*The base component*/
+	UPrimitiveComponent* BaseComponent;
+	/*The base bone*/
+	FName BaseBone;
+	/*The velocity that was imparted from the base*/
+	FVector ImpartedVelocity;
+	/*The imparted velocity saved from the last calculation, this allows detatchment and re-atatchment inside a single frame*/
+	FVector SavedImpartedVelocity;
+	/*Velocity caused not by the base*/
+	FVector RelativeVelocity;
+	/*The last captured relative position*/
+	FVector LastRelativePosition;
+	/*Our position before the base object ticked*/
+	FVector PrePhysicsWorldPosition;
+};
+
 /**
  * 
  */
@@ -22,6 +75,8 @@ public:
 
 	virtual void PostLoad() override;
 
+	virtual void RegisterComponentTickFunctions(bool bRegister) override;
+
 	/*Add a force(M*A) to this object*/
 	void AddForce(const FVector& force);
 
@@ -30,6 +85,9 @@ public:
 
 	/*Moves the actor by a set delta*/
 	virtual void MoveComponent(const FVector& delta, bool fastMove, FHitResult& outHit);
+
+	/*Sets the base to move relative to*/
+	void SetBase(UPrimitiveComponent* newBase);
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	FVector GetUp() const;
@@ -55,7 +113,15 @@ public:
 
 	float FORCEINLINE GetBrakingDecceleration() { return BrakingDecceleration; }
 
+	FVector FORCEINLINE GetRelativeVelocity() { return baseInfo.RelativeVelocity; }
+
+	void FORCEINLINE SetRelativeVelocity(const FVector& newRelativeVelocity) { baseInfo.RelativeVelocity = newRelativeVelocity; }
+
+	FVector FORCEINLINE GetImpartedVelocity() { return baseInfo.ImpartedVelocity; }
+
 	bool CanStand(FHitResult groundHit) const;
+
+	void LateTickComponent(float DeltaTime, enum ELevelTick TickType, const FTickFunction *ThisTickFunction);
 protected:
 	UPlanatoidDataComponent* GetPlanatoidData() const;
 
@@ -66,6 +132,12 @@ protected:
 	virtual bool ShouldTick() const;
 
 	virtual FVector CalculateVelocity(float deltaTime, const FVector& inVelocity);
+
+	void TryChangeBase(UPrimitiveComponent* newBase, const FName& newBone);
+
+	void AttatchBase(UPrimitiveComponent* newBase, const FName& newBone);
+
+	void DetatchBase();
 private:
 	void ApplyForces();
 
@@ -118,6 +190,8 @@ private:
 	UPROPERTY(Transient)
 	UPlanatoidDataComponent* PlanatoidData;
 
+	UPROPERTY()
+	FPawnPlanatoidPostPhysicsTickFunction PostPhysicsTick;
 private:
 	FVector forceAccumulator;
 	FVector accelerationAccumulator;
@@ -132,4 +206,6 @@ private:
 	TMap<UClass*, UPawnPlanatoidMovementMode*> modeMap;
 
 	UPawnPlanatoidMovementMode* currentMode;
+
+	FPawnPlanatoidMovementBase baseInfo;
 };

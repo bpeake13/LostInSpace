@@ -7,7 +7,7 @@
 		{
 			"Name": "LostInSpace",
 			"Type": "Runtime",
-			"LoadingPhase": "Default"
+			"LoadingPhase": "PostEngineInit"
 		}
 	]
 }

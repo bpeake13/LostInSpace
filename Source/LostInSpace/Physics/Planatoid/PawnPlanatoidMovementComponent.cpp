@@ -3,11 +3,27 @@
 #include "LostInSpace.h"
 #include "PawnPlanatoidMovementComponent.h"
 
+void FPawnPlanatoidPostPhysicsTickFunction::ExecuteTick(float DeltaTime, enum ELevelTick TickType, ENamedThreads::Type CurrentThread, const FGraphEventRef& MyCompletionGraphEvent)
+{
+	if (Target)
+		Target->LateTickComponent(DeltaTime, TickType, this);
+}
+
+FString FPawnPlanatoidPostPhysicsTickFunction::DiagnosticMessage()
+{
+	return Target->GetFullName() + TEXT("[UPawnPlanatoidMovementComponent::PostPhysicsTick]");
+}
+
+
 UPawnPlanatoidMovementComponent::UPawnPlanatoidMovementComponent()
 {
 	PrimaryComponentTick.bCanEverTick = true;
 	PrimaryComponentTick.bStartWithTickEnabled = true;
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_PrePhysics;
+
+	PostPhysicsTick.bCanEverTick = true;
+	PostPhysicsTick.bStartWithTickEnabled = true;
+	PostPhysicsTick.TickGroup = ETickingGroup::TG_PreCloth;
 
 	forceAccumulator = FVector::ZeroVector;
 	accelerationAccumulator = FVector::ZeroVector;
@@ -69,6 +85,23 @@ void UPawnPlanatoidMovementComponent::PostLoad()
 
 	Super::PostLoad();
 }
+
+void UPawnPlanatoidMovementComponent::RegisterComponentTickFunctions(bool bRegister)
+{
+	Super::RegisterComponentTickFunctions(bRegister);
+
+	if (bRegister)
+	{
+		if (SetupActorComponentTickFunction(&PostPhysicsTick))
+			PostPhysicsTick.Target = this;
+	}
+	else
+	{
+		if (PostPhysicsTick.IsTickFunctionRegistered())
+			PostPhysicsTick.UnRegisterTickFunction();
+	}
+}
+
 
 UPlanatoidDataComponent* UPawnPlanatoidMovementComponent::GetPlanatoidData() const
 {
@@ -140,6 +173,11 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 	tickParams.InputVector = inputVector;
 	tickParams.Acceleration = accelerationAccumulator;
 	tickParams.Up = GetUp();
+	tickParams.BaseComponent = baseInfo.BaseComponent;
+	tickParams.BaseBone = baseInfo.BaseBone;
+
+	//forces movement to be applied at the end of the tick
+	FScopedMovementUpdate movementScope = FScopedMovementUpdate(UpdatedComponent);
 
 	int32 iteration = 0;
 	float timeLeft = DeltaTime;
@@ -158,6 +196,8 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 		returnValue.OutTime = tickParams.TimeSlice;
 		returnValue.OutNextMode = NULL;
 		returnValue.bWasHit = false;
+		returnValue.BaseComponent = tickParams.BaseComponent;
+		returnValue.BaseBone = tickParams.BaseBone;
 
 		//iterate the physics on the current mode
 		currentMode->IteratePhysics(tickParams, returnValue);
@@ -168,6 +208,9 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 		iteration = returnValue.OutIteration;
 		timeLeft -= returnValue.OutTime;
 		UClass* nextMode = returnValue.OutNextMode;
+
+		tickParams.BaseComponent = returnValue.BaseComponent;
+		tickParams.BaseBone = returnValue.BaseBone;
 
 		//if we have a new mode then we need to swap it
 		if (nextMode)
@@ -191,14 +234,38 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 
 		//if we were 
 		if (returnValue.bWasHit && returnValue.OutTime != 0)
-			Velocity = (endPosition - startPosition) * (1.f / returnValue.OutTime);
+			SetRelativeVelocity((endPosition - startPosition) * (1.f / returnValue.OutTime));
 		else
-			Velocity = returnValue.OutVelocity;
+			SetRelativeVelocity(returnValue.OutVelocity);
 
 		iteration++;
 	}
 
+	TryChangeBase(tickParams.BaseComponent, tickParams.BaseBone);
+
+	//remove the acceleration for this frame
 	accelerationAccumulator = FVector::ZeroVector;
+
+	if (baseInfo.BaseComponent)
+	{
+		baseInfo.PrePhysicsWorldPosition = UpdatedComponent->GetComponentLocation();
+	}
+}
+
+void UPawnPlanatoidMovementComponent::LateTickComponent(float DeltaTime, enum ELevelTick TickType, const FTickFunction *ThisTickFunction)
+{
+	/*Calculate imparted velocity*/
+	if (baseInfo.BaseComponent)
+	{
+		FVector currentPosition = UpdatedComponent->GetComponentLocation();
+		baseInfo.ImpartedVelocity = (currentPosition - baseInfo.PrePhysicsWorldPosition) * (1.f / DeltaTime);
+	}
+	else
+	{
+		baseInfo.ImpartedVelocity = FVector::ZeroVector;
+	}
+
+	Velocity = baseInfo.RelativeVelocity + baseInfo.ImpartedVelocity;
 }
 
 void UPawnPlanatoidMovementComponent::ApplyForces()
@@ -255,4 +322,62 @@ void UPawnPlanatoidMovementComponent::MoveComponent(const FVector& delta, bool f
 		FVector resolveDelta = outHit.ImpactNormal * outHit.PenetrationDepth;
 		MoveUpdatedComponent(resolveDelta, rotation, false);
 	}
+}
+
+void UPawnPlanatoidMovementComponent::TryChangeBase(UPrimitiveComponent* newBase, const FName& newBone)
+{
+	//if no change has been made, then ignore
+	if (baseInfo.BaseComponent == newBase && baseInfo.BaseBone == newBone)
+		return;
+
+	if (newBase && MovementBaseUtility::IsDynamicBase(newBase))
+		AttatchBase(newBase, newBone);
+	else if (newBase)
+		DetatchBase();
+}
+
+void UPawnPlanatoidMovementComponent::AttatchBase(UPrimitiveComponent* newBase, const FName& newBone)
+{
+	if (!newBase)
+		return;
+
+	//detatch from our current base first
+	FVector savedImparted = baseInfo.ImpartedVelocity;
+	FVector savedRelative = baseInfo.RelativeVelocity;
+	UPrimitiveComponent* savedBase = baseInfo.BaseComponent;
+	if (baseInfo.BaseComponent)
+		DetatchBase();
+
+	//if we are attatching to the same base then we should restore the old imparted and relative velocity
+	if (newBase == savedBase)
+	{
+		baseInfo.RelativeVelocity = savedRelative;
+		baseInfo.ImpartedVelocity = savedImparted;
+	}
+
+	baseInfo.BaseComponent = newBase;
+	baseInfo.BaseBone = newBone;
+
+	//AddTickPrerequisiteComponent(baseInfo.BaseComponent);
+	GetOwner()->AttachRootComponentTo(newBase, newBone, EAttachLocation::KeepWorldPosition, false);
+}
+
+void UPawnPlanatoidMovementComponent::DetatchBase()
+{
+	//if there is no base then ignore the detatch
+	if (!baseInfo.BaseComponent)
+		return;
+
+	/*Apply imparted velocity to relative velocity*/
+	baseInfo.RelativeVelocity = baseInfo.RelativeVelocity + baseInfo.ImpartedVelocity;
+	baseInfo.ImpartedVelocity = FVector::ZeroVector;
+
+	//RemoveTickPrerequisiteComponent(baseInfo.BaseComponent);
+
+	/*Remove the base information*/
+	baseInfo.BaseComponent = NULL;
+	baseInfo.BaseBone = NAME_None;
+
+	//Detatch from the base
+	GetOwner()->DetachRootComponentFromParent();
 }

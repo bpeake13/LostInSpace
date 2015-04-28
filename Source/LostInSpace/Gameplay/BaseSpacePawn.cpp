@@ -11,6 +11,8 @@ ABaseSpacePawn::ABaseSpacePawn()
 	MaxHealth = 100.f;
 	CurrentHealth = MaxHealth;
 	bIsDead = false;
+
+	BounceVelocityConsumption = 0.8f;
 }
 
 void ABaseSpacePawn::InitRoot()
@@ -18,11 +20,37 @@ void ABaseSpacePawn::InitRoot()
 	UPrimitiveComponent* rootPrimitive = Cast<UPrimitiveComponent>(RootComponent);
 	checkf(rootPrimitive, TEXT("FATAL ERROR: Root is not of type UPrimitive"));
 
-	rootPrimitive->BodyInstance.SetCollisionProfileName(UCollisionProfile::PhysicsActor_ProfileName);
-	rootPrimitive->SetSimulatePhysics(true);
-	rootPrimitive->SetEnableGravity(false);
-	rootPrimitive->SetAngularDamping(10000.f);
-	rootPrimitive->SetLinearDamping(0.1f);
+	rootPrimitive->SetSimulatePhysics(false);
+
+	rootPrimitive->OnComponentHit.AddDynamic(this, &ABaseSpacePawn::OnHit);
+}
+
+void ABaseSpacePawn::AddForce(const FVector& force)
+{
+	MovementComponent->AddForce(force);
+}
+
+void ABaseSpacePawn::AddAcceleration(const FVector& acceleration)
+{
+	MovementComponent->AddAcceleration(acceleration);
+}
+
+void ABaseSpacePawn::AddImpulse(const FVector& impulse)
+{
+	MovementComponent->Velocity += impulse * (1.f / MovementComponent->UpdatedPrimitive->GetMass());
+}
+
+void ABaseSpacePawn::AddVelocity(const FVector& velocity)
+{
+	MovementComponent->Velocity += velocity;
+}
+
+void ABaseSpacePawn::OnHit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+{
+	FVector reflection = MovementComponent->Velocity.MirrorByVector(NormalImpulse.GetUnsafeNormal());
+	FVector bounce = reflection * BounceVelocityConsumption;
+
+	MovementComponent->Velocity = bounce;
 }
 
 float ABaseSpacePawn::TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)

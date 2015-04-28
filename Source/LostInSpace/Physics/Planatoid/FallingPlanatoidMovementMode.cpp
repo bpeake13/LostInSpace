@@ -19,9 +19,12 @@ void UFallingPlanatoidMovementMode::ExitMode()
 
 void UFallingPlanatoidMovementMode::IteratePhysics(const FTickParams& tickParams, FTickReturn& outReturn)
 {
+	outReturn.BaseComponent = NULL;
+	outReturn.BaseBone = NAME_None;
+
 	//Falling only allows for lateral input, so we get the acceleration that is lateral to the up plane
 	FVector inputAccleration = FVector::VectorPlaneProject(tickParams.InputVector, tickParams.Up) * tickParams.Owner->GetAirControl();
-	FVector newVelocity = CalculateVelocity(tickParams.Owner->Velocity, tickParams.Acceleration + inputAccleration, tickParams.DeltaTime);
+	FVector newVelocity = CalculateVelocity(tickParams.Owner->GetRelativeVelocity(), tickParams.Acceleration + inputAccleration, tickParams.DeltaTime);
 	
 	float airFriction = tickParams.Owner->GetPhysicsVolume()->FluidFriction + tickParams.Owner->GetAirFriction();
 	newVelocity -= newVelocity * airFriction * tickParams.TimeSlice;//modify the new velocity according to air friction
