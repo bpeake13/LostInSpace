@@ -10,12 +10,12 @@ UPlanetBodyMovementComponent::UPlanetBodyMovementComponent(const FObjectInitiali
 	PrimaryComponentTick.TickGroup = ETickingGroup::TG_DuringPhysics;
 
 	MaxSimulationSteps = 1;
-	MaxSpeed = 10000.f;
+	MaxSpeed = 2000.f;
 
 	bForceDirty = false;
 
 	LinearFriction = 10.f;
-	BreakingForce = 10000.f;
+	BreakingForce = 1000.f;
 }
 
 void UPlanetBodyMovementComponent::AddForce(const FVector& forceVector)
@@ -63,18 +63,20 @@ void UPlanetBodyMovementComponent::LimitVelocity(FVector& velocityVector)
 	velocityVector = velocityVector.GetClampedToMaxSize(MaxSpeed);
 }
 
-void UPlanetBodyMovementComponent::ApplyBreaking(const FVector& velocity, float deltaTime, FVector newVelocity)
+FVector UPlanetBodyMovementComponent::ApplyBreaking(const FVector& velocity, float deltaTime)
 {
 	FVector velocityDirection = velocity.GetSafeNormal();
 	FVector decceleration = -velocityDirection * BreakingForce;
 
-	newVelocity = velocityDirection - decceleration * deltaTime;
+	FVector newVelocity = velocity + decceleration * deltaTime;
 
 	//if we are near zero, or have changed directions, then we should make the new velocity zero
 	if (newVelocity.IsNearlyZero())
 		newVelocity = FVector::ZeroVector;
 	else if ((newVelocity | velocityDirection) < 0)
 		newVelocity = FVector::ZeroVector;
+
+	return newVelocity;
 }
 
 void UPlanetBodyMovementComponent::TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction)
@@ -111,7 +113,7 @@ float UPlanetBodyMovementComponent::SimulateTick(float deltaTime)
 
 	//calculate the breaking on the new velocity if we have no outside acceleration, or if we are being signaled to do so
 	if (bBreaking || accelerationAccumulator.IsNearlyZero())
-		ApplyBreaking(newVelocity, deltaTime, newVelocity);
+		newVelocity = ApplyBreaking(newVelocity, deltaTime);
 
 	FVector delta = CalculateDelta(Velocity, newVelocity, deltaTime);
 
@@ -128,6 +130,8 @@ float UPlanetBodyMovementComponent::SimulateTick(float deltaTime)
 	//if we had a valid blocking hit then we should re-calculate our velocity
 	if (hit.IsValidBlockingHit())
 		Velocity = (UpdatedPrimitive->GetComponentLocation() - startLocation) * (1.f / deltaTime);
+	else
+		Velocity = newVelocity;
 
 	return hit.Time * deltaTime;
 }

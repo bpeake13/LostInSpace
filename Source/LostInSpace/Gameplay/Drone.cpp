@@ -12,7 +12,7 @@ ADrone::ADrone()
 	VisionRadius = 5000.f;
 
 	UWanderPath* wanderNode = CreateDefaultSubobject<UWanderPath>("Wander");
-	wanderNode->MoveForce = 500000.f;
+	wanderNode->MoveAcceleration = 600.f;
 	wanderNode->NodeChangeDistance = 300.f;
 
 	UAttackPlayerPlanet* attackNode = CreateDefaultSubobject<UAttackPlayerPlanet>("Attack");

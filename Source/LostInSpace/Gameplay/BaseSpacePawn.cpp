@@ -13,6 +13,8 @@ ABaseSpacePawn::ABaseSpacePawn()
 	bIsDead = false;
 
 	BounceVelocityConsumption = 0.8f;
+
+	MovementComponent = CreateDefaultSubobject<UPlanetBodyMovementComponent>("Movement");
 }
 
 void ABaseSpacePawn::InitRoot()
@@ -21,7 +23,13 @@ void ABaseSpacePawn::InitRoot()
 	checkf(rootPrimitive, TEXT("FATAL ERROR: Root is not of type UPrimitive"));
 
 	rootPrimitive->SetSimulatePhysics(false);
+}
 
+void ABaseSpacePawn::BeginPlay()
+{
+	Super::BeginPlay();
+
+	UPrimitiveComponent* rootPrimitive = Cast<UPrimitiveComponent>(this->RootComponent);
 	rootPrimitive->OnComponentHit.AddDynamic(this, &ABaseSpacePawn::OnHit);
 }
 
@@ -47,8 +55,10 @@ void ABaseSpacePawn::AddVelocity(const FVector& velocity)
 
 void ABaseSpacePawn::OnHit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
 {
-	FVector reflection = MovementComponent->Velocity.MirrorByVector(NormalImpulse.GetUnsafeNormal());
+	FVector reflection = MovementComponent->Velocity.MirrorByVector(Hit.ImpactNormal);
 	FVector bounce = reflection * BounceVelocityConsumption;
+
+	UE_LOG(LogTemp, Log, TEXT("%s"), *NormalImpulse.ToString());
 
 	MovementComponent->Velocity = bounce;
 }

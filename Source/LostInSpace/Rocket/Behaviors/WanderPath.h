@@ -27,7 +27,7 @@ public:
 	float FixTime;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Navigation")
-	float MoveForce;
+	float MoveAcceleration;
 
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Navigation")
 	float MaxWanderRange;

@@ -14,11 +14,18 @@ ABaseEnemyPawn::ABaseEnemyPawn()
 
 	FireCooldown = 3.f;
 	fireCooldownTimer = 3.f;
+
+	MovementComponent->SetMaxSpeed(600.f);
 }
 
 void ABaseEnemyPawn::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UWorld* world = GetWorld();
+	TActorIterator<APlayerSpacePawn> playerItr(world);
+	if (playerItr)
+		targetPlanet = *playerItr;
 
 	if (HSM)
 		HSM->SetOwnerActor(this);
@@ -35,7 +42,7 @@ void ABaseEnemyPawn::Tick(float DeltaSeconds)
 		fireCooldownTimer -= DeltaSeconds;
 }
 
-bool ABaseEnemyPawn::MoveTo(const FVector& location, const float force, const float tolerance)
+bool ABaseEnemyPawn::MoveTo(const FVector& location, const float accelerationVal, const float tolerance)
 {
 	UPrimitiveComponent* rootPrimitive = Cast<UPrimitiveComponent>(RootComponent);
 	checkf(rootPrimitive, TEXT("FATAL ERROR: Root is not of type UPrimitive"));
@@ -46,10 +53,10 @@ bool ABaseEnemyPawn::MoveTo(const FVector& location, const float force, const fl
 		return true;
 
 	FVector direction = offset.GetSafeNormal();
-	FVector forceVector = direction * force;
+	FVector accelerationVector = direction * accelerationVal;
 
 	//calculate time to slow down
-	float acceleration = force / rootPrimitive->GetMass();
+	float acceleration = accelerationVal;
 	float speed = FVector::DotProduct(rootPrimitive->GetComponentVelocity(), direction);
 	if (speed > 0)
 	{
@@ -59,13 +66,13 @@ bool ABaseEnemyPawn::MoveTo(const FVector& location, const float force, const fl
 
 		if (distance <= disntanceToSlow + 10.f)
 		{
-			MovementComponent->AddForce(-forceVector);
+			MovementComponent->AddAcceleration(-accelerationVector);
 		}
 		else
-			MovementComponent->AddForce(forceVector);
+			MovementComponent->AddAcceleration(accelerationVector);
 	}
 	else
-		MovementComponent->AddForce(forceVector);
+		MovementComponent->AddAcceleration(accelerationVector);
 
 	return false;
 }
@@ -95,7 +102,10 @@ void ABaseEnemyPawn::Fire(const FVector& direction)
 
 bool ABaseEnemyPawn::CanSeePlayer()
 {
-	return GetActorLocation().SizeSquared() <= VisionRadius * VisionRadius;
+	if (!targetPlanet)
+		return false;
+
+	return (targetPlanet->GetActorLocation() - GetActorLocation()).Size() <= this->VisionRadius * this->VisionRadius;
 }
 
 

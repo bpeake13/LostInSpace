@@ -16,6 +16,8 @@ public:
 	// Sets default values for this pawn's properties
 	ABaseSpacePawn();
 
+	virtual void BeginPlay() override;
+
 	void Kill(float damage, AActor* damageCauser, FDamageEvent const& damageEvent);
 
 	void AddForce(const FVector& force);

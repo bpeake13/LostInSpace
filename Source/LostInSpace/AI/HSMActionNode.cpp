@@ -17,3 +17,13 @@ void UHSMActionNode::Tick(UHierarchicalStateMachine* machine)
 {
 
 }
+
+void UHSMActionNode::OnEnter(UHierarchicalStateMachine* machine)
+{
+
+}
+
+void UHSMActionNode::OnLeave(UHierarchicalStateMachine* machine)
+{
+
+}

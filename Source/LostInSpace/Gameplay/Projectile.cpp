@@ -10,15 +10,15 @@ AProjectile::AProjectile()
 {
  	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	SphereComponent = CreateDefaultSubobject<USphereComponent>(TEXT("Root"));
-	SphereComponent->BodyInstance.SetCollisionProfileName(UCollisionProfile::PhysicsActor_ProfileName);
-	SphereComponent->SetSimulatePhysics(true);
-	SphereComponent->SetEnableGravity(false);
-	SphereComponent->SetAngularDamping(10000.f);
-	SphereComponent->SetLinearDamping(0.1f);
-	SphereComponent->SetNotifyRigidBodyCollision(true);
 	RootComponent = SphereComponent;
+	SphereComponent->bGenerateOverlapEvents = true;
 
-	FiringSpeed = 1000.f;
+	MovementComponent = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Movement"));
+	MovementComponent->bRotationFollowsVelocity = true;
+	MovementComponent->InitialSpeed = 5000.f;
+	MovementComponent->ProjectileGravityScale = 0.f;
+	MovementComponent->bShouldBounce = false;
+
 	Damage = 1.f;
 }
 
@@ -26,21 +26,22 @@ AProjectile::AProjectile()
 void AProjectile::BeginPlay()
 {
 	Super::BeginPlay();
-	SphereComponent->AddImpulse(GetActorRotation().Vector() * FiringSpeed, NAME_None, true);
 
-	SphereComponent->OnComponentHit.AddDynamic(this, &AProjectile::OnHit);
+	SphereComponent->OnComponentBeginOverlap.AddDynamic(this, &AProjectile::OnBeginOverlap);
 
-	SphereComponent->MoveIgnoreActors.Add(Instigator);
+	MovementComponent->Velocity = this->GetActorRotation().Vector() * MovementComponent->InitialSpeed;
 }
 
-void AProjectile::OnHit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
+void AProjectile::OnBeginOverlap(AActor *OtherActor, UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult)
 {
 	if (OtherActor && OtherActor != Instigator && OtherActor != this)
 	{
 		FPointDamageEvent damageEvent = FPointDamageEvent();
 		damageEvent.Damage = Damage;
-		damageEvent.HitInfo = Hit;
+		damageEvent.HitInfo = SweepResult;
 		OtherActor->TakeDamage(Damage, damageEvent, NULL, Instigator);
 		Destroy();
 	}
 }
+
+

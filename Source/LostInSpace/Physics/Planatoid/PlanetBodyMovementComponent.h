@@ -20,6 +20,8 @@ public:
 
 	virtual void TickComponent(float DeltaTime, enum ELevelTick TickType, FActorComponentTickFunction *ThisTickFunction) override;
 
+	FORCEINLINE void SetMaxSpeed(float maxSpeed) { MaxSpeed = maxSpeed; }
+
 protected:
 	virtual float SimulateTick(float deltaTime);
 
@@ -33,7 +35,8 @@ private:
 
 	void LimitVelocity(FVector& velocityVector);
 
-	void ApplyBreaking(const FVector& velocity, float deltaTimes, FVector newVelocity);
+	FVector ApplyBreaking(const FVector& velocity, float deltaTimes);
+
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = Physics)
 	int32 MaxSimulationSteps;

@@ -5,6 +5,8 @@
 #include "AI/HSMNode.h"
 #include "HSMActionNode.generated.h"
 
+class UHierarchicalStateMachine;
+
 /**
  * 
  */
@@ -14,6 +16,9 @@ class UHSMActionNode : public UHSMNode
 	GENERATED_BODY()
 public:
 	UHSMActionNode();
+
+	virtual void OnEnter(UHierarchicalStateMachine* machine);
+	virtual void OnLeave(UHierarchicalStateMachine* machine);
 protected:
 
 	void Execute(UHierarchicalStateMachine* machine) override;

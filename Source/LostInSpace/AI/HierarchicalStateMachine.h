@@ -7,12 +7,13 @@
 #include "HierarchicalStateMachine.generated.h"
 
 class UHSMNode;
+class UHSMActionNode;
 
 /**
  * A state machine based on a tree structure
  */
 UCLASS(DefaultToInstanced, EditInlineNew, BlueprintType)
-class LOSTINSPACE_API UHierarchicalStateMachine : public UObject
+class UHierarchicalStateMachine : public UObject
 {
 	GENERATED_BODY()
 
@@ -28,6 +29,8 @@ public:
 	void Tick(float deltaTime);
 
 	float GetDeltaTime() const;
+
+	void ExecuteNode(UHSMNode* node);
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Instanced, Category = "State Machine")
 	UHSMNode* Root;
@@ -36,7 +39,9 @@ private:
 	UPROPERTY(Transient)
 	AActor* OwnerActor;
 private:
-	UHSMNode* currentNode;
+	UHSMActionNode* currentNode;
 
 	float deltaTime;
+
+	bool bDidEnterNew;
 };

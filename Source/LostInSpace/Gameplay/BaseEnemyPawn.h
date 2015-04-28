@@ -5,6 +5,7 @@
 #include "Gameplay/BaseSpacePawn.h"
 #include "AI/HierarchicalStateMachine.h"
 #include "Projectile.h"
+#include "PlayerSpacePawn.h"
 #include "BaseEnemyPawn.generated.h"
 
 /**
@@ -18,13 +19,15 @@ public:
 	ABaseEnemyPawn();
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
-	bool MoveTo(const FVector& location, const float force, const float tolerance);
+	bool MoveTo(const FVector& location, const float acceleration, const float tolerance);
 
 	UFUNCTION(BlueprintCallable, Category = "AI")
 	bool CanSeePlayer();
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	virtual void Fire(const FVector& direction);
+
+	FORCEINLINE APlayerSpacePawn* GetTargetEnemy() { return targetPlanet; }
 
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "AI")
@@ -51,4 +54,6 @@ protected:
 
 private:
 	float fireCooldownTimer;
+
+	APlayerSpacePawn* targetPlanet;
 };

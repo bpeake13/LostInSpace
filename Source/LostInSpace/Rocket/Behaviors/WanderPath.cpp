@@ -12,7 +12,7 @@ UWanderPath::UWanderPath()
 	FixTime = 1.f;
 
 	MaxWanderRange = 500000.f;
-	MoveForce = 5000.f;
+	MoveAcceleration = 5000.f;
 
 	NodeChangeDistance = 1000.f;
 }
@@ -48,7 +48,7 @@ void UWanderPath::Tick(UHierarchicalStateMachine* machine)
 		//get the next nav point in the chain
 		USpaceNavPoint* next = path[0];
 
-		if (pawn->MoveTo(next->GetComponentLocation(), MoveForce, NodeChangeDistance))
+		if (pawn->MoveTo(next->GetComponentLocation(), MoveAcceleration, NodeChangeDistance))
 			path.RemoveAt(0);
 	}
 

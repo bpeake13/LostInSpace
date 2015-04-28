@@ -24,9 +24,11 @@ protected:
 	float Damage;
 	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Projectile")
 	USphereComponent* SphereComponent;
+	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Projectile")
+	UProjectileMovementComponent* MovementComponent;
 
 	UFUNCTION()
-	virtual void OnHit(class AActor* OtherActor, class UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit);
+	virtual void OnBeginOverlap(AActor *OtherActor, UPrimitiveComponent *OtherComponent, int32 OtherBodyIndex, bool bFromSweep, const FHitResult &SweepResult);
 
 private:
 };

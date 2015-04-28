@@ -16,9 +16,9 @@ void UHSMConditionNode::Execute(UHierarchicalStateMachine* machine)
 	CheckBlueprint(machine, result, result);
 
 	if (result)
-		YesNode->Execute(machine);
+		machine->ExecuteNode(YesNode);
 	else
-		NoNode->Execute(machine);
+		machine->ExecuteNode(NoNode);
 }
 
 bool UHSMConditionNode::Check(UHierarchicalStateMachine* machine)
