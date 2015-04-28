@@ -4,6 +4,7 @@
 
 #include "GameFramework/Pawn.h"
 #include "../Gameplay/Projectile.h"
+#include "../AI/HierarchicalStateMachine.h"
 #include "LostInSpaceClasses.h"
 #include "Physics/Planatoid/PawnPlanatoidMovementComponent.h"
 #include "PlayerPlanetPawn.generated.h"

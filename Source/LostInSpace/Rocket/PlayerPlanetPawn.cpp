@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "LostInSpace.h"
+#include "../AI/HierarchicalStateMachine.h"
 #include "Physics/Planatoid/PawnPlanatoidMovementComponent.h"
 #include "PlayerPlanetPawn.h"
 
