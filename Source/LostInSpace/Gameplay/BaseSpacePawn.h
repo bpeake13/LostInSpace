@@ -28,6 +28,12 @@ public:
 
 	void AddVelocity(const FVector& velocity);
 
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+	float GetHealth();
+
+	UFUNCTION(BlueprintCallable, Category = "Gameplay")
+	float GetHealthPercent();
+
 protected:
 	void InitRoot();
 

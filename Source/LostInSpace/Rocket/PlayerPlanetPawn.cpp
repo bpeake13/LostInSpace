@@ -42,6 +42,8 @@ void APlayerPlanetPawn::Tick( float DeltaTime )
 
 	if (fireCooldownTimer > 0)
 		fireCooldownTimer -= DeltaTime;
+
+	inputVector = FVector::ZeroVector;
 }
 
 // Called to bind functionality to input
@@ -65,6 +67,7 @@ void APlayerPlanetPawn::OnVertical(float val)
 	FVector moveDirection = directionRotator.RotateVector(FVector::ForwardVector);
 
 	PlanatoidMovement->AddInputVector(moveDirection * val);
+	inputVector += moveDirection * val;
 }
 
 void APlayerPlanetPawn::OnHorizontal(float val)
@@ -79,6 +82,7 @@ void APlayerPlanetPawn::OnHorizontal(float val)
 	FVector moveDirection = directionRotator.RotateVector(FVector(0, 1, 0));
 
 	PlanatoidMovement->AddInputVector(moveDirection * val);
+	inputVector += moveDirection * val;
 }
 
 void APlayerPlanetPawn::OnFire()

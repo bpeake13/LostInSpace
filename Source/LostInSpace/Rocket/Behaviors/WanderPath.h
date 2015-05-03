@@ -44,5 +44,5 @@ private:
 	float fixTimer;
 
 	//The current path to follow
-	TArray<USpaceNavPoint*> path;
+	TArray<FVector> path;
 };

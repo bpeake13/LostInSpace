@@ -27,7 +27,7 @@ public:
 	UFUNCTION(BlueprintCallable, Category = "Movement")
 	virtual void Fire(const FVector& direction);
 
-	FORCEINLINE APlayerSpacePawn* GetTargetEnemy() { return targetPlanet; }
+	FORCEINLINE APlayerSpacePawn* GetTargetEnemy() { return targetPlanet.Get(); }
 
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "AI")
@@ -48,12 +48,17 @@ protected:
 
 	virtual void BeginPlay() override;
 
+	virtual void OnKilled(float damage, AActor* damageCauser, FDamageEvent const& damageEvent) override;
+
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Weapon")
 	float FireCooldown;
 
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Gameplay")
+	float Worth;
+
 private:
 	float fireCooldownTimer;
 
-	APlayerSpacePawn* targetPlanet;
+	TWeakObjectPtr<APlayerSpacePawn> targetPlanet;
 };

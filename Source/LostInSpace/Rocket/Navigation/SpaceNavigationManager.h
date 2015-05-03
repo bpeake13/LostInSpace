@@ -67,13 +67,13 @@ public:
 	static void ReBuild(UObject* instigator);
 
 	UFUNCTION(BlueprintCallable, Category = "Navigation")
-	static bool GetBestPath(const FVector& start, const FVector& end, TArray<USpaceNavPoint*>& outPath);
+	static bool GetBestPath(const FVector& start, const FVector& end, TArray<FVector>& outPath);
 
 	UFUNCTION(BlueprintCallable, Category = "Navigation")
 	static bool GetBestPathFromNodes(const USpaceNavPoint* start, const USpaceNavPoint* end, TArray<USpaceNavPoint*>& outPath);
 
 	UFUNCTION(BlueprintCallable, Category = "Navigation")
-	static void OptimizePath(const FVector& start, const FVector& end, TArray<USpaceNavPoint*> path);
+	static void OptimizePath(const FVector& start, TArray<FVector>& path);
 
 private:
 	static TArray<USpaceNavPoint*> navPoints;

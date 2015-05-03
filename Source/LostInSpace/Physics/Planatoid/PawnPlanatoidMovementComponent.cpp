@@ -71,6 +71,7 @@ void UPawnPlanatoidMovementComponent::InitializeComponent()
 
 		UPawnPlanatoidMovementMode* newMode = ConstructObject<UPawnPlanatoidMovementMode>(modeType, this);
 		modeMap.Add(modeType, newMode);
+		modes.Add(newMode);
 		if (!currentMode)
 		{
 			currentMode = newMode;
@@ -131,6 +132,20 @@ FVector UPawnPlanatoidMovementComponent::GetUp() const
 	return FVector(0, 0, 1);
 }
 
+FVector UPawnPlanatoidMovementComponent::GetForward() const
+{
+	if (PlanatoidData)
+		return PlanatoidData->GetForwardVector();
+	return FVector::ForwardVector;
+}
+
+FVector UPawnPlanatoidMovementComponent::GetRight() const
+{
+	if (PlanatoidData)
+		return PlanatoidData->GetRightVector();
+	return FVector(0, 1, 0);
+}
+
 FRotator UPawnPlanatoidMovementComponent::GetOrientation() const
 {
 	if (PlanatoidData)
@@ -176,12 +191,21 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 	tickParams.BaseComponent = baseInfo.BaseComponent;
 	tickParams.BaseBone = baseInfo.BaseBone;
 
+	FVector orientedInput = FVector::VectorPlaneProject(inputVector, tickParams.Up).GetSafeNormal();
+	if (!orientedInput.IsNearlyZero())
+	{
+		float localForward = FVector::DotProduct(orientedInput, GetForward());
+		float localRight = FVector::DotProduct(orientedInput, GetRight());
+
+		facingDirection = -FMath::RadiansToDegrees(FMath::Atan2(localForward, localRight)) + 90.f;
+	}
+
 	//forces movement to be applied at the end of the tick
 	FScopedMovementUpdate movementScope = FScopedMovementUpdate(UpdatedComponent);
 
 	int32 iteration = 0;
 	float timeLeft = DeltaTime;
-	const float timeSlice = DeltaTime / (float)MaxSimulationSteps;
+	float timeSlice = DeltaTime / (float)MaxSimulationSteps;
 	float lastTimeRemaining = 0.f;
 	while (iteration < MaxSimulationSteps && timeLeft >= 0.f)
 	{
@@ -198,6 +222,7 @@ void UPawnPlanatoidMovementComponent::TickComponent(float DeltaTime, enum ELevel
 		returnValue.bWasHit = false;
 		returnValue.BaseComponent = tickParams.BaseComponent;
 		returnValue.BaseBone = tickParams.BaseBone;
+		returnValue.OutVelocity = FVector::ZeroVector;
 
 		//iterate the physics on the current mode
 		currentMode->IteratePhysics(tickParams, returnValue);
@@ -310,10 +335,12 @@ void UPawnPlanatoidMovementComponent::MoveComponent(const FVector& delta, bool f
 			PlanatoidData->SetAtPoint(newPosition);
 		}
 
-		FMatrix orientationMatrix = PlanatoidData->GetOrientationMatrix();
-		rotation = orientationMatrix.Rotator();
+		FVector localForward = FVector::ForwardVector.RotateAngleAxis(facingDirection, FVector::UpVector);
+		FVector localRight = FVector(0, 1, 0).RotateAngleAxis(facingDirection, FVector::UpVector);
+		FMatrix facingMatrix = FRotationMatrix::MakeFromXY(localForward, localRight);
 
-		rotation.Yaw += facingDirection;
+		FMatrix orientationMatrix = facingMatrix * PlanatoidData->GetOrientationMatrix();
+		rotation = orientationMatrix.Rotator();
 	}
 
 	MoveUpdatedComponent(delta, rotation, true, &outHit);
@@ -380,4 +407,14 @@ void UPawnPlanatoidMovementComponent::DetatchBase()
 
 	//Detatch from the base
 	GetOwner()->DetachRootComponentFromParent();
+}
+
+FVector UPawnPlanatoidMovementComponent::GetMovementVelocity()
+{
+	return GetRelativeVelocity();
+}
+
+bool UPawnPlanatoidMovementComponent::IsOnGround() const
+{
+	return Cast<UGroundPlanatoidMovementMode>(currentMode) != NULL;
 }

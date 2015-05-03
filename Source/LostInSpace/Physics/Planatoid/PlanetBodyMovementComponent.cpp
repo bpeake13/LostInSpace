@@ -129,7 +129,10 @@ float UPlanetBodyMovementComponent::SimulateTick(float deltaTime)
 
 	//if we had a valid blocking hit then we should re-calculate our velocity
 	if (hit.IsValidBlockingHit())
-		Velocity = (UpdatedPrimitive->GetComponentLocation() - startLocation) * (1.f / deltaTime);
+	{
+		float trueDeltaTime = hit.Time * deltaTime;
+		Velocity = (UpdatedPrimitive->GetComponentLocation() - startLocation) * (1.f / trueDeltaTime);
+	}
 	else
 		Velocity = newVelocity;
 

@@ -1,6 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "LostInSpace.h"
+#include "LostInSpaceCharacterController.h"
 #include "BaseEnemyPawn.h"
 
 ABaseEnemyPawn::ABaseEnemyPawn()
@@ -16,6 +17,8 @@ ABaseEnemyPawn::ABaseEnemyPawn()
 	fireCooldownTimer = 3.f;
 
 	MovementComponent->SetMaxSpeed(600.f);
+
+	Worth = 10;
 }
 
 void ABaseEnemyPawn::BeginPlay()
@@ -102,10 +105,22 @@ void ABaseEnemyPawn::Fire(const FVector& direction)
 
 bool ABaseEnemyPawn::CanSeePlayer()
 {
-	if (!targetPlanet)
+	if (!targetPlanet.IsValid())
 		return false;
 
-	return (targetPlanet->GetActorLocation() - GetActorLocation()).Size() <= this->VisionRadius * this->VisionRadius;
+	return (targetPlanet->GetActorLocation() - GetActorLocation()).SizeSquared() <= this->VisionRadius * this->VisionRadius;
+}
+
+void ABaseEnemyPawn::OnKilled(float damage, AActor* damageCauser, FDamageEvent const& damageEvent)
+{
+	if (!targetPlanet.IsValid())
+		return Super::OnKilled(damage, damageCauser, damageEvent);
+
+	ALostInSpaceCharacterController* pc = Cast<ALostInSpaceCharacterController>(targetPlanet->GetController());
+	if (pc)
+		pc->AddScore(Worth);
+
+	Super::OnKilled(damage, damageCauser, damageEvent);
 }
 
 

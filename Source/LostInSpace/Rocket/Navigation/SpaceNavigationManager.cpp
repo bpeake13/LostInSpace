@@ -80,7 +80,7 @@ void USpaceNavigationManager::AddNavPoint(USpaceNavPoint* newPoint)
 	navPoints.Add(newPoint);
 }
 
-bool USpaceNavigationManager::GetBestPath(const FVector& start, const FVector& end, TArray<USpaceNavPoint*>& outPath)
+bool USpaceNavigationManager::GetBestPath(const FVector& start, const FVector& end, TArray<FVector>& outPath)
 {
 	outPath.Empty();
 
@@ -153,17 +153,46 @@ bool USpaceNavigationManager::GetBestPath(const FVector& start, const FVector& e
 
 	for (TSharedPtr<SearchPathNode> searchNode = current; searchNode.IsValid(); searchNode = searchNode->previous)
 	{
-		outPath.Insert(searchNode->node, 0);
+		outPath.Insert(searchNode->node->GetComponentLocation(), 0);
 	}
+
+	outPath.Add(end);
+
+	OptimizePath(start, outPath);
+
 	return true;
 }
 
 bool USpaceNavigationManager::GetBestPathFromNodes(const USpaceNavPoint* start, const USpaceNavPoint* end, TArray<USpaceNavPoint*>& outPath)
 {
-	return GetBestPath(start->GetComponentLocation(), end->GetComponentLocation(), outPath);
+	return false;
 }
 
-void USpaceNavigationManager::OptimizePath(const FVector& start, const FVector& end, TArray<USpaceNavPoint*> path)
+void USpaceNavigationManager::OptimizePath(const FVector& start, TArray<FVector>& path)
 {
+	if (path.Num() == 0)
+		return;
+	if (navPoints.Num() == 0)
+		return;
+	
+	UWorld* world = navPoints[0]->GetWorld();
 
+	const FVector* testPoint = &start;
+
+	for (int32 i = 0; i < path.Num() - 1; i++)
+	{
+		FVector targetLocation = path[i];
+		
+		//when there is no hit then we should remove the node from the path as it is not needed
+		FHitResult hit;
+		FCollisionQueryParams params;
+		if (!world->LineTraceSingle(hit, *testPoint, targetLocation, ECC_GameTraceChannel2, params))
+		{
+			path.RemoveAt(i);
+			i--;
+			continue;
+		}
+
+		testPoint = &targetLocation;
+	}
 }

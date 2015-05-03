@@ -93,7 +93,19 @@ public:
 	FVector GetUp() const;
 
 	UFUNCTION(BlueprintCallable, Category = "Movement")
+	FVector GetForward() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	FVector GetRight() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
 	FRotator GetOrientation() const;
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	FVector GetMovementVelocity();
+
+	UFUNCTION(BlueprintCallable, Category = "Movement")
+	bool IsOnGround() const;
 
 	float GetMaxGroundSlope() const;
 
@@ -204,6 +216,9 @@ private:
 	float groundSlope;
 private:
 	TMap<UClass*, UPawnPlanatoidMovementMode*> modeMap;
+
+	UPROPERTY()
+	TArray<UPawnPlanatoidMovementMode*> modes;
 
 	UPawnPlanatoidMovementMode* currentMode;
 

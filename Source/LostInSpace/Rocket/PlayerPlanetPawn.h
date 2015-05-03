@@ -36,7 +36,7 @@ public:
 	UFUNCTION()
 	void OnFire();
 private:
-	
+	FVector inputVector;
 
 	float fireCooldownTimer;
 

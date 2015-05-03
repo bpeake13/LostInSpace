@@ -17,6 +17,16 @@ ABaseSpacePawn::ABaseSpacePawn()
 	MovementComponent = CreateDefaultSubobject<UPlanetBodyMovementComponent>("Movement");
 }
 
+float ABaseSpacePawn::GetHealth()
+{
+	return CurrentHealth;
+}
+
+float ABaseSpacePawn::GetHealthPercent()
+{
+	return CurrentHealth / MaxHealth;
+}
+
 void ABaseSpacePawn::InitRoot()
 {
 	UPrimitiveComponent* rootPrimitive = Cast<UPrimitiveComponent>(RootComponent);
@@ -31,6 +41,8 @@ void ABaseSpacePawn::BeginPlay()
 
 	UPrimitiveComponent* rootPrimitive = Cast<UPrimitiveComponent>(this->RootComponent);
 	rootPrimitive->OnComponentHit.AddDynamic(this, &ABaseSpacePawn::OnHit);
+
+	CurrentHealth = MaxHealth;
 }
 
 void ABaseSpacePawn::AddForce(const FVector& force)

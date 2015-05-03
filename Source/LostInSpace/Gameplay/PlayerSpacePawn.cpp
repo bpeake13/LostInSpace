@@ -13,7 +13,7 @@ APlayerSpacePawn::APlayerSpacePawn()
 
 	CameraLerpSpeed = 10.f;
 
-	ViewExtent = 10000.f;
+	ViewExtent = 5000.f;
 
 	MinViewSize = 5000.f;
 	ViewMargin = 1000.f;
@@ -67,14 +67,16 @@ void APlayerSpacePawn::OnMoveHorizontal(float val)
 
 void APlayerSpacePawn::OnMoveVertical_PlanetPawn(float val)
 {
-	check(secondPlayer);
+	if (!secondPlayer)
+		return;
 
 	secondPlayer->OnVertical(val);
 }
 
 void APlayerSpacePawn::OnMoveHorizontal_PlanetPawn(float val)
 {
-	check(secondPlayer);
+	if (!secondPlayer)
+		return;
 
 	secondPlayer->OnHorizontal(val);
 }
@@ -88,7 +90,8 @@ void APlayerSpacePawn::OnRotate(float val)
 
 void APlayerSpacePawn::OnFireStart()
 {
-	secondPlayer->OnFire();
+	if (secondPlayer)
+		secondPlayer->OnFire();
 }
 
 void APlayerSpacePawn::OnFireStop()

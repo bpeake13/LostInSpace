@@ -46,18 +46,26 @@ void UWanderPath::Tick(UHierarchicalStateMachine* machine)
 	if (path.Num() > 0)
 	{
 		//get the next nav point in the chain
-		USpaceNavPoint* next = path[0];
+		FVector next = path[0];
 
-		if (pawn->MoveTo(next->GetComponentLocation(), MoveAcceleration, NodeChangeDistance))
+		if (pawn->MoveTo(next, MoveAcceleration, NodeChangeDistance))
 			path.RemoveAt(0);
+		else if (path.Num() > 1)
+		{
+			FVector lookAhead = path[1];
+
+			FVector directionToNext = (next - pawn->GetActorLocation());
+			FVector directionToLookAhead = (lookAhead - pawn->GetActorLocation());
+
+			if (FVector::DotProduct(directionToLookAhead, directionToNext) < -0.3f)
+				path.RemoveAt(0);
+		}
 	}
 
 	FVector lastLocation = pawn->GetActorLocation();
-	for (USpaceNavPoint* navPoint : path)
+	for (FVector current : path)
 	{
-		FVector current = navPoint->GetComponentLocation();
-
-		DrawDebugLine(pawn->GetWorld(), lastLocation, current, FColor::Green, false, -1.f, 15, 50.f);
+		DrawDebugLine(pawn->GetWorld(), lastLocation, current, FColor::Green);
 
 		lastLocation = current;
 	}
