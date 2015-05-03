@@ -29,5 +29,6 @@ void UAttackPlayerPlanet::Tick(UHierarchicalStateMachine* machine)
 
 	ABaseEnemyPawn* ePawn = Cast<ABaseEnemyPawn>(machine->GetOwnerActor());
 	ePawn->MoveTo(targetLocation, maxForce, 50.f);
+	ePawn->SetActorRotation(direction.Rotation());
 	ePawn->Fire(direction);
 }
