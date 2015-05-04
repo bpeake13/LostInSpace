@@ -57,6 +57,8 @@ void UWanderPath::Tick(UHierarchicalStateMachine* machine)
 			FVector directionToNext = (next - pawn->GetActorLocation());
 			FVector directionToLookAhead = (lookAhead - pawn->GetActorLocation());
 
+			pawn->SetActorRotation(directionToNext.Rotation());
+
 			if (FVector::DotProduct(directionToLookAhead, directionToNext) < -0.3f)
 				path.RemoveAt(0);
 		}
