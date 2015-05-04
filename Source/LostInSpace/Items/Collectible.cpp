@@ -9,10 +9,7 @@ ACollectible::ACollectible()
 {
 	ItemName = TEXT("Power Up");
 
-	static ConstructorHelpers::FObjectFinder<UStaticMesh> ItemMesh(TEXT("/Game/RocketMesh.RocketMesh"));
-
 	Mesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Collectible1"));
-	Mesh->SetStaticMesh(ItemMesh.Object);
 
 	CollisionComponent = CreateDefaultSubobject<UBoxComponent>(TEXT("CollisionComponent"));
 

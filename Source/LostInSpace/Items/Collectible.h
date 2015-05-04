@@ -16,6 +16,9 @@ public:
 	// Sets default values for this actor's properties
 	ACollectible();
 
+	UPROPERTY(BlueprintReadOnly, VisibleDefaultsOnly, Category = "Model")
+	UStaticMeshComponent* Mesh;
+
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
