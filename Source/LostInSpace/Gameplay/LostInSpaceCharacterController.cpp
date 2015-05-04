@@ -1,50 +1,22 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "LostInSpace.h"
-#include "Rocket/Navigation/DestinationPoint.h"
+#include "Rocket/PlayerPlanetPawn.h"
 #include "LostInSpaceCharacterController.h"
 
-void ALostInSpaceCharacterController::AddScore(float deltaScore)
+UClass* ALostInSpaceCharacterController::GetDefaultPawnClass() const
 {
-	score += deltaScore;
+	return DefaultPlanetPawn;
 }
 
-float ALostInSpaceCharacterController::GetScore() const
+bool ALostInSpaceCharacterController::CanSpawnAtStartSpot() const
 {
-	return score;
-}
+	APlayerStart* startPoint = Cast<APlayerStart>(StartSpot.Get());
+	if (!startPoint)
+		return false;
 
-void ALostInSpaceCharacterController::PlayerTick(float DeltaTime)
-{
-	Super::PlayerTick(DeltaTime);
+	if (startPoint->PlayerStartTag == TEXT("Player"))
+		return true;
 
-	if (!destination.IsValid())
-		ChangeToNextDestination();
-}
-
-void ALostInSpaceCharacterController::ChangeToNextDestination()
-{
-	UWorld* world = this->GetWorld();
-	if (!world)
-		return;
-
-	for (TObjectIterator<UDestinationPoint> nextDestItr; nextDestItr; ++nextDestItr)
-	{
-		if (nextDestItr->GetWorld() != world)
-			continue;
-
-		destination = *nextDestItr;
-		if (!destination.IsValid())
-			continue;
-
-		APlayerSpacePawn* spacePawn = Cast<APlayerSpacePawn>(this->GetPawn());
-		if (!spacePawn)
-			return;
-
-		spacePawn->SetDestination(destination.Get());
-		return;
-	}
-
-	APlayerSpacePawn* spacePawn = Cast<APlayerSpacePawn>(this->GetPawn());
-	spacePawn->SetDestination(NULL);
+	return false;
 }

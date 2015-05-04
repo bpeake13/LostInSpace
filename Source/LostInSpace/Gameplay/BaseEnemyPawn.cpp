@@ -1,7 +1,7 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 #include "LostInSpace.h"
-#include "LostInSpaceCharacterController.h"
+#include "LostInSpacePlanetController.h"
 #include "BaseEnemyPawn.h"
 
 ABaseEnemyPawn::ABaseEnemyPawn()
@@ -116,7 +116,7 @@ void ABaseEnemyPawn::OnKilled(float damage, AActor* damageCauser, FDamageEvent c
 	if (!targetPlanet.IsValid())
 		return Super::OnKilled(damage, damageCauser, damageEvent);
 
-	ALostInSpaceCharacterController* pc = Cast<ALostInSpaceCharacterController>(targetPlanet->GetController());
+	ALostInSpacePlanetController* pc = Cast<ALostInSpacePlanetController>(targetPlanet->GetController());
 	if (pc)
 		pc->AddScore(Worth);
 

@@ -5,6 +5,9 @@
 #include "GameFramework/GameMode.h"
 #include "LostInSpaceClasses.h"
 #include "Rocket/Navigation/SpaceNavPointActor.h"
+#include "Gameplay/PlayerSpacePawn.h"
+#include "Rocket/PlayerPlanetPawn.h"
+#include "Gameplay/LostInSpacePlayerController.h"
 #include "LostInSpaceGameMode.generated.h"
 
 /**
@@ -20,8 +23,21 @@ public:
 	virtual void StartPlay() override;
 
 	virtual void EndPlay(const EEndPlayReason::Type EndPlayReason) override;
-	
+
+	virtual void BeginPlay() override;
+
+	void InitPlayer(int32 index);
+
+	virtual UClass* GetDefaultPawnClassForController(AController* InController) override;
+
+	virtual APlayerController* Login(class UPlayer* NewPlayer, const FString& Portal, const FString& Options, const TSharedPtr<class FUniqueNetId>& UniqueId, FString& ErrorMessage) override;
+
+	virtual bool ShouldSpawnAtStartSpot(AController* Player) override;
+
 protected:
 	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Gameplay")
-	TSubclassOf<ASpaceNavPointActor> NavPointClass;
+	TSubclassOf<ALostInSpacePlayerController> NavPointClass;
+
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Gameplay")
+	TArray<TSubclassOf<ALostInSpacePlayerController>> DefaultPlayerControllers;
 };

@@ -3,29 +3,24 @@
 #pragma once
 
 #include "GameFramework/PlayerController.h"
-#include "Rocket/Navigation/DestinationPoint.h"
+#include "LostInSpacePlayerController.h"
+#include "Rocket/PlayerPlanetPawn.h"
 #include "LostInSpaceCharacterController.generated.h"
 
 /**
  * 
  */
 UCLASS()
-class ALostInSpaceCharacterController : public APlayerController
+class ALostInSpaceCharacterController : public ALostInSpacePlayerController
 {
 	GENERATED_BODY()
 
 public:
-	void AddScore(float deltaScore);
+	virtual UClass* GetDefaultPawnClass() const override;
 
-	UFUNCTION(BlueprintCallable, Category = "Gameplay")
-	float GetScore() const;
+	virtual bool CanSpawnAtStartSpot() const override;
 
-	virtual void PlayerTick(float DeltaTime) override;
-
-private:
-	void ChangeToNextDestination();
-private:
-	float score;
-
-	TWeakObjectPtr<UDestinationPoint> destination;
+protected:
+	UPROPERTY(BlueprintReadOnly, EditDefaultsOnly, Category = "Gameplay")
+	TSubclassOf<APlayerPlanetPawn> DefaultPlanetPawn;
 };
